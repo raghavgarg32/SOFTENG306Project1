@@ -15,4 +15,12 @@ public class Vertex {
     public void addOutgoingEdge(Edge edge){
         _outgoingEdges.add(edge);
     }
+
+    public int getCost() {
+        return _cost;
+    }
+
+    public List<Edge> getOutgoingEdges() {
+        return _outgoingEdges;
+    }
 }
