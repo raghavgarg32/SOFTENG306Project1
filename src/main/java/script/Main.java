@@ -4,8 +4,6 @@ import java.io.*;
 
 public class Main {
 
-    private static Graph _graph;
-
     public static void main(String[] args) {
         File f = new File("data/input.dot");
         try{
