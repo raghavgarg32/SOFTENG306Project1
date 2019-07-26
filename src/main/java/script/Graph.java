@@ -6,109 +6,32 @@ import java.util.HashMap;
 
 public class Graph {
 
-    public static Graph _graph;
-    private String _name;
-    private HashMap<String, Vertex> _vertexMap;
-    private HashMap<String, Edge> _edgeMap;
+    public static Graph graph;
+    private String name;
+    private HashMap<String, Vertex> vertexHashMap;
+    private HashMap<String, Edge> edgeHashMap;
 
 
-    private Graph(String name){
-        _name = name;
-        _vertexMap = new HashMap<String, Vertex>();
-        _edgeMap = new HashMap<String, Edge>();
+     Graph(String name){
+        this.name = name;
+        vertexHashMap = new HashMap<String, Vertex>();
+        edgeHashMap = new HashMap<String, Edge>();
     }
 
     public void addVertex(String key, Vertex vertex){
-        _vertexMap.put(key, vertex);
+        vertexHashMap.put(key, vertex);
     }
 
     public void addEdge(String key, Edge edge){
-        _edgeMap.put(key, edge);
+        edgeHashMap.put(key, edge);
     }
 
     public Vertex getVertex(String key){
-        return _vertexMap.get(key);
+        return vertexHashMap.get(key);
     }
 
     public Edge getEdge(String key){
-        return _edgeMap.get(key);
+        return edgeHashMap.get(key);
     }
 
-    public static void createGraph(BufferedReader br) throws IOException {
-        String str;
-        while ((str = br.readLine()) != null){
-            processString(str);
-        }
-    }
-
-    /**
-     * Formats the input file into a graph object form, and populates the graph
-     * @param str
-     */
-    private static void processString(String str){
-        //if first line of .dot input
-        if (str.contains("{")){
-            _graph = new Graph(getGraphName(str));
-        }
-        //if edge
-        else if (str.contains("-")){
-            Edge e = processEdge(str);
-            _graph.addEdge(e.getId(), e);
-        }
-        //if vertex
-        else if (str.contains("[")){
-            Vertex v = processVertex(str);
-            _graph.addVertex(v.getId(), v);
-        }
-    }
-
-    /**
-     * reads the first line of the text input for the name of the graph
-     * @param str - the first line of a .dot input with proper syntax
-     * @return
-     */
-    private static String getGraphName(String str){
-        return str.substring(str.indexOf("\"")+1, str.lastIndexOf("\""));
-    }
-
-    /**
-     * formats the strings that represent vertices into vertex objects
-     * @param str - a string that has been formatted to be a vertex, e.g. "a [weight=3];"
-     * @return
-     */
-    private static Vertex processVertex(String str){
-        String[] values = str.split("\\t");
-        String name = values[0];
-        int weight = getWeight(values[1]);
-        Vertex v = new Vertex(name, weight);
-        return v;
-    }
-
-    /**
-     * formats the strings that represent edges into edge objects
-     * @param str - a string that has been formatted to be an edge, e.g. "a->b [weight=3];"
-     * @return
-     */
-    private static Edge processEdge(String str){
-        String[] values = str.split("\\t");
-        String name = values[0];
-        int weight = getWeight(values[1]);
-
-        String[] vertices = values[0].split("->");
-        Vertex fromVertex = _graph.getVertex(vertices[0]);
-        Vertex toVertex = _graph.getVertex(vertices[1]);
-
-        Edge e = Edge.createEdge(name, weight, fromVertex, toVertex);
-        return e;
-    }
-
-    /**
-     * Only takes in strings of format "[Weight=x]" where x is an integer, and returns the integer
-     * @return integer value of x
-     */
-    private static int getWeight(String str){
-        str = str.replaceAll("\\D+","");
-        int weight = Integer.parseInt(str);
-        return weight;
-    }
 }

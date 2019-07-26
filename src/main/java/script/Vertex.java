@@ -4,29 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Vertex {
-    private String _id;
-    private int _cost;
-    private List<Edge> _outgoingEdges;
+    private String id;
+    private int cost;
+    private List<Edge> outgoingEdges;
 
     public Vertex(String id, int cost){
-        _id = id;
-        _cost = cost;
-        _outgoingEdges = new ArrayList<>();
+        this.id = id;
+        this.cost = cost;
+        outgoingEdges = new ArrayList<>();
     }
 
     public void addOutgoingEdge(Edge edge){
-        _outgoingEdges.add(edge);
+        outgoingEdges.add(edge);
     }
 
     public String getId() {
-        return _id;
+        return id;
     }
 
     public int getCost() {
-        return _cost;
+        return cost;
     }
 
     public List<Edge> getOutgoingEdges() {
-        return _outgoingEdges;
+        return outgoingEdges;
     }
 }

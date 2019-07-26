@@ -1,37 +1,33 @@
 package script;
 
 public class Edge {
-    private String _id;
-    private Vertex _fromVertex;
-    private Vertex _toVertex;
-    private int _switchCost;
+    private String id;
+    private Vertex fromVertex;
+    private Vertex toVertex;
+    private int switchCost;
 
-    private Edge(String id, int cost, Vertex fromVertex, Vertex toVertex){
-        _id = id;
-        _fromVertex = fromVertex;
-        _toVertex = toVertex;
-        _switchCost = cost;
+     Edge(String id, int cost, Vertex fromVertex, Vertex toVertex){
+        this.id = id;
+        this.fromVertex = fromVertex;
+        this.toVertex = toVertex;
+        switchCost = cost;
+         fromVertex.addOutgoingEdge(this);
     }
 
-    public static Edge createEdge(String id,int cost, Vertex fromVertex, Vertex toVertex){
-        Edge edge = new Edge(id, cost, fromVertex, toVertex);
-        fromVertex.addOutgoingEdge(edge);
-        return edge;
-    }
 
     public String getId() {
-        return _id;
+        return id;
     }
 
     public int getSwitchCost() {
-        return _switchCost;
+        return switchCost;
     }
 
     public Vertex getFromVertex() {
-        return _fromVertex;
+        return fromVertex;
     }
 
     public Vertex getToVertex() {
-        return _toVertex;
+        return toVertex;
     }
 }
