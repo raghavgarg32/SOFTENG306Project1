@@ -9,9 +9,8 @@ public class Main {
         try{
             parse(f);
         } catch (Exception e){
-            System.out.println("bad");
+            System.out.println("Some Error Occurred");
         }
-
     }
 
     public static void parse(File f)throws FileNotFoundException, IOException {
