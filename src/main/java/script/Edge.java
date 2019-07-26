@@ -17,4 +17,16 @@ public class Edge {
         fromVertex.addOutgoingEdge(edge);
         return edge;
     }
+
+    public int getSwitchCost() {
+        return _switchCost;
+    }
+
+    public Vertex getFromVertex() {
+        return _fromVertex;
+    }
+
+    public Vertex getToVertex() {
+        return _toVertex;
+    }
 }
