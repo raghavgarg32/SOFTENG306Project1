@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Vertex {
+    private String _id;
     private int _cost;
     private List<Edge> _outgoingEdges;
 
-    public Vertex(int cost){
+    public Vertex(String id, int cost){
+        _id = id;
         _cost = cost;
         _outgoingEdges = new ArrayList<>();
     }
