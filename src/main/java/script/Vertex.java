@@ -18,6 +18,10 @@ public class Vertex {
         _outgoingEdges.add(edge);
     }
 
+    public String getId() {
+        return _id;
+    }
+
     public int getCost() {
         return _cost;
     }

@@ -19,6 +19,10 @@ public class Edge {
         return edge;
     }
 
+    public String getId() {
+        return _id;
+    }
+
     public int getSwitchCost() {
         return _switchCost;
     }
