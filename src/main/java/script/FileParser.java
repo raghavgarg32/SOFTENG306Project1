@@ -6,17 +6,8 @@ public class FileParser {
     private File f;
 
     public FileParser(String file) {
-
         File f = new File(file);
         this.f = f;
-
-        try {
-            parse();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void createGraph(BufferedReader br) throws IOException {
@@ -24,6 +15,20 @@ public class FileParser {
         while ((str = br.readLine()) != null){
             processString(str);
         }
+    }
+
+    /**
+     * Takes the file input of correct syntax and reads the text of the file to be formatted
+     * @param f
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public void parse() throws FileNotFoundException, IOException {
+
+        FileReader fr = new FileReader(f);
+        BufferedReader br = new BufferedReader(fr);
+        createGraph(br);
+
     }
 
     /**
@@ -91,23 +96,9 @@ public class FileParser {
      * Only takes in strings of format "[Weight=x]" where x is an integer, and returns the integer
      * @return integer value of x
      */
-    private static int getWeight(String str){
+    private  int getWeight(String str){
         str = str.replaceAll("\\D+","");
         int weight = Integer.parseInt(str);
         return weight;
-    }
-
-    /**
-     * Takes the file input of correct syntax and reads the text of the file to be formatted
-     * @param f
-     * @throws FileNotFoundException
-     * @throws IOException
-     */
-    public void parse() throws FileNotFoundException, IOException {
-
-        FileReader fr = new FileReader(f);
-        BufferedReader br = new BufferedReader(fr);
-        createGraph(br);
-
     }
 }
