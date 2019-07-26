@@ -1,4 +1,4 @@
-package script;
+package Graph;
 
 public class Edge {
     private String id;
@@ -11,7 +11,6 @@ public class Edge {
         this.fromVertex = fromVertex;
         this.toVertex = toVertex;
         switchCost = cost;
-         fromVertex.addOutgoingEdge(this);
     }
 
 

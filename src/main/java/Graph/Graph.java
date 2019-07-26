@@ -1,21 +1,17 @@
-package script;
+package Graph;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.HashMap;
 
 public class Graph {
 
-    public static Graph graph;
     private String name;
     private HashMap<String, Vertex> vertexHashMap;
     private HashMap<String, Edge> edgeHashMap;
 
-
      Graph(String name){
         this.name = name;
-        vertexHashMap = new HashMap<String, Vertex>();
-        edgeHashMap = new HashMap<String, Edge>();
+        vertexHashMap = new HashMap<>();
+        edgeHashMap = new HashMap<>();
     }
 
     public void addVertex(String key, Vertex vertex){
