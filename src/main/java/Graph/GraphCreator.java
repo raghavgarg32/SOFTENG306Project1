@@ -31,7 +31,7 @@ public class GraphCreator {
         private String str;
 
         public void setStr(String str) {
-            this.str = str;
+            this.str = str.trim();
         }
 
         private boolean firstLine() {

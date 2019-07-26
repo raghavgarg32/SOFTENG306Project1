@@ -29,4 +29,9 @@ public class Vertex {
     public List<Edge> getOutgoingEdges() {
         return outgoingEdges;
     }
+
+    @Override
+    public String toString() {
+        return cost + outgoingEdges.toString();
+    }
 }

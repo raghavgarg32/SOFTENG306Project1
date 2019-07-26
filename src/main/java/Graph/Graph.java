@@ -30,4 +30,8 @@ public class Graph {
         return edgeHashMap.get(key);
     }
 
+    @Override
+    public String toString() {
+        return vertexHashMap.toString();
+    }
 }
