@@ -15,6 +15,12 @@ public class Main {
         }
     }
 
+    /**
+     * Takes the file input of correct syntax and reads the text of the file to be formatted
+     * @param f
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     private static void parse(File f)throws FileNotFoundException, IOException {
 
         FileReader fr = new FileReader(f);
@@ -27,6 +33,10 @@ public class Main {
 
     }
 
+    /**
+     * Formats the input file into a graph object form, and populates the graph
+     * @param str
+     */
     private static void processString(String str){
         //if first line of .dot input
         if (str.contains("{")){
@@ -44,10 +54,20 @@ public class Main {
         }
     }
 
+    /**
+     * reads the first line of the text input for the name of the graph
+     * @param str - the first line of a .dot input with proper syntax
+     * @return
+     */
     private static String getGraphName(String str){
         return str.substring(str.indexOf("\"")+1, str.lastIndexOf("\""));
     }
 
+    /**
+     * formats the strings that represent vertices into vertex objects
+     * @param str - a string that has been formatted to be a vertex, e.g. "a [weight=3];"
+     * @return
+     */
     private static Vertex processVertex(String str){
         String[] values = str.split("\\t");
         String name = values[0];
@@ -56,6 +76,11 @@ public class Main {
         return v;
     }
 
+    /**
+     * formats the strings that represent edges into edge objects
+     * @param str - a string that has been formatted to be an edge, e.g. "a->b [weight=3];"
+     * @return
+     */
     private static Edge processEdge(String str){
         String[] values = str.split("\\t");
         String name = values[0];
