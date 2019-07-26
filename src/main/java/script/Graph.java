@@ -34,7 +34,7 @@ public class Graph {
         return _edgeMap.get(key);
     }
 
-    public void createGraph(BufferedReader br) throws IOException {
+    public static void createGraph(BufferedReader br) throws IOException {
         String str;
         while ((str = br.readLine()) != null){
             processString(str);
@@ -45,7 +45,7 @@ public class Graph {
      * Formats the input file into a graph object form, and populates the graph
      * @param str
      */
-    private void processString(String str){
+    private static void processString(String str){
         //if first line of .dot input
         if (str.contains("{")){
             _graph = new Graph(getGraphName(str));
@@ -67,7 +67,7 @@ public class Graph {
      * @param str - the first line of a .dot input with proper syntax
      * @return
      */
-    private String getGraphName(String str){
+    private static String getGraphName(String str){
         return str.substring(str.indexOf("\"")+1, str.lastIndexOf("\""));
     }
 
@@ -76,7 +76,7 @@ public class Graph {
      * @param str - a string that has been formatted to be a vertex, e.g. "a [weight=3];"
      * @return
      */
-    private Vertex processVertex(String str){
+    private static Vertex processVertex(String str){
         String[] values = str.split("\\t");
         String name = values[0];
         int weight = getWeight(values[1]);
@@ -89,7 +89,7 @@ public class Graph {
      * @param str - a string that has been formatted to be an edge, e.g. "a->b [weight=3];"
      * @return
      */
-    private Edge processEdge(String str){
+    private static Edge processEdge(String str){
         String[] values = str.split("\\t");
         String name = values[0];
         int weight = getWeight(values[1]);
@@ -106,7 +106,7 @@ public class Graph {
      * Only takes in strings of format "[Weight=x]" where x is an integer, and returns the integer
      * @return integer value of x
      */
-    private int getWeight(String str){
+    private static int getWeight(String str){
         str = str.replaceAll("\\D+","");
         int weight = Integer.parseInt(str);
         return weight;
