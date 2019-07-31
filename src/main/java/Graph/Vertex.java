@@ -15,17 +15,29 @@ public class Vertex {
         outgoingEdges = new ArrayList<>();
     }
 
-    private List<Vertex> visited;
+
     //TODO calculate bottom level. //DFS but prioritise most expensive
     public void calculateBottomLevel() {
-        visited = new ArrayList<Vertex>();
-        dfs();
+        bottomLevel = -1;
+        dfs(this, 0);
     }
 
-    private void dfs(){
-        visited.add(this);
-        for (int i = 0; i < outgoingEdges.size(); i++){
 
+    private void dfs(Vertex currentVertex, int currentCost){
+        currentCost = currentCost + currentVertex.cost;
+
+        if (currentVertex.outgoingEdges.size() == 0){
+            if (currentCost > bottomLevel){
+                bottomLevel = currentCost;
+            }
+
+        } else {
+
+            for (int i = 0; i < currentVertex.outgoingEdges.size(); i++) {
+                Vertex nextVertex = currentVertex.outgoingEdges.get(i).getToVertex();
+                dfs(nextVertex, currentCost);
+
+            }
         }
     }
 
@@ -47,7 +59,7 @@ public class Vertex {
 
     @Override
     public String toString() {
-        return cost + outgoingEdges.toString();
+        return id;
     }
 
     @Override

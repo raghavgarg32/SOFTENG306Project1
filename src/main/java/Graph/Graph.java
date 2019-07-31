@@ -30,12 +30,12 @@ public class Graph {
         return edgeHashMap.get(key);
     }
 
-    public boolean calculateBottomLevel() {
+    /*public boolean calculateBottomLevel() {
         for(Vertex v:vertexHashMap.values()){
             v.calculateBottomLevel();
         }
         return true;
-    }
+    }*/
 
     @Override
     public String toString() {
