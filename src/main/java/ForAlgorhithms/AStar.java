@@ -1,9 +1,12 @@
 package ForAlgorhithms;
 
 public class AStar {
+    int minFullPath = Integer.MAX_VALUE;
+
     //Todo implement this class.
     /*
     Initialise MinFullPath to integer.Maxint
+
 
     Add the initial State(Empty, VisitedList(root),CandidateList(roots' children),currentCost) to the
     Priority Queue

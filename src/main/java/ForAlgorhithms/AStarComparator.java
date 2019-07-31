@@ -2,10 +2,10 @@ package ForAlgorhithms;
 
 import java.util.Comparator;
 
-public class AStarComparator   implements  Comparator<State>{
+public class AStarComparator implements  Comparator<State>{
 
     /**
-     * TODO This function should sort by the current bottom cost then by the level
+     * TODO This function should sort by the current bottom cost total then by the level
      * @param o
      * @param t1
      * @return

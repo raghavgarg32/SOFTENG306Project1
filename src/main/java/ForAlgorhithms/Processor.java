@@ -8,4 +8,5 @@ public class Processor {
     List<Vertex> vertexList;
     Vertex lastVertex;
     int lastCost;
+
 }
