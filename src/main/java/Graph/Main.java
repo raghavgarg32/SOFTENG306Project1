@@ -1,5 +1,7 @@
 package Graph;
 
+import Files.DotParser;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 

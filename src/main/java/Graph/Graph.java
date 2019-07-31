@@ -8,26 +8,33 @@ public class Graph {
     private HashMap<String, Vertex> vertexHashMap;
     private HashMap<String, Edge> edgeHashMap;
 
-     Graph(String name){
+    public Graph(String name) {
         this.name = name;
         vertexHashMap = new HashMap<>();
         edgeHashMap = new HashMap<>();
     }
 
-    public void addVertex(String key, Vertex vertex){
+    public void addVertex(String key, Vertex vertex) {
         vertexHashMap.put(key, vertex);
     }
 
-    public void addEdge(String key, Edge edge){
+    public void addEdge(String key, Edge edge) {
         edgeHashMap.put(key, edge);
     }
 
-    public Vertex getVertex(String key){
+    public Vertex getVertex(String key) {
         return vertexHashMap.get(key);
     }
 
-    public Edge getEdge(String key){
+    public Edge getEdge(String key) {
         return edgeHashMap.get(key);
+    }
+
+    public boolean calculateBottomLevel() {
+        for(Vertex v:vertexHashMap.values()){
+            v.calculateBottomLevel();
+        }
+        return true;
     }
 
     @Override
