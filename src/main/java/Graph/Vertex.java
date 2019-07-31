@@ -27,11 +27,11 @@ public class Vertex {
     }
 
 
-    private void dfs(Vertex currentVertex, int currentCost){
+    private void dfs(Vertex currentVertex, int currentCost) {
         currentCost = currentCost + currentVertex.cost;
 
-        if (currentVertex.outgoingEdges.size() == 0){
-            if (currentCost > bottomLevel){
+        if (currentVertex.outgoingEdges.size() == 0) {
+            if (currentCost > bottomLevel) {
                 bottomLevel = currentCost;
             }
 
@@ -44,11 +44,13 @@ public class Vertex {
             }
         }
     }
+
     public void addIncomingEdge(Edge edge) {
         incomingEdges.add(edge);
         incomingVerticies.add(edge.getFromVertex());
     }
-    public boolean canVisit(List<Vertex> vList){
+
+    public boolean canVisit(List<Vertex> vList) {
         return incomingVerticies.containsAll(vList);
     }
 
