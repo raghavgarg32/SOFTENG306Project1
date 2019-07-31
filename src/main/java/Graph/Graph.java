@@ -34,6 +34,7 @@ public class Graph {
         for(Vertex v:vertexHashMap.values()){
             v.calculateBottomLevel();
         }
+
         return true;
     }
 
