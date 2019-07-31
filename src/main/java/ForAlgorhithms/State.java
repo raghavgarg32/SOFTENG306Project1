@@ -19,8 +19,7 @@ public class State {
         return null;
     }
     public boolean canVisit(Vertex v){
-        //Vertex / Edges to be update to have the from vertices f
-        return false;
+        return v.canVisit(traversed);
     }
     public boolean allVisited(){
         //Instance of the graph, check if all vertices exist within traversed.

@@ -7,22 +7,34 @@ public class Vertex {
     private String id;
     private int cost;
     private List<Edge> outgoingEdges;
+    private List<Edge> incomingEdges;
+    private List<Vertex> incomingVerticies;
     int bottomLevel;
 
-    public Vertex(String id, int cost){
+    public Vertex(String id, int cost) {
         this.id = id;
         this.cost = cost;
         outgoingEdges = new ArrayList<>();
+        incomingEdges = new ArrayList<>();
+        incomingVerticies = new ArrayList<>();
     }
 
     //TODO calculate bottom level. //DFS but prioritise most expensive
-    int calculateBottomLevel(){
+    int calculateBottomLevel() {
         bottomLevel = -1;
         return bottomLevel;
     }
 
+    public void addIncomingEdge(Edge edge) {
+        incomingEdges.add(edge);
+        incomingVerticies.add(edge.getFromVertex());
+    }
+    public boolean canVisit(List<Vertex> vList){
+        return incomingVerticies.containsAll(vList);
+    }
 
-    public void addOutgoingEdge(Edge edge){
+
+    public void addOutgoingEdge(Edge edge) {
         outgoingEdges.add(edge);
     }
 
