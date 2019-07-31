@@ -7,7 +7,8 @@ public class Vertex {
     private String id;
     private int cost;
     private List<Edge> outgoingEdges;
-    int bottomLevel;
+    private List<Vertex> paths;
+    int bottomLevel = 0;
 
     public Vertex(String id, int cost){
         this.id = id;
@@ -15,17 +16,21 @@ public class Vertex {
         outgoingEdges = new ArrayList<>();
     }
 
-    private List<Vertex> visited;
+
     //TODO calculate bottom level. //DFS but prioritise most expensive
-    public void calculateBottomLevel() {
-        visited = new ArrayList<Vertex>();
-        dfs();
+    public int calculateBottomLevel() {
+        paths = new ArrayList<Vertex>();
+        dfs(this);
+        return bottomLevel;
     }
 
-    private void dfs(){
-        visited.add(this);
+    private void dfs(Vertex v){
+        bottomLevel+=this.cost;
+        if (outgoingEdges.size() == 0) {
+            paths.add(this);
+        }
         for (int i = 0; i < outgoingEdges.size(); i++){
-
+            dfs(v.outgoingEdges.get(i).getToVertex());
         }
     }
 

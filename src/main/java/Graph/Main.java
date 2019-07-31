@@ -20,7 +20,11 @@ public class Main {
             e.printStackTrace();
         }
         System.out.println(g1);
+        System.out.println(g1.calculateBottomLevel());
+
+
     }
+
 
 
 }
