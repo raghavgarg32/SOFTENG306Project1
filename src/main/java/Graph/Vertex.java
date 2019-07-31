@@ -7,13 +7,16 @@ public class Vertex {
     private String id;
     private int cost;
     private List<Edge> outgoingEdges;
-    private List<Vertex> paths;
-    int bottomLevel = 0;
+    private List<Edge> incomingEdges;
+    private List<Vertex> incomingVerticies;
+    int bottomLevel;
 
-    public Vertex(String id, int cost){
+    public Vertex(String id, int cost) {
         this.id = id;
         this.cost = cost;
         outgoingEdges = new ArrayList<>();
+        incomingEdges = new ArrayList<>();
+        incomingVerticies = new ArrayList<>();
     }
 
 
@@ -24,11 +27,11 @@ public class Vertex {
     }
 
 
-    private void dfs(Vertex currentVertex, int currentCost){
+    private void dfs(Vertex currentVertex, int currentCost) {
         currentCost = currentCost + currentVertex.cost;
 
-        if (currentVertex.outgoingEdges.size() == 0){
-            if (currentCost > bottomLevel){
+        if (currentVertex.outgoingEdges.size() == 0) {
+            if (currentCost > bottomLevel) {
                 bottomLevel = currentCost;
             }
 
@@ -42,7 +45,17 @@ public class Vertex {
         }
     }
 
-    public void addOutgoingEdge(Edge edge){
+    public void addIncomingEdge(Edge edge) {
+        incomingEdges.add(edge);
+        incomingVerticies.add(edge.getFromVertex());
+    }
+
+    public boolean canVisit(List<Vertex> vList) {
+        return incomingVerticies.containsAll(vList);
+    }
+
+
+    public void addOutgoingEdge(Edge edge) {
         outgoingEdges.add(edge);
     }
 

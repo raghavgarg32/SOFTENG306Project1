@@ -11,6 +11,8 @@ public class Edge {
         this.toVertex = toVertex;
         this.switchCost = switchCost;
         id = fromVertex.getId() + "->" + toVertex.getId();
+        fromVertex.addOutgoingEdge(this);
+        toVertex.addIncomingEdge(this);
     }
 
     Edge(String id, int cost, Vertex fromVertex, Vertex toVertex){
