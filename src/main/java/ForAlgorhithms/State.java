@@ -26,5 +26,8 @@ public class State {
         //Instance of the graph, check if all vertices exist within traversed.
         return false;
     }
+    public List<State> generatePossibilities(){
+        return null;
+    }
     //TODO return a copy of State, fpr a;; addVertex here.
 }
