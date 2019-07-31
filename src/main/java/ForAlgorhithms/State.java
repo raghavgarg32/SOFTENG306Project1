@@ -2,6 +2,7 @@ package ForAlgorhithms;
 
 import Graph.Vertex;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -12,19 +13,38 @@ public class State {
     int costToBottomLevel;
 
     List<Vertex> traversed;
-    List<Vertex> toTraversed;
+    List<Vertex> toTraverse;
 
     public State addVertex(int processor, Vertex v){
         //TODO add the vertex to processor x, at the earliest possible time.
+        // Add the chosen vertex to the coresponding processor and return a new state object that is a child to
+        // this one
         return null;
     }
     public boolean canVisit(Vertex v){
         //Vertex / Edges to be update to have the from vertices f
+        //TODO
         return false;
     }
     public boolean allVisited(){
-        //Instance of the graph, check if all vertices exist within traversed.
-        return false;
+        //Checks if any more vertexes exist to expand
+        return toTraverse.isEmpty();
+    }
+
+    public List<State> generatePossibilities() {
+        //Generates a list of possible states to visit
+        List<State> possibleStates = new ArrayList<>();
+        if(!allVisited()) {
+            for (Vertex v : toTraverse) {
+                if (canVisit(v)) {
+                    for (Processor p : processors) {
+                        possibleStates.add(addVertex(p, v));
+                    }
+                }
+            }
+        }
+        return possibleStates;
+
     }
     //TODO return a copy of State, fpr a;; addVertex here.
 }
