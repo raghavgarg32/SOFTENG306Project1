@@ -15,12 +15,19 @@ public class Vertex {
         outgoingEdges = new ArrayList<>();
     }
 
+    private List<Vertex> visited;
     //TODO calculate bottom level. //DFS but prioritise most expensive
-    int calculateBottomLevel(){
-        bottomLevel = -1;
-        return bottomLevel;
+    public void calculateBottomLevel() {
+        visited = new ArrayList<Vertex>();
+        dfs();
     }
 
+    private void dfs(){
+        visited.add(this);
+        for (int i = 0; i < outgoingEdges.size(); i++){
+
+        }
+    }
 
     public void addOutgoingEdge(Edge edge){
         outgoingEdges.add(edge);
@@ -41,5 +48,10 @@ public class Vertex {
     @Override
     public String toString() {
         return cost + outgoingEdges.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return id.equals(obj.toString());
     }
 }
