@@ -6,7 +6,14 @@ public class Edge {
     private Vertex toVertex;
     private int switchCost;
 
-     Edge(String id, int cost, Vertex fromVertex, Vertex toVertex){
+    public Edge(Vertex fromVertex, Vertex toVertex, int switchCost) {
+        this.fromVertex = fromVertex;
+        this.toVertex = toVertex;
+        this.switchCost = switchCost;
+        id = fromVertex.getId() + "->" + toVertex.getId();
+    }
+
+    Edge(String id, int cost, Vertex fromVertex, Vertex toVertex){
         this.id = id;
         this.fromVertex = fromVertex;
         this.toVertex = toVertex;
