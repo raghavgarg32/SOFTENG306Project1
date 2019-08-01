@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public class Graph {
 
+    private int greatestCost;
     private String name;
     private HashMap<String, Vertex> vertexHashMap;
     private HashMap<String, Edge> edgeHashMap;
@@ -12,6 +13,7 @@ public class Graph {
         this.name = name;
         vertexHashMap = new HashMap<>();
         edgeHashMap = new HashMap<>();
+        greatestCost = Integer.MIN_VALUE;
     }
 
     public void addVertex(String key, Vertex vertex) {
@@ -31,10 +33,18 @@ public class Graph {
     }
 
     public boolean calculateBottomLevel() {
-        for(Vertex v:vertexHashMap.values()){
-            v.calculateBottomLevel();
+        for (Vertex v : vertexHashMap.values()) {
+            int bottomLevel = v.calculateBottomLevel();
+
+            if (bottomLevel > greatestCost) {
+                greatestCost = bottomLevel;
+            }
         }
         return true;
+    }
+
+    public int getGreatestCost() {
+        return greatestCost;
     }
 
     @Override

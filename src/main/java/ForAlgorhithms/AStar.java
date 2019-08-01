@@ -20,7 +20,7 @@ public class AStar {
         traversed = false;
 
         //Todo implement state with root vertex;
-        candidate.add(new State());
+        candidate.add(new State(1,graph));
     }
 
     public void runAlgorhithm() {

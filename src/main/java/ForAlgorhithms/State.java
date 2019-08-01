@@ -1,10 +1,12 @@
 package ForAlgorhithms;
 
+import Graph.Graph;
 import Graph.Vertex;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * Class to represent a schedule
@@ -14,9 +16,22 @@ public class State {
     int currentCost;
     int currentLevel;
     int costToBottomLevel;
+    Graph g;
 
     List<Vertex> traversed;
-    List<Vertex> toTraverse;
+    PriorityQueue<Vertex> toTraverse;
+
+    State(int numProcessors, Graph g) {
+        traversed = new ArrayList<>();
+        processors = new ArrayList<>();
+        this.g = g;
+        for (int i = 0; i < numProcessors; i++) {
+            processors.add(new Processor());
+        }
+        toTraverse = new PriorityQueue<>(new VertexComparator());
+        currentLevel = 0;
+        currentCost = g.getGreatestCost();
+    }
 
     public State addVertex(int processorNum, Vertex v) {
         State result = null;
@@ -48,9 +63,11 @@ public class State {
         if (!allVisited()) {
             for (Vertex v : toTraverse) {
                 if (canVisit(v)) {
+                    toTraverse.poll();
                     for (int i = 0; i < processors.size(); i++) {
                         possibleStates.add(addVertex(i, v));
                     }
+                    traversed.add(v);
                 }
             }
         }
