@@ -18,12 +18,13 @@ public class State {
     List<Vertex> traversed;
     List<Vertex> toTraverse;
 
-    public State addVertex(Processor processor, Vertex v) {
+    public State addVertex(int processorNum, Vertex v) {
         State result = null;
+        //TODO Clone state then add the new vertex.Will also have to clone the processor list and processor block
+        // list within it -> reference dissapears once u clone so must use int
+
         //TODO add the vertex to processor x, at the earliest possible time.
         //TODO Set the new currentCost && current level
-        //TODO Clone state then add the new vertex.Will also have to clone the processor list and processor block
-        // list within it
 
         //Requried to check for duplicates later.
         Collections.sort(result.processors);
@@ -47,8 +48,8 @@ public class State {
         if (!allVisited()) {
             for (Vertex v : toTraverse) {
                 if (canVisit(v)) {
-                    for (Processor p : processors) {
-                        possibleStates.add(addVertex(p, v));
+                    for (int i = 0; i < processors.size(); i++) {
+                        possibleStates.add(addVertex(i, v));
                     }
                 }
             }
