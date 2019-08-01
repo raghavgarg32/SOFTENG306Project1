@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Class to represent a schedule
+ */
 public class State {
     List<Processor> processors;
     int currentCost;

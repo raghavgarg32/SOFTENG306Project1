@@ -4,6 +4,9 @@ import Graph.Vertex;
 
 import java.util.List;
 
+/**
+ * Class to represent one CPU/processor on a schedule
+ */
 public class Processor implements Comparable<Processor> {
     List<ProcessorBlock> processorBlockList;
     Vertex startVertex;
