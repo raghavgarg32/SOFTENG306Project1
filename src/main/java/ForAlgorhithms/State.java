@@ -45,14 +45,12 @@ public class State {
         Collections.sort(result.processors);
         return result;
     }
-
-    public boolean canVisit(Vertex v) {
+    public boolean canVisit(Vertex v){
         //Vertex / Edges to be update to have the from vertices f
         //TODO
         return v.canVisit(traversed);
     }
-
-    public boolean allVisited() {
+    public boolean allVisited(){
         //Checks if any more vertexes exist to expand
         return toTraverse.isEmpty();
     }

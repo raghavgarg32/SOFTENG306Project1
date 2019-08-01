@@ -58,6 +58,7 @@ public class Vertex {
         if (currentVertex.outgoingEdges.size() == 0) {
             if (currentCost > bottomLevel) {
                 bottomLevel = currentCost;
+               // System.out.println(bottomLevel);
             }
 
         } else {

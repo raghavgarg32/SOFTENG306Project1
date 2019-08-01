@@ -1,6 +1,7 @@
 package Graph;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Graph {
 
@@ -32,15 +33,15 @@ public class Graph {
         return edgeHashMap.get(key);
     }
 
-    public boolean calculateBottomLevel() {
-        for (Vertex v : vertexHashMap.values()) {
-            int bottomLevel = v.calculateBottomLevel();
-
-            if (bottomLevel > greatestCost) {
-                greatestCost = bottomLevel;
-            }
+    public int calculateBottomLevel() {
+        Map.Entry<String,Vertex> entry = vertexHashMap.entrySet().iterator().next();
+        // Get root vertex
+        String key = entry.getKey();
+        int bottomLevel =  vertexHashMap.get(key).calculateBottomLevel();
+        if(bottomLevel > greatestCost){
+            greatestCost = bottomLevel;
         }
-        return true;
+        return greatestCost;
     }
 
     public int getGreatestCost() {
