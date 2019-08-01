@@ -1,3 +1,10 @@
+1. CLI Parsinng/Output
+2. Finish off A*
+3. Ragahvs BFS
+4. Davids bottomLevel optimised.
+
+
+
 A. Keep Track of past states which are the same
     E.g <Process, Task> = <<1,a>,<2,b>,<3,c>> is the same as <<1,a><2,c><2,b>>
     Sort by first element then concat to string.
