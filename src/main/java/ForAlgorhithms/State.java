@@ -40,7 +40,7 @@ public class State {
 
         //TODO add the vertex to processor x, at the earliest possible time.
         //TODO Set the new currentCost && current level
-
+        //TODO update the toTraverseList with new verticies to travers
         //Requried to check for duplicates later.
         Collections.sort(result.processors);
         return result;
@@ -64,10 +64,10 @@ public class State {
             for (Vertex v : toTraverse) {
                 if (canVisit(v)) {
                     toTraverse.poll();
+                    traversed.add(v);
                     for (int i = 0; i < processors.size(); i++) {
                         possibleStates.add(addVertex(i, v));
                     }
-                    traversed.add(v);
                 }
             }
         }
