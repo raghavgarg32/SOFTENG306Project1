@@ -10,6 +10,12 @@ public class Vertex {
     private List<Edge> incomingEdges;
     private List<Vertex> incomingVerticies;
     int bottomLevel;
+    int level;
+
+
+    public int getLevel() {
+        return level;
+    }
 
     public Vertex(String id, int cost) {
         this.id = id;
@@ -17,8 +23,26 @@ public class Vertex {
         outgoingEdges = new ArrayList<>();
         incomingEdges = new ArrayList<>();
         incomingVerticies = new ArrayList<>();
+        findLevel();
     }
 
+    private int findLevel() {
+        for (Vertex v : incomingVerticies) {
+            if (v.level >= level) {
+                level = v.level + 1;
+            }
+        }
+        return level;
+    }
+
+    public boolean containsIncomingVertex(Vertex v) {
+        return incomingVerticies.contains(v);
+    }
+
+    //todo SHould just be the below function
+    public int getBottomLevel() {
+        return bottomLevel;
+    }
 
     //TODO calculate bottom level. //DFS but prioritise most expensive
     public int calculateBottomLevel() {

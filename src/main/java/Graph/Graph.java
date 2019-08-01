@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class Graph {
 
+    private int greatestCost;
     private String name;
     private HashMap<String, Vertex> vertexHashMap;
     private HashMap<String, Edge> edgeHashMap;
@@ -13,6 +14,7 @@ public class Graph {
         this.name = name;
         vertexHashMap = new HashMap<>();
         edgeHashMap = new HashMap<>();
+        greatestCost = Integer.MIN_VALUE;
     }
 
     public void addVertex(String key, Vertex vertex) {
@@ -35,7 +37,15 @@ public class Graph {
         Map.Entry<String,Vertex> entry = vertexHashMap.entrySet().iterator().next();
         // Get root vertex
         String key = entry.getKey();
-        return vertexHashMap.get(key).calculateBottomLevel();
+        int bottomLevel =  vertexHashMap.get(key).calculateBottomLevel();
+        if(bottomLevel > greatestCost){
+            greatestCost = bottomLevel;
+        }
+        return greatestCost;
+    }
+
+    public int getGreatestCost() {
+        return greatestCost;
     }
 
     @Override
