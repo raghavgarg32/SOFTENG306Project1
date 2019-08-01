@@ -1,6 +1,7 @@
 package Graph;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Graph {
 
@@ -30,12 +31,11 @@ public class Graph {
         return edgeHashMap.get(key);
     }
 
-    public boolean calculateBottomLevel() {
-        for(Vertex v:vertexHashMap.values()){
-            v.calculateBottomLevel();
-        }
-
-        return true;
+    public int calculateBottomLevel() {
+        Map.Entry<String,Vertex> entry = vertexHashMap.entrySet().iterator().next();
+        // Get root vertex
+        String key = entry.getKey();
+        return vertexHashMap.get(key).calculateBottomLevel();
     }
 
     @Override

@@ -29,20 +29,20 @@ public class State {
         return toTraverse.isEmpty();
     }
 
-    public List<State> generatePossibilities() {
-        //Generates a list of possible states to visit
-        List<State> possibleStates = new ArrayList<>();
-        if(!allVisited()) {
-            for (Vertex v : toTraverse) {
-                if (canVisit(v)) {
-                    for (Processor p : processors) {
-                        possibleStates.add(addVertex(p, v));
-                    }
-                }
-            }
-        }
-        return possibleStates;
-
-    }
+//    public List<State> generatePossibilities() {
+//        //Generates a list of possible states to visit
+//        List<State> possibleStates = new ArrayList<>();
+//        if(!allVisited()) {
+//            for (Vertex v : toTraverse) {
+//                if (canVisit(v)) {
+//                    for (Processor p : processors) {
+//                        possibleStates.add(addVertex(p, v));
+//                    }
+//                }
+//            }
+//        }
+//        return possibleStates;
+//
+//    }
     //TODO return a copy of State, fpr a;; addVertex here.
 }

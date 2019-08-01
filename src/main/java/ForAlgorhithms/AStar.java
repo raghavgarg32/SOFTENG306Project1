@@ -23,26 +23,26 @@ public class AStar {
         candidate.add(new State());
     }
 
-    public void runAlgorhithm() {
-        while (!candidate.isEmpty()) {
-            State s = candidate.poll();
-            for (State s1 : s.generatePossibilities()) {
-                if (s1.currentCost < minFullPath) {
-                    candidate.add(s1);
-                    if (s1.allVisited()) {
-                        minFullPath = s1.currentCost;
-                    }
-                }
-            }
-
-            for (State s2 : candidate) {
-                if (s2.currentCost >= minFullPath) {
-                    candidate.poll();
-                }
-            }
-
-        }
-    }
+//    public void runAlgorhithm() {
+//        while (!candidate.isEmpty()) {
+//            State s = candidate.poll();
+//            for (State s1 : s.generatePossibilities()) {
+//                if (s1.currentCost < minFullPath) {
+//                    candidate.add(s1);
+//                    if (s1.allVisited()) {
+//                        minFullPath = s1.currentCost;
+//                    }
+//                }
+//            }
+//
+//            for (State s2 : candidate) {
+//                if (s2.currentCost >= minFullPath) {
+//                    candidate.poll();
+//                }
+//            }
+//
+//        }
+//    }
 
     //Todo implement this class.
     /*

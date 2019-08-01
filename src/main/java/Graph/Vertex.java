@@ -21,9 +21,10 @@ public class Vertex {
 
 
     //TODO calculate bottom level. //DFS but prioritise most expensive
-    public void calculateBottomLevel() {
+    public int calculateBottomLevel() {
         bottomLevel = -1;
         dfs(this, 0);
+        return bottomLevel;
     }
 
 
@@ -33,6 +34,7 @@ public class Vertex {
         if (currentVertex.outgoingEdges.size() == 0) {
             if (currentCost > bottomLevel) {
                 bottomLevel = currentCost;
+               // System.out.println(bottomLevel);
             }
 
         } else {
