@@ -1,6 +1,5 @@
 import Files.DotParser;
 import Graph.Graph;
-import Graph.GraphCreator;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,28 +13,17 @@ public class GraphTests {
      * @param inputURL
      */
     private Graph createGraph(String inputURL) {
-        GraphCreator graphCreator = new GraphCreator("data/" + inputURL);
-        return graphCreator.createGraph();
-    }
 
-
-    /**
-     * This tests if the user created graph is the same as the library created one.
-     * TODO: Probably will remove this in the future.
-     */
-    @Test
-    public void testGraphCreation() {
-        Graph createdGraph = createGraph("input.dot");
-        DotParser dp = new DotParser(new File("data/input.dot"));
-        Graph calculatedGraph = null;
+        DotParser dp = new DotParser(new File("data/" + inputURL));
+        Graph g1 = null;
         try {
-            calculatedGraph = dp.parseGraph();
+            g1 = dp.parseGraph();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-        Assert.assertEquals(createdGraph.toString(),calculatedGraph.toString());
+        return g1;
     }
+
 
     /**
      * This tests if the calculation of the bottom level is correct with the default graph
