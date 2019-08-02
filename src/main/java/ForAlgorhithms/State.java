@@ -4,10 +4,7 @@ import Graph.Graph;
 import Graph.Vertex;
 import Graph.Edge;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * Class to represent a schedule
@@ -34,13 +31,27 @@ public class State {
         currentCost = g.getGreatestCost();
     }
 
+    private State(State copyState) {
+        this(copyState.processors.size(), copyState.g);
+    }
+
     public State addVertex(int processorNum, Vertex v) {
         // Clone state then add the new vertex. Will also have to clone the processor list and processor block
         // list within it -> reference disappears once u clone so must use int
-        State result = new State(processorNum, this.g);
-        result.traversed = this.traversed;
-        result.toTraverse = this.toTraverse;
-        result.processors = this.processors;
+        State result = new State(this);
+
+        ArrayList<Processor> processorsCopy = new ArrayList<>();
+        Iterator<Processor> processorIterator = this.processors.iterator();
+
+        while(processorIterator.hasNext())
+        {
+            processorsCopy.add((Vertex) processorIterator.next().clone());
+        }
+        result.processors = processorsCopy;
+
+        result.traversed = new ArrayList<>(this.traversed);
+
+        result.toTraverse = new PriorityQueue<>(this.toTraverse);
 
         // Add the vertex to processor x, at the earliest possible time.
         result.processors.get(processorNum).addVertex(v);
