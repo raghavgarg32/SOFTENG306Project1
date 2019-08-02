@@ -66,7 +66,10 @@ public class State {
         }
         // Update the toTraverseList with new vertexes to travers
         for (Edge e : v.getOutgoingEdges()) {
-            result.toTraverse.add(e.getToVertex());
+            Vertex toAdd = e.getToVertex();
+            if (!toTraverse.contains(toAdd) && !traversed.contains(toAdd)) {
+                result.toTraverse.add(e.getToVertex());
+            }
         }
 
         // Required to check for duplicates later.
@@ -91,6 +94,7 @@ public class State {
         //Generates a list of possible states to visit
         HashSet<State> possibleStates = new HashSet<>();
         if (!allVisited()) {
+            List<Vertex> toAddList = new ArrayList<>();
             for (Vertex v : toTraverse) {
                 if (canVisit(v)) {
 //                    toTraverse.poll();
@@ -100,6 +104,7 @@ public class State {
                     }
                 }
             }
+            toTraverse.addAll(toAddList);
             toTraverse.removeAll(traversed);
         }
 
