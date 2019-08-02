@@ -55,15 +55,15 @@ public class Vertex {
 
     private void dfs(Vertex currentVertex) {
         // if the bottom level of the current vertex cannot be used to calculate the bottom level
-        if (outgoingEdges.size() == 0){
-            bottomLevel = cost;
+        if (currentVertex.outgoingEdges.size() == 0){
+            currentVertex.bottomLevel = currentVertex.cost;
         } else {
 
             int highestBottomLevel = -1;
 
             //check bottom level of all next vertices
-            for (int i = 0; i < outgoingEdges.size(); i++) {
-                Vertex nextVertex = outgoingEdges.get(i).getToVertex();
+            for (int i = 0; i < currentVertex.outgoingEdges.size(); i++) {
+                Vertex nextVertex = currentVertex.outgoingEdges.get(i).getToVertex();
 
                 //if next bottom level is uninitialised
                 if (nextVertex.bottomLevel == -1) {
@@ -71,13 +71,13 @@ public class Vertex {
                 }
 
                 //check if next vertex is largest bottom level so far
-                if (nextVertex.bottomLevel > highestBottomLevel) {
+                else if (nextVertex.bottomLevel > highestBottomLevel) {
                     highestBottomLevel = nextVertex.bottomLevel;
                 }
 
             }
 
-            bottomLevel = cost + highestBottomLevel;
+            currentVertex.bottomLevel = currentVertex.cost + highestBottomLevel;
         }
     }
 
