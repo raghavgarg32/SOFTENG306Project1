@@ -17,7 +17,7 @@ public class Main {
             e.printStackTrace();
         }
 
-        System.out.println(g1.getEdge("a->b"));
+        System.out.println(g1);
 
     }
 
