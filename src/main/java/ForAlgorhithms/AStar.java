@@ -22,7 +22,7 @@ public class AStar {
         traversed = false;
 
         //Todo implement state with root vertex;
-        candidate.add(new State(numProcessors,graph));
+        candidate.add(new State(numProcessors, graph));
     }
 
     public State runAlgorhithm() {
@@ -34,14 +34,15 @@ public class AStar {
                 if (!visited.contains(s1)) {
                     if (s1.currentCost < minFullPath) {
                         candidate.add(s1);
-                        if (s1.allVisited() && s1.currentCost < minFullPath ) {
+                        if (s1.allVisited() && s1.currentCost < minFullPath) {
                             minFullPath = s1.currentCost;
                         }
                     }
                     visited.add(s1.toString());
+
                 }
             }
-
+//TODO figure out a way to remove from teh priorityqueue without causing exceptions.
 /*            for (State s2 : candidate) {
                 if (s2.currentCost >= minFullPath) {
                     candidate.poll();
