@@ -48,6 +48,10 @@ public class Graph {
         return greatestCost;
     }
 
+    public void setGreatestCost(int greatestCost) {
+        this.greatestCost = greatestCost;
+    }
+
     @Override
     public String toString() {
         return vertexHashMap.toString();

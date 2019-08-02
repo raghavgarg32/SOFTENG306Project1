@@ -2,6 +2,7 @@ package ForAlgorhithms;
 
 import Graph.Graph;
 import Graph.Vertex;
+import Graph.Edge;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,7 +22,7 @@ public class State {
     List<Vertex> traversed;
     PriorityQueue<Vertex> toTraverse;
 
-    State(int numProcessors, Graph g) {
+    public State(int numProcessors, Graph g) {
         traversed = new ArrayList<>();
         processors = new ArrayList<>();
         this.g = g;
@@ -34,15 +35,26 @@ public class State {
     }
 
     public State addVertex(int processorNum, Vertex v) {
-        State result = null;
-        //TODO Clone state then add the new vertex.Will also have to clone the processor list and processor block
-        // list within it -> reference dissapears once u clone so must use int
+        // Clone state then add the new vertex. Will also have to clone the processor list and processor block
+        // list within it -> reference disappears once u clone so must use int
+        State result = new State(processorNum, this.g);
+        result.traversed = this.traversed;
+        result.toTraverse = this.toTraverse;
+        result.processors = this.processors;
 
-        //TODO add the vertex to processor x, at the earliest possible time.
-        //TODO Set the new currentCost && current level
-        //TODO update the toTraverseList with new verticies to travers
-        //Requried to check for duplicates later.
+        // Add the vertex to processor x, at the earliest possible time.
+        result.processors.get(processorNum).addVertex(v);
+        // Set the new currentCost && current level
+        result.currentLevel = v.getLevel();
+        result.currentCost += v.getCost();
+        // Update the toTraverseList with new vertexes to travers
+        for(Edge e : v.getOutgoingEdges()) {
+            toTraverse.add(e.getToVertex());
+        }
+
+        // Required to check for duplicates later.
         Collections.sort(result.processors);
+
         return result;
     }
     public boolean canVisit(Vertex v){
