@@ -102,6 +102,11 @@ public class Processor implements Comparable<Processor> {
 
     @Override
     public String toString() {
-        return startCost + processorBlockList.toString();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < processorBlockList.size(); i++) {
+            ProcessorBlock p = processorBlockList.get(i);
+            sb.append("Processor" + i + " " + p.toString() );
+        }
+        return sb.toString();
     }
 }

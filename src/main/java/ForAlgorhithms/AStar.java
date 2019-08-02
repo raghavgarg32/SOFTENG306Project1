@@ -32,6 +32,7 @@ public class AStar {
             for (State s1 : s.generatePossibilities()) {
                 //TODO ensure toString creates a unique sorted schedule string
                 if (!visited.contains(s1)) {
+                    System.out.println(s1);
                     if (s1.currentCost < minFullPath) {
                         candidate.add(s1);
                         if (s1.allVisited() && s1.currentCost < minFullPath) {

@@ -74,7 +74,7 @@ public class State {
 
         // Required to check for duplicates later.
         Collections.sort(result.processors);
-        System.out.println(result);
+        //System.out.println(result);
 
         return result;
     }
