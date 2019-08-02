@@ -19,6 +19,7 @@ public class State {
     List<Vertex> traversed;
     PriorityQueue<Vertex> toTraverse;
 
+
     public State(int numProcessors, Graph g) {
         traversed = new ArrayList<>();
         processors = new ArrayList<>();
@@ -34,6 +35,7 @@ public class State {
 
     private State(State copyState) {
         traversed = new ArrayList<>();
+        traversed.addAll(copyState.traversed);
         processors = new ArrayList<>();
         this.g = copyState.g;
         for (int i = 0; i < copyState.processors.size(); i++) {
@@ -41,7 +43,7 @@ public class State {
         }
         toTraverse = new PriorityQueue<>(new VertexComparator());
         toTraverse.addAll(copyState.toTraverse);
-
+        toTraverse.removeAll(copyState.traversed);
         currentLevel = copyState.currentLevel;
         currentCost = copyState.currentCost;
     }
@@ -85,23 +87,34 @@ public class State {
         return toTraverse.isEmpty();
     }
 
-    public List<State> generatePossibilities() {
+    public HashSet<State> generatePossibilities() {
         //Generates a list of possible states to visit
-        List<State> possibleStates = new ArrayList<>();
+        HashSet<State> possibleStates = new HashSet<>();
         if (!allVisited()) {
             for (Vertex v : toTraverse) {
                 if (canVisit(v)) {
-                    toTraverse.poll();
+//                    toTraverse.poll();
                     traversed.add(v);
                     for (int i = 0; i < processors.size(); i++) {
                         possibleStates.add(addVertex(i, v));
                     }
                 }
             }
+            toTraverse.removeAll(traversed);
         }
 
         return possibleStates;
 
+    }
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return toString().equals(o.toString());
     }
 
     //TODO return a copy of State, fpr a;; addVertex here.

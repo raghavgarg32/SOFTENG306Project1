@@ -56,6 +56,8 @@ public class Processor implements Comparable<Processor> {
 
             for (Vertex v1 : traversed) {
                 if (v.containsIncomingVertex(v1)) {
+                    //TODO calculate start time
+                    //Calculate start time
                     int tempComCost = v.getEdgeWeightFrom(v1);
                     if (tempComCost < comCost) {
                         comCost = tempComCost;
@@ -74,19 +76,28 @@ public class Processor implements Comparable<Processor> {
     public int compareTo(Processor processor) {
         int result = this.startCost - processor.startCost;
         if (result == 0) {
-            Vertex v0 = processor.startVertex;
             String id0 = "";
-            Vertex v1 = this.startVertex;
             String id1 = "";
-            if (v0 != null) {
-                id0 = v0.getId();
+            if (processorBlockList.size() != 0) {
+                id0 = processorBlockList.get(0).getV().getId();
             }
-            if (v1 != null) {
-                id1 = v1.getId();
+            if (processor.processorBlockList.size() != 0) {
+                id1 = processor.processorBlockList.get(0).getV().getId();
             }
             result = id0.compareTo(id1);
         }
         return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        Processor p = (Processor) o;
+        return this.toString().equals(p.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
     }
 
     @Override
