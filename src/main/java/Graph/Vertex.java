@@ -79,7 +79,6 @@ public class Vertex {
 
             currentVertex.bottomLevel = currentVertex.cost + highestBottomLevel;
         }
-        System.out.println(currentVertex.id + "'s Bottom Level is " + currentVertex.bottomLevel);
     }
 
     public void addIncomingEdge(Edge edge) {
@@ -110,11 +109,12 @@ public class Vertex {
 
     @Override
     public String toString() {
+
         return id;
     }
 
     @Override
     public boolean equals(Object obj) {
-        return id.equals(obj.toString());
+        return this.toString().equals(obj.toString());
     }
 }

@@ -8,9 +8,6 @@ import java.io.FileNotFoundException;
 public class Main {
 
     public static void main(String[] args) {
-        GraphCreator graphCreator = new GraphCreator("data/input.dot");
-        Graph g = graphCreator.createGraph();
-        System.out.println(g);
 
         DotParser dp = new DotParser(new File("data/input.dot"));
         Graph g1 = null;
@@ -19,8 +16,8 @@ public class Main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        System.out.println(g1);
-        System.out.println(g1.calculateBottomLevel());
+
+        System.out.println(g1.getEdge("a->b"));
 
     }
 

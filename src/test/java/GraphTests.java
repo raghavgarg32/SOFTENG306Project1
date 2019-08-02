@@ -42,8 +42,16 @@ public class GraphTests {
      */
     @Test
     public void testCalculationOfBottomLevel() {
-        Graph createdGraph = createGraph("input.dot");
-        Assert.assertEquals(7,createdGraph.calculateBottomLevel());
+        DotParser dp = new DotParser(new File("data/input.dot"));
+        try {
+            Graph g1 = dp.parseGraph();
+            Assert.assertEquals(7,g1.calculateBottomLevel());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        GraphCreator graphCreator = new GraphCreator("data/input.dot");
+        Graph createdGraph = graphCreator.createGraph();
+
     }
 
     /**
