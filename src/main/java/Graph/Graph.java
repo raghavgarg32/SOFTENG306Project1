@@ -30,10 +30,11 @@ public class Graph {
     public Vertex getVertex(String key) {
         return vertexHashMap.get(key);
     }
-    public List<Vertex> getRoots(){
+
+    public List<Vertex> getRoots() {
         List<Vertex> result = new ArrayList<>();
         for (Vertex vertex : vertexHashMap.values()) {
-            if(vertex.isRoot()){
+            if (vertex.isRoot()) {
                 result.add(vertex);
             }
         }
@@ -45,17 +46,18 @@ public class Graph {
     }
 
     public int calculateBottomLevel() {
-        for(Vertex v:vertexHashMap.values()){
+        for (Vertex v : vertexHashMap.values()) {
             v.calculateBottomLevel();
         }
-        Map.Entry<String,Vertex> entry = vertexHashMap.entrySet().iterator().next();
+        return -1;
+        //Map.Entry<String,Vertex> entry = vertexHashMap.entrySet().iterator().next();
         // Get root vertex
-        String key = entry.getKey();
-        int bottomLevel =  vertexHashMap.get(key).calculateBottomLevel();
-        if(bottomLevel > greatestCost){
-            greatestCost = bottomLevel;
-        }
-        return greatestCost;
+        //String key = entry.getKey();
+        //int bottomLevel =  vertexHashMap.get(key).calculateBottomLevel();
+        //if(bottomLevel > greatestCost){
+        //    greatestCost = bottomLevel;
+        //}
+        //return greatestCost;
     }
 
     public int getGreatestCost() {

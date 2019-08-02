@@ -45,10 +45,10 @@ public class GraphTests {
     public void testCalculationOfBottomLevel() {
         Graph createdGraph = createGraph("input.dot");
         createdGraph.calculateBottomLevel();
-        Assert.assertEquals(createdGraph.getVertex("a").getBottomLevel(), 7);
-        Assert.assertEquals(createdGraph.getVertex("b").getBottomLevel(), 5);
-        Assert.assertEquals(createdGraph.getVertex("c").getBottomLevel(), 5);
-        Assert.assertEquals(createdGraph.getVertex("d").getBottomLevel(), 2);
+        Assert.assertEquals(7, createdGraph.getVertex("a").getBottomLevel());
+        Assert.assertEquals(5, createdGraph.getVertex("b").getBottomLevel());
+        Assert.assertEquals(5, createdGraph.getVertex("c").getBottomLevel());
+        Assert.assertEquals(2, createdGraph.getVertex("d").getBottomLevel());
     }
 
     /**
