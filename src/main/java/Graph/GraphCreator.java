@@ -78,7 +78,6 @@ public class GraphCreator {
         private Vertex processVertex() {
             String[] values = str.split("\\t");
             String name = values[0];
-           // System.out.println(name);
             int weight = getWeight(values[1]);
             Vertex v = new Vertex(name, weight);
             g.addVertex(name, v);

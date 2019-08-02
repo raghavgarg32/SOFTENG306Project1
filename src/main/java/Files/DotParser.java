@@ -44,6 +44,7 @@ public class DotParser {
             from.addOutgoingEdge(toAdd);
 
         }
+        g.calculateBottomLevel();
 
         return g;
 
