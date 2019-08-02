@@ -36,6 +36,8 @@ public class State {
     private State(State copyState) {
         traversed = new ArrayList<>();
         traversed.addAll(copyState.traversed);
+        //traversed.addAll(copyState.toTraverse);
+        //traversed.removeAll(copyState.toTraverse);
         processors = new ArrayList<>();
         this.g = copyState.g;
         for (int i = 0; i < copyState.processors.size(); i++) {
@@ -43,7 +45,6 @@ public class State {
         }
         toTraverse = new PriorityQueue<>(new VertexComparator());
         toTraverse.addAll(copyState.toTraverse);
-        toTraverse.removeAll(copyState.traversed);
         currentLevel = copyState.currentLevel;
         currentCost = copyState.currentCost;
     }
@@ -52,6 +53,7 @@ public class State {
         // Clone state then add the new vertex. Will also have to clone the processor list and processor block
         // list within it -> reference disappears once u clone so must use int
         State result = new State(this);
+        result.toTraverse.remove(v);
 
         // Add the vertex to processor x, at the earliest possible time.
         result.processors.get(processorNum).addVertex(v, result.traversed);
@@ -125,6 +127,12 @@ public class State {
     //TODO return a copy of State, fpr a;; addVertex here.
     @Override
     public String toString() {
-        return processors.toString();
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < processors.size(); i++) {
+            Processor p = processors.get(i);
+            sb.append(" Processor" + i + " " + p.toString() );
+        }
+        return sb.toString() +toTraverse;
     }
 }
