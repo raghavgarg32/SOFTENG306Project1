@@ -37,7 +37,7 @@ public class State {
         traversed = new ArrayList<>();
         traversed.addAll(copyState.traversed);
         //traversed.addAll(copyState.toTraverse);
-        //traversed.removeAll(copyState.toTraverse);
+        traversed.removeAll(copyState.toTraverse);
         processors = new ArrayList<>();
         this.g = copyState.g;
         for (int i = 0; i < copyState.processors.size(); i++) {
@@ -53,6 +53,7 @@ public class State {
         // Clone state then add the new vertex. Will also have to clone the processor list and processor block
         // list within it -> reference disappears once u clone so must use int
         State result = new State(this);
+        result.traversed.add(v);
         result.toTraverse.remove(v);
 
         // Add the vertex to processor x, at the earliest possible time.
