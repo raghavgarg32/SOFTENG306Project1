@@ -11,6 +11,7 @@ public class GraphTests {
 
     /**
      * This method is helps test different input files.
+     *
      * @param inputURL
      */
     private Graph createGraph(String inputURL) {
@@ -34,7 +35,7 @@ public class GraphTests {
             e.printStackTrace();
         }
 
-        Assert.assertEquals(createdGraph.toString(),calculatedGraph.toString());
+        Assert.assertEquals(createdGraph.toString(), calculatedGraph.toString());
     }
 
     /**
@@ -43,7 +44,11 @@ public class GraphTests {
     @Test
     public void testCalculationOfBottomLevel() {
         Graph createdGraph = createGraph("input.dot");
-        Assert.assertEquals(7,createdGraph.calculateBottomLevel());
+        createdGraph.calculateBottomLevel();
+        Assert.assertEquals(createdGraph.getVertex("a").getBottomLevel(), 7);
+        Assert.assertEquals(createdGraph.getVertex("b").getBottomLevel(), 5);
+        Assert.assertEquals(createdGraph.getVertex("c").getBottomLevel(), 5);
+        Assert.assertEquals(createdGraph.getVertex("d").getBottomLevel(), 2);
     }
 
     /**
@@ -52,7 +57,7 @@ public class GraphTests {
     @Test
     public void testCalculationOfBottomLevelForSecondary() {
         Graph createdGraph = createGraph("input2.dot");
-        Assert.assertEquals(14,createdGraph.calculateBottomLevel());
+        Assert.assertEquals(14, createdGraph.calculateBottomLevel());
     }
 
     /**
@@ -61,6 +66,6 @@ public class GraphTests {
     @Test
     public void testCalculationOfBottomLevelForLinearGraph() {
         Graph createdGraph = createGraph("input3.dot");
-        Assert.assertEquals(10,createdGraph.calculateBottomLevel());
+        Assert.assertEquals(10, createdGraph.calculateBottomLevel());
     }
 }

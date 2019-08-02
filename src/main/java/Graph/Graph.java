@@ -45,6 +45,9 @@ public class Graph {
     }
 
     public int calculateBottomLevel() {
+        for(Vertex v:vertexHashMap.values()){
+            v.calculateBottomLevel();
+        }
         Map.Entry<String,Vertex> entry = vertexHashMap.entrySet().iterator().next();
         // Get root vertex
         String key = entry.getKey();
