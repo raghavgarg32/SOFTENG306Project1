@@ -79,6 +79,7 @@ public class Vertex {
 
             currentVertex.bottomLevel = currentVertex.cost + highestBottomLevel;
         }
+        System.out.println(currentVertex.id + "'s Bottom Level is " + currentVertex.bottomLevel);
     }
 
     public void addIncomingEdge(Edge edge) {
