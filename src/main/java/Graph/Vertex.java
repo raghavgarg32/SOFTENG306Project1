@@ -1,6 +1,7 @@
 package Graph;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Vertex {
@@ -13,6 +14,7 @@ public class Vertex {
     int level;
 
 
+
     public int getLevel() {
         return level;
     }
@@ -23,6 +25,7 @@ public class Vertex {
         outgoingEdges = new ArrayList<>();
         incomingEdges = new ArrayList<>();
         incomingVerticies = new ArrayList<>();
+        bottomLevel = -1;
         findLevel();
     }
 
@@ -39,35 +42,42 @@ public class Vertex {
         return incomingVerticies.contains(v);
     }
 
-    //todo SHould just be the below function
     public int getBottomLevel() {
         return bottomLevel;
     }
 
-    //TODO calculate bottom level. //DFS but prioritise most expensive
     public int calculateBottomLevel() {
-        bottomLevel = -1;
-        dfs(this, 0);
+
+        dfs(this);
         return bottomLevel;
     }
 
 
-    private void dfs(Vertex currentVertex, int currentCost) {
-        currentCost = currentCost + currentVertex.cost;
-
-        if (currentVertex.outgoingEdges.size() == 0) {
-            if (currentCost > bottomLevel) {
-                bottomLevel = currentCost;
-               // System.out.println(bottomLevel);
-            }
-
+    private void dfs(Vertex currentVertex) {
+        // if the bottom level of the current vertex cannot be used to calculate the bottom level
+        if (outgoingEdges.size() == 0){
+            bottomLevel = cost;
         } else {
 
-            for (int i = 0; i < currentVertex.outgoingEdges.size(); i++) {
-                Vertex nextVertex = currentVertex.outgoingEdges.get(i).getToVertex();
-                dfs(nextVertex, currentCost);
+            int highestBottomLevel = -1;
+
+            //check bottom level of all next vertices
+            for (int i = 0; i < outgoingEdges.size(); i++) {
+                Vertex nextVertex = outgoingEdges.get(i).getToVertex();
+
+                //if next bottom level is uninitialised
+                if (nextVertex.bottomLevel == -1) {
+                    dfs(nextVertex);
+                }
+
+                //check if next vertex is largest bottom level so far
+                if (nextVertex.bottomLevel > highestBottomLevel) {
+                    highestBottomLevel = nextVertex.bottomLevel;
+                }
 
             }
+
+            bottomLevel = cost + highestBottomLevel;
         }
     }
 
