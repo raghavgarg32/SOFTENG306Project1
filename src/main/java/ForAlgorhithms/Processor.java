@@ -23,6 +23,14 @@ public class Processor implements Comparable<Processor> {
         boundCost = 0;
     }
 
+    public Processor(Processor toCopy) {
+
+        processorBlockList = new ArrayList<>();
+        startCost = toCopy.startCost;
+        boundCost = toCopy.boundCost;
+        processorBlockList.addAll(toCopy.processorBlockList);
+    }
+
     public int addVertex(Vertex v, List<Vertex> traversed) {
         int startTime = 0;
         if (processorBlockList.size() != 0) {
@@ -83,6 +91,6 @@ public class Processor implements Comparable<Processor> {
 
     @Override
     public String toString() {
-        return processorBlockList.toString();
+        return startCost + processorBlockList.toString();
     }
 }

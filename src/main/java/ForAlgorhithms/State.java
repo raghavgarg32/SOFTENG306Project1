@@ -4,10 +4,7 @@ import Graph.Graph;
 import Graph.Vertex;
 import Graph.Edge;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * Class to represent a schedule
@@ -35,20 +32,30 @@ public class State {
         currentCost = g.getGreatestCost();
     }
 
+    private State(State copyState) {
+        traversed = new ArrayList<>();
+        processors = new ArrayList<>();
+        this.g = copyState.g;
+        for (int i = 0; i < copyState.processors.size(); i++) {
+            processors.add(new Processor(copyState.processors.get(i)));
+        }
+        toTraverse = new PriorityQueue<>(new VertexComparator());
+        toTraverse.addAll(copyState.toTraverse);
+
+        currentLevel = copyState.currentLevel;
+        currentCost = copyState.currentCost;
+    }
+
     public State addVertex(int processorNum, Vertex v) {
         // Clone state then add the new vertex. Will also have to clone the processor list and processor block
         // list within it -> reference disappears once u clone so must use int
-        State result = new State(processorNum, this.g);
-        result.traversed = this.traversed;
-        result.toTraverse = this.toTraverse;
-        result.processors = this.processors;
+        State result = new State(this);
 
         // Add the vertex to processor x, at the earliest possible time.
         result.processors.get(processorNum).addVertex(v, result.traversed);
         // Set the new currentCost && current level
         result.currentLevel = currentLevel + 1;
 
-        // TODO Maximum (bound cost) for all processors of result
         for (Processor p : result.processors) {
             if (p.boundCost > result.currentCost) {
                 //result.currentCost += v.getCost();
@@ -57,7 +64,7 @@ public class State {
         }
         // Update the toTraverseList with new vertexes to travers
         for (Edge e : v.getOutgoingEdges()) {
-            toTraverse.add(e.getToVertex());
+            result.toTraverse.add(e.getToVertex());
         }
 
         // Required to check for duplicates later.
