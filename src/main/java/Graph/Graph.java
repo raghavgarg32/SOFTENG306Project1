@@ -46,18 +46,18 @@ public class Graph {
     }
 
     public int calculateBottomLevel() {
-        for (Vertex v : vertexHashMap.values()) {
-            v.calculateBottomLevel();
-        }
-        return -1;
-        //Map.Entry<String,Vertex> entry = vertexHashMap.entrySet().iterator().next();
-        // Get root vertex
-        //String key = entry.getKey();
-        //int bottomLevel =  vertexHashMap.get(key).calculateBottomLevel();
-        //if(bottomLevel > greatestCost){
-        //    greatestCost = bottomLevel;
+        //for (Vertex v : vertexHashMap.values()) {
+          //  v.calculateBottomLevel();
         //}
-        //return greatestCost;
+        //return -1;
+        Map.Entry<String,Vertex> entry = vertexHashMap.entrySet().iterator().next();
+        // Get root vertex
+        String key = entry.getKey();
+        int bottomLevel =  vertexHashMap.get(key).calculateBottomLevel();
+        if(bottomLevel > greatestCost){
+            greatestCost = bottomLevel;
+        }
+        return greatestCost;
     }
 
     public int getGreatestCost() {

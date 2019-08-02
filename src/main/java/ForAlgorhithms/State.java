@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class State {
     List<Processor> processors;
-    int currentCost;
+    // int currentCost;
     int currentLevel;
     int costToBottomLevel;
     Graph g;
@@ -30,14 +30,12 @@ public class State {
         toTraverse = new PriorityQueue<>(new VertexComparator());
         toTraverse.addAll(g.getRoots());
         currentLevel = 0;
-        currentCost = g.getGreatestCost();
+        costToBottomLevel = g.getGreatestCost();
     }
 
     private State(State copyState) {
         traversed = new ArrayList<>();
         traversed.addAll(copyState.traversed);
-        //traversed.addAll(copyState.toTraverse);
-        traversed.removeAll(copyState.toTraverse);
         processors = new ArrayList<>();
         this.g = copyState.g;
         for (int i = 0; i < copyState.processors.size(); i++) {
@@ -46,7 +44,7 @@ public class State {
         toTraverse = new PriorityQueue<>(new VertexComparator());
         toTraverse.addAll(copyState.toTraverse);
         currentLevel = copyState.currentLevel;
-        currentCost = copyState.currentCost;
+        costToBottomLevel = copyState.costToBottomLevel;
     }
 
     public State addVertex(int processorNum, Vertex v) {
@@ -62,9 +60,9 @@ public class State {
         result.currentLevel = currentLevel + 1;
 
         for (Processor p : result.processors) {
-            if (p.boundCost > result.currentCost) {
+            if (p.boundCost > result.costToBottomLevel) {
                 //result.currentCost += v.getCost();
-                result.currentCost = p.boundCost;
+                result.costToBottomLevel = p.boundCost;
             }
         }
         // Update the toTraverseList with new vertexes to travers
@@ -95,20 +93,20 @@ public class State {
 
     public HashSet<State> generatePossibilities() {
         //Generates a list of possible states to visit
+        //TODO implement hashcode so the hashset actually functions as a hashset
         HashSet<State> possibleStates = new HashSet<>();
         if (!allVisited()) {
             List<Vertex> toAddList = new ArrayList<>();
             for (Vertex v : toTraverse) {
                 if (canVisit(v)) {
-//                    toTraverse.poll();
-                    traversed.add(v);
+                    toAddList.add(v);
                     for (int i = 0; i < processors.size(); i++) {
                         possibleStates.add(addVertex(i, v));
                     }
                 }
             }
             toTraverse.addAll(toAddList);
-            toTraverse.removeAll(traversed);
+            toTraverse.removeAll(toAddList);
         }
 
         return possibleStates;
@@ -130,9 +128,10 @@ public class State {
     public String toString() {
 
         StringBuilder sb = new StringBuilder();
+        sb.append("\nCurrent Level: " + currentLevel + " Bottom Level: " + costToBottomLevel);
         for (int i = 0; i < processors.size(); i++) {
             Processor p = processors.get(i);
-            sb.append("\nProcessor " + i + ":" + p.toString() );
+            sb.append("\nProcessor " + i + ":" + p.toString());
         }
         return sb.toString() + "\nVerticies Left:" + toTraverse;
     }

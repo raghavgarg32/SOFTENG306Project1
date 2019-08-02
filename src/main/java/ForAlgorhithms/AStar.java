@@ -27,16 +27,16 @@ public class AStar {
 
     public State runAlgorhithm() {
         State result = null;
-        while (!candidate.isEmpty() && candidate.peek().currentCost <= minFullPath) {
+        while (!candidate.isEmpty() && candidate.peek().costToBottomLevel <= minFullPath) {
             State s = candidate.poll();
             for (State s1 : s.generatePossibilities()) {
                 //TODO ensure toString creates a unique sorted schedule string
                 if (!visited.contains(s1)) {
                     System.out.println(s1);
-                    if (s1.currentCost < minFullPath) {
+                    if (s1.costToBottomLevel < minFullPath) {
                         candidate.add(s1);
-                        if (s1.allVisited() && s1.currentCost < minFullPath) {
-                            minFullPath = s1.currentCost;
+                        if (s1.allVisited() && s1.costToBottomLevel < minFullPath) {
+                            minFullPath = s1.costToBottomLevel;
                         }
                     }
                     visited.add(s1.toString());
