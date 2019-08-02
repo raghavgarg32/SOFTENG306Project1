@@ -17,6 +17,10 @@ public class Vertex {
         return level;
     }
 
+   public  boolean isRoot() {
+        return incomingEdges.size() == 0;
+    }
+
     public Vertex(String id, int cost) {
         this.id = id;
         this.cost = cost;
@@ -39,6 +43,17 @@ public class Vertex {
         return incomingVerticies.contains(v);
     }
 
+    //TODO implement hashmap
+    public int getEdgeWeightFrom(Vertex v) {
+        int cost =-1;
+        for(Edge e:incomingEdges){
+            if(e.getFromVertex() == v){
+                cost = e.getSwitchCost();
+            }
+        }
+        return cost;
+    }
+
     //todo SHould just be the below function
     public int getBottomLevel() {
         return bottomLevel;
@@ -58,7 +73,7 @@ public class Vertex {
         if (currentVertex.outgoingEdges.size() == 0) {
             if (currentCost > bottomLevel) {
                 bottomLevel = currentCost;
-               // System.out.println(bottomLevel);
+                // System.out.println(bottomLevel);
             }
 
         } else {

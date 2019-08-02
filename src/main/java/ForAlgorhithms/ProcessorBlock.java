@@ -26,6 +26,6 @@ public class ProcessorBlock {
 
     @Override
     public String toString() {
-        return v.getId();
+        return "id:" + v.getId() +" start_time:" + startTime + " end_time:" + endTime;
     }
 }

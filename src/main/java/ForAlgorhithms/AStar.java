@@ -15,14 +15,14 @@ public class AStar {
 
     Graph graph;
 
-    public AStar(Graph graph) {
+    public AStar(int numProcessors, Graph graph) {
         candidate = new PriorityQueue<>(new AStarComparator());
         visited = new HashSet();
         this.graph = graph;
         traversed = false;
 
         //Todo implement state with root vertex;
-        candidate.add(new State(1, graph));
+        candidate.add(new State(numProcessors,graph));
     }
 
     public State runAlgorhithm() {

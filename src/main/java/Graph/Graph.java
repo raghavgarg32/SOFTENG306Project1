@@ -1,6 +1,8 @@
 package Graph;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Graph {
@@ -27,6 +29,15 @@ public class Graph {
 
     public Vertex getVertex(String key) {
         return vertexHashMap.get(key);
+    }
+    public List<Vertex> getRoots(){
+        List<Vertex> result = new ArrayList<>();
+        for (Vertex vertex : vertexHashMap.values()) {
+            if(vertex.isRoot()){
+                result.add(vertex);
+            }
+        }
+        return result;
     }
 
     public Edge getEdge(String key) {
