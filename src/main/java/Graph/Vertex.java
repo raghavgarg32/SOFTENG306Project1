@@ -109,8 +109,8 @@ public class Vertex {
 
     @Override
     public String toString() {
-
-        return id;
+        String output = id + "\t[Weight=" + cost + "];";
+        return output;
     }
 
     @Override
