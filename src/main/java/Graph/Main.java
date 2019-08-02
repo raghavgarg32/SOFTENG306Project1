@@ -11,9 +11,9 @@ public class Main {
     public static void main(String[] args) {
         GraphCreator graphCreator = new GraphCreator("data/input.dot");
         Graph g = graphCreator.createGraph();
-        System.out.println(g);
+      //  System.out.println(g);
 
-        DotParser dp = new DotParser(new File("data/input.dot"));
+        DotParser dp = new DotParser(new File("data/input2.dot"));
         Graph g1 = null;
         try {
             g1 = dp.parseGraph();
@@ -21,8 +21,8 @@ public class Main {
             e.printStackTrace();
         }
         new AStar(2,g1).runAlgorhithm();
-        System.out.println(g1);
-        System.out.println(g1.calculateBottomLevel());
+       // System.out.println(g1);
+        //System.out.println(g1.calculateBottomLevel());
 
     }
 

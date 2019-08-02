@@ -132,7 +132,7 @@ public class State {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < processors.size(); i++) {
             Processor p = processors.get(i);
-            sb.append("\nProcessor" + i + " " + p.toString() );
+            sb.append("\nProcessor " + i + ":" + p.toString() );
         }
         return sb.toString() + "\nVerticies Left:" + toTraverse;
     }
