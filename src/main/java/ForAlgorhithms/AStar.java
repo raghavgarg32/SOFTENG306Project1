@@ -27,7 +27,7 @@ public class AStar {
 
     public State runAlgorhithm() {
         State result = null;
-        while (!candidate.isEmpty()) {
+        while (!candidate.isEmpty() && candidate.peek().currentCost <= minFullPath) {
             State s = candidate.poll();
             for (State s1 : s.generatePossibilities()) {
                 //TODO ensure toString creates a unique sorted schedule string
@@ -42,11 +42,11 @@ public class AStar {
                 }
             }
 
-            for (State s2 : candidate) {
+/*            for (State s2 : candidate) {
                 if (s2.currentCost >= minFullPath) {
                     candidate.poll();
                 }
-            }
+            }*/
 
         }
         return result;

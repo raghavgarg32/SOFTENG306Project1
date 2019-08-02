@@ -92,7 +92,7 @@ public class Vertex {
     }
 
     public boolean canVisit(List<Vertex> vList) {
-        return incomingVerticies.containsAll(vList);
+        return vList.containsAll(incomingVerticies);
     }
 
 

@@ -67,8 +67,8 @@ public class State {
         // Update the toTraverseList with new vertexes to travers
         for (Edge e : v.getOutgoingEdges()) {
             Vertex toAdd = e.getToVertex();
-            if (!toTraverse.contains(toAdd) && !traversed.contains(toAdd)) {
-                result.toTraverse.add(e.getToVertex());
+            if (!result.toTraverse.contains(toAdd) && !result.traversed.contains(toAdd)) {
+                result.toTraverse.add(toAdd);
             }
         }
 
