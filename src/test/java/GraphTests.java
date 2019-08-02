@@ -63,4 +63,14 @@ public class GraphTests {
         Graph createdGraph = createGraph("input3.dot");
         Assert.assertEquals(10,createdGraph.calculateBottomLevel());
     }
+
+
+    /**
+     * This tests if the calculation of the bottom level is correct for a graph with a single node
+     */
+    @Test
+    public void testCalculationOfBottomLevelForSingleNode() {
+        Graph createdGraph = createGraph("singleNode.dot");
+        Assert.assertEquals(2,createdGraph.calculateBottomLevel());
+    }
 }
