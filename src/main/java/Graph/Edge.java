@@ -13,6 +13,7 @@ public class Edge {
         id = fromVertex.getId() + "->" + toVertex.getId();
         fromVertex.addOutgoingEdge(this);
         toVertex.addIncomingEdge(this);
+
     }
 
     Edge(String id, int cost, Vertex fromVertex, Vertex toVertex){
@@ -41,6 +42,8 @@ public class Edge {
 
     @Override
     public String toString() {
-        return switchCost + id;
+        String weight = Integer.toString(switchCost);
+        String output = id +  "\t[Weight=" + weight + "];";
+        return output;
     }
 }

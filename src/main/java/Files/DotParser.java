@@ -42,6 +42,7 @@ public class DotParser {
 
             Edge toAdd = new Edge(from, to, weightInt);
             from.addOutgoingEdge(toAdd);
+            g.addEdge(toAdd.getId(),toAdd);
 
         }
 
