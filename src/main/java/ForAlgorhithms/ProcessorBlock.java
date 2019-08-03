@@ -24,6 +24,10 @@ public class ProcessorBlock {
         return v;
     }
 
+    public int getStartTime() {
+        return startTime;
+    }
+
     @Override
     public String toString() {
         return "id:" + v.getId() +" start_time:" + startTime + " end_time:" + endTime;

@@ -43,12 +43,6 @@ public class AStar {
 
                 }
             }
-//TODO figure out a way to remove from teh priorityqueue without causing exceptions.
-/*            for (State s2 : candidate) {
-                if (s2.currentCost >= minFullPath) {
-                    candidate.poll();
-                }
-            }*/
 
         }
         return result;

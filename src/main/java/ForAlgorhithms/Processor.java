@@ -30,6 +30,11 @@ public class Processor implements Comparable<Processor> {
         boundCost = toCopy.boundCost;
         processorBlockList.addAll(toCopy.processorBlockList);
     }
+    public int addVertex(Vertex v,int startTime){
+        ProcessorBlock pb = new ProcessorBlock(v,startTime);
+        processorBlockList.add(pb);
+        return startTime;
+    }
 
     public int addVertex(Vertex v, List<Vertex> traversed) {
         int startTime = 0;
@@ -68,7 +73,7 @@ public class Processor implements Comparable<Processor> {
         startTime += comCost;
 
         processorBlockList.add(new ProcessorBlock(v, startTime));
-        boundCost = startTime + v.getBottomLevel();
+        boundCost = startTime + v.calculateBottomLevel();
         return boundCost;
     }
 
