@@ -2,39 +2,45 @@ package ForAlgorhithms;
 
 import Graph.Graph;
 
-import java.util.List;
+import java.util.Stack;
 
 public class DFS {
-    private State initState;
-    private List<Processor> procList;
-    private Processor proc1;
-    private Processor proc2;
+    private final int numP;
+    private Stack<State> stateStack;
+    Graph graph;
+    private int boundValue;
 
-    public void runDFS(Graph g1){
+    public DFS(int numProcessors, Graph g) {
+        graph = g;
+        stateStack = new Stack<State>();
+        numP = numProcessors;
 
-        System.out.println(g1);
-        System.out.println(g1.getVertex("a"));
-        System.out.println(g1.getVertex("a").getCost());
-        proc1 = new Processor();
-        proc2 = new Processor();
-
-        procList.add(proc1);
-        procList.add(proc2);
-
-
+        //Init state
+        stateStack.push(new State(numP, graph));
+        boundValue = Integer.MAX_VALUE;
+        ;
 
 
     }
 
-    //create processors
+    public State runDFS() {
+        State bestState = new State(numP, graph);
+        while (!stateStack.empty()) {
+            State state = stateStack.pop();
+            int currentBoundValue = boundValue;
+            if (state.currentCost < currentBoundValue) {
+                if (state.allVisited()) {
+                    boundValue = state.currentCost;
+                    bestState = state;
+                } else {
+                    for (State nextState : state.generatePossibilities()) {
+                        stateStack.push(nextState);
+                    }
+                }
+            }
 
-    /**
-     * Create processors
-     * empty in beginning
-     * add init value
-     */
-
-    private void createInitState() {
-
+        }
+        return bestState;
     }
+
 }

@@ -1,0 +1,9 @@
+/*
+
+* @startuml
+
+* car --|> wheel
+
+* @enduml
+
+*/
