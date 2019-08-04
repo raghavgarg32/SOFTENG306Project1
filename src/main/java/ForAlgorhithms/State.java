@@ -27,7 +27,7 @@ public class State {
         processors = new ArrayList<>();
         this.g = g;
         for (int i = 0; i < numProcessors; i++) {
-            processors.add(new Processor());
+            processors.add(new Processor(i));
         }
         toTraverse = new PriorityQueue<>(new VertexComparator());
         toTraverse.addAll(g.getRoots());

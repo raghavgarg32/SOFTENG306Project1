@@ -12,6 +12,17 @@ public class Vertex {
     int bottomLevel;
     int level;
 
+    // These variables are for output parsing ONLY they are not changed during the execution of the algorithm
+    int startTime;
+    int processorNo;
+
+    public void setStartTime(int startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setProcessorNo(int processorNo) {
+        this.processorNo = processorNo;
+    }
 
     public int getLevel() {
         return level;

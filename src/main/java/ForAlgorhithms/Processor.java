@@ -17,12 +17,14 @@ public class Processor implements Comparable<Processor> {
     Vertex startVertex;
     Graph g;
 
+    int processorNumber;
+
     int boundCost;
     int startCost;
 
-    Processor() {
+    Processor(int processorNumber) {
         processorBlockHashMap = new HashMap<String, Integer>();
-
+        this.processorNumber = processorNumber;
         processorBlockList = new ArrayList<>();
         startCost = 0;
         boundCost = 0;
@@ -175,4 +177,16 @@ public class Processor implements Comparable<Processor> {
     public String toString() {
         return processorBlockList.toString();
     }
+
+    public void outputFormat() {
+        for (int i =0; i < processorBlockList.size(); i++){
+            ProcessorBlock currentProcessorBlock = processorBlockList.get(i);
+            Vertex currentVertex = currentProcessorBlock.getV();
+            currentVertex.setStartTime(currentProcessorBlock.getStartTime());
+            currentVertex.setProcessorNo(processorNumber);
+        }
+
+    }
+
+
 }
