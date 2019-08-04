@@ -2,47 +2,52 @@ package ForAlgorhithms;
 
 import Graph.Graph;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.PriorityQueue;
 
 public class AStar {
     int minFullPath = Integer.MAX_VALUE;
     boolean traversed;
     PriorityQueue<State> candidate;
-    PriorityQueue<State> visited;
+    HashSet<String> visited;
     //PriorityQueue<State> states = new PriorityQueue<>();
 
     Graph graph;
 
-    public AStar(Graph graph) {
+    public AStar(int numProcessors, Graph graph) {
         candidate = new PriorityQueue<>(new AStarComparator());
-        visited = new PriorityQueue<>(new AStarComparator());
+        visited = new HashSet();
         this.graph = graph;
         traversed = false;
 
         //Todo implement state with root vertex;
-        candidate.add(new State(1,graph));
+        candidate.add(new State(numProcessors, graph));
     }
 
-//    public void runAlgorhithm() {
-//        while (!candidate.isEmpty()) {
-//            State s = candidate.poll();
-//            for (State s1 : s.generatePossibilities()) {
-//                if (s1.currentCost < minFullPath) {
-//                    candidate.add(s1);
-//                    if (s1.allVisited()) {
-//                        minFullPath = s1.currentCost;
-//                    }
-//                }
-//            }
-//
-//            for (State s2 : candidate) {
-//                if (s2.currentCost >= minFullPath) {
-//                    candidate.poll();
-//                }
-//            }
-//
-//        }
-//    }
+    public State runAlgorhithm() {
+        State result = null;
+        while (!candidate.isEmpty() && candidate.peek().costToBottomLevel <= minFullPath) {
+            State s = candidate.poll();
+            for (State s1 : s.generatePossibilities()) {
+                //TODO ensure toString creates a unique sorted schedule string
+                if (!visited.contains(s1)) {
+                    System.out.println(s1);
+                    if (s1.costToBottomLevel < minFullPath) {
+                        candidate.add(s1);
+                        if (s1.allVisited() && s1.costToBottomLevel < minFullPath) {
+                            minFullPath = s1.costToBottomLevel;
+                            result = s1;
+                        }
+                    }
+                    visited.add(s1.toString());
+
+                }
+            }
+
+        }
+        return result;
+    }
 
     //Todo implement this class.
     /*

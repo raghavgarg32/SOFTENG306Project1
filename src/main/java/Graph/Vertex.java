@@ -1,7 +1,6 @@
 package Graph;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Vertex {
@@ -14,9 +13,12 @@ public class Vertex {
     int level;
 
 
-
     public int getLevel() {
         return level;
+    }
+
+   public  boolean isRoot() {
+        return incomingEdges.size() == 0;
     }
 
     public Vertex(String id, int cost) {
@@ -42,10 +44,23 @@ public class Vertex {
         return incomingVerticies.contains(v);
     }
 
+    //TODO implement hashmap
+    public int getEdgeWeightFrom(Vertex v) {
+        int cost =-1;
+        for(Edge e:incomingEdges){
+            if(e.getFromVertex() == v){
+                cost = e.getSwitchCost();
+            }
+        }
+        return cost;
+    }
+
+    //todo SHould just be the below function
     public int getBottomLevel() {
         return bottomLevel;
     }
 
+    //TODO calculate bottom level. //DFS but prioritise most expensive
     public int calculateBottomLevel() {
 
         dfs(this);
@@ -87,7 +102,7 @@ public class Vertex {
     }
 
     public boolean canVisit(List<Vertex> vList) {
-        return incomingVerticies.containsAll(vList);
+        return vList.containsAll(incomingVerticies);
     }
 
 

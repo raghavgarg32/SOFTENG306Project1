@@ -1,6 +1,8 @@
 package Graph;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Graph {
@@ -29,11 +31,25 @@ public class Graph {
         return vertexHashMap.get(key);
     }
 
+    public List<Vertex> getRoots() {
+        List<Vertex> result = new ArrayList<>();
+        for (Vertex vertex : vertexHashMap.values()) {
+            if (vertex.isRoot()) {
+                result.add(vertex);
+            }
+        }
+        return result;
+    }
+
     public Edge getEdge(String key) {
         return edgeHashMap.get(key);
     }
 
     public int calculateBottomLevel() {
+        //for (Vertex v : vertexHashMap.values()) {
+          //  v.calculateBottomLevel();
+        //}
+        //return -1;
         Map.Entry<String,Vertex> entry = vertexHashMap.entrySet().iterator().next();
         // Get root vertex
         String key = entry.getKey();

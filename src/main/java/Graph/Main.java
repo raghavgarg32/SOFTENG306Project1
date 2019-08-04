@@ -1,6 +1,7 @@
 package Graph;
 
 import Files.DotParser;
+import ForAlgorhithms.AStar;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,6 +9,7 @@ import java.io.FileNotFoundException;
 public class Main {
 
     public static void main(String[] args) {
+      //  System.out.println(g);
 
         DotParser dp = new DotParser(new File("data/input.dot"));
         Graph g1 = null;
@@ -16,8 +18,9 @@ public class Main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-        System.out.println(g1);
+        System.out.println( new AStar(2,g1).runAlgorhithm());
+       // System.out.println(g1);
+        //System.out.println(g1.calculateBottomLevel());
 
     }
 
