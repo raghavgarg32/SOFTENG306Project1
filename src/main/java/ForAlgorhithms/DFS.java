@@ -2,6 +2,7 @@ package ForAlgorhithms;
 
 import Graph.Graph;
 
+import java.util.HashSet;
 import java.util.Stack;
 
 public class DFS {
@@ -18,7 +19,7 @@ public class DFS {
         //Init state
         stateStack.push(new State(numP, graph));
         boundValue = Integer.MAX_VALUE;
-        ;
+
 
 
     }
@@ -27,6 +28,9 @@ public class DFS {
         State bestState = new State(numP, graph);
         while (!stateStack.empty()) {
             State state = stateStack.pop();
+
+
+
             int currentBoundValue = boundValue;
             if (state.currentCost < currentBoundValue) {
                 if (state.allVisited()) {
@@ -34,6 +38,8 @@ public class DFS {
                     bestState = state;
                 } else {
                     for (State nextState : state.generatePossibilities()) {
+                        System.out.println(nextState);
+
                         stateStack.push(nextState);
                     }
                 }

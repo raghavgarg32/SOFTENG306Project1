@@ -107,14 +107,21 @@ public class State {
         // Set the new currentCost && current level
         result.currentLevel = currentLevel + 1;
 
+        int stateEndTime = 0;
+
         for (Processor p : result.processors) {
             if (p.boundCost > result.costToBottomLevel) {
                 //result.currentCost += v.getCost();
                 result.costToBottomLevel = p.boundCost;
             }
+
+            if (stateEndTime < p.getEndTime()){
+                stateEndTime = p.getEndTime();
+            }
+
         }
 
-        result.currentCost = result.costToBottomLevel + v.getCost();
+        result.currentCost = stateEndTime;
 
         // Update the toTraverseList with new vertexes to travers
         for (Edge e : v.getOutgoingEdges()) {
@@ -125,7 +132,7 @@ public class State {
         }
 
         // Required to check for duplicates later.
-        Collections.sort(result.processors);
+        //Collections.sort(result.processors);
         //System.out.println(result);
 
         return result;
@@ -146,6 +153,7 @@ public class State {
         //Generates a list of possible states to visit
         //TODO implement hashcode so the hashset actually functions as a hashset
         HashSet<State> possibleStates = new HashSet<>();
+        List<State> possibleStatesList = new ArrayList<>();
         if (!allVisited()) {
             List<Vertex> toAddList = new ArrayList<>();
             for (Vertex v : toTraverse) {
@@ -153,6 +161,7 @@ public class State {
                     toAddList.add(v);
                     for (int i = 0; i < processors.size(); i++) {
                         possibleStates.add(addVertex(i, v));
+                        possibleStatesList.add(addVertex(i, v));
                     }
                 }
             }
@@ -179,7 +188,7 @@ public class State {
     public String toString() {
 
         StringBuilder sb = new StringBuilder();
-        sb.append("\nCurrent Level: " + currentLevel + " Bottom Level: " + costToBottomLevel + " Current Cost: ");
+        sb.append("\nCurrent Level: " + currentLevel + " Bottom Level: " + costToBottomLevel + " Current Cost: " + currentCost);
         for (int i = 0; i < processors.size(); i++) {
             Processor p = processors.get(i);
             sb.append("\nProcessor " + i + ":" + p.toString());
