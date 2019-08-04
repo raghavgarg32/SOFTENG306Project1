@@ -1,6 +1,5 @@
 import Files.DotParser;
 import Graph.Graph;
-import Graph.GraphCreator;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,32 +10,20 @@ public class GraphTests {
 
     /**
      * This method is helps test different input files.
-     *
      * @param inputURL
      */
     private Graph createGraph(String inputURL) {
-        GraphCreator graphCreator = new GraphCreator("data/" + inputURL);
-        return graphCreator.createGraph();
-    }
 
-
-    /**
-     * This tests if the user created graph is the same as the library created one.
-     * TODO: Probably will remove this in the future.
-     */
-    @Test
-    public void testGraphCreation() {
-        Graph createdGraph = createGraph("input.dot");
-        DotParser dp = new DotParser(new File("data/input.dot"));
-        Graph calculatedGraph = null;
+        DotParser dp = new DotParser(new File("data/" + inputURL));
+        Graph g1 = null;
         try {
-            calculatedGraph = dp.parseGraph();
+            g1 = dp.parseGraph();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-        Assert.assertEquals(createdGraph.toString(), calculatedGraph.toString());
+        return g1;
     }
+
 
     /**
      * This tests if the calculation of the bottom level is correct with the default graph
@@ -44,11 +31,8 @@ public class GraphTests {
     @Test
     public void testCalculationOfBottomLevel() {
         Graph createdGraph = createGraph("input.dot");
-        createdGraph.calculateBottomLevel();
-        Assert.assertEquals(7, createdGraph.getVertex("a").getBottomLevel());
-        Assert.assertEquals(5, createdGraph.getVertex("b").getBottomLevel());
-        Assert.assertEquals(5, createdGraph.getVertex("c").getBottomLevel());
-        Assert.assertEquals(2, createdGraph.getVertex("d").getBottomLevel());
+        Assert.assertEquals(7,createdGraph.calculateBottomLevel());
+
     }
 
     /**
@@ -57,7 +41,7 @@ public class GraphTests {
     @Test
     public void testCalculationOfBottomLevelForSecondary() {
         Graph createdGraph = createGraph("input2.dot");
-        Assert.assertEquals(14, createdGraph.calculateBottomLevel());
+        Assert.assertEquals(14,createdGraph.calculateBottomLevel());
     }
 
     /**
@@ -66,6 +50,16 @@ public class GraphTests {
     @Test
     public void testCalculationOfBottomLevelForLinearGraph() {
         Graph createdGraph = createGraph("input3.dot");
-        Assert.assertEquals(10, createdGraph.calculateBottomLevel());
+        Assert.assertEquals(10,createdGraph.calculateBottomLevel());
+    }
+
+
+    /**
+     * This tests if the calculation of the bottom level is correct for a graph with a single node
+     */
+    @Test
+    public void testCalculationOfBottomLevelForSingleNode() {
+        Graph createdGraph = createGraph("singleNode.dot");
+        Assert.assertEquals(2,createdGraph.calculateBottomLevel());
     }
 }

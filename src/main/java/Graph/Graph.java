@@ -66,6 +66,6 @@ public class Graph {
 
     @Override
     public String toString() {
-        return vertexHashMap.toString();
+        return vertexHashMap.toString() + edgeHashMap.toString();
     }
 }

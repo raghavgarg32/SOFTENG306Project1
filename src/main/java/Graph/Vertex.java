@@ -27,6 +27,7 @@ public class Vertex {
         outgoingEdges = new ArrayList<>();
         incomingEdges = new ArrayList<>();
         incomingVerticies = new ArrayList<>();
+        bottomLevel = -1;
         findLevel();
     }
 
@@ -61,28 +62,37 @@ public class Vertex {
 
     //TODO calculate bottom level. //DFS but prioritise most expensive
     public int calculateBottomLevel() {
-        bottomLevel = -1;
-        dfs(this, 0);
+
+        dfs(this);
         return bottomLevel;
     }
 
 
-    private void dfs(Vertex currentVertex, int currentCost) {
-        currentCost = currentCost + currentVertex.cost;
-
-        if (currentVertex.outgoingEdges.size() == 0) {
-            if (currentCost > bottomLevel) {
-                bottomLevel = currentCost;
-                // System.out.println(bottomLevel);
-            }
-
+    private void dfs(Vertex currentVertex) {
+        // if the bottom level of the current vertex cannot be used to calculate the bottom level
+        if (currentVertex.outgoingEdges.size() == 0){
+            currentVertex.bottomLevel = currentVertex.cost;
         } else {
 
+            int highestBottomLevel = -1;
+
+            //check bottom level of all next vertices
             for (int i = 0; i < currentVertex.outgoingEdges.size(); i++) {
                 Vertex nextVertex = currentVertex.outgoingEdges.get(i).getToVertex();
-                dfs(nextVertex, currentCost);
+
+                //if next bottom level is uninitialised
+                if (nextVertex.bottomLevel == -1) {
+                    dfs(nextVertex);
+                }
+
+                //check if next vertex is largest bottom level so far
+                else if (nextVertex.bottomLevel > highestBottomLevel) {
+                    highestBottomLevel = nextVertex.bottomLevel;
+                }
 
             }
+
+            currentVertex.bottomLevel = currentVertex.cost + highestBottomLevel;
         }
     }
 
@@ -114,11 +124,12 @@ public class Vertex {
 
     @Override
     public String toString() {
-        return id;
+        String output = id + "\t[Weight=" + cost + "];";
+        return output;
     }
 
     @Override
     public boolean equals(Object obj) {
-        return id.equals(obj.toString());
+        return this.toString().equals(obj.toString());
     }
 }
