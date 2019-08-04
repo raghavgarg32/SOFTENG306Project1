@@ -11,89 +11,136 @@ import java.util.*;
  */
 public class State {
     List<Processor> processors;
-    // int currentCost;
+    int currentCost;
     int currentLevel;
     int costToBottomLevel;
     Graph g;
 
-    List<Vertex> visited;
-    PriorityQueue<Vertex> candidate;
+    List<Vertex> traversed;
+    PriorityQueue<Vertex> toTraverse;
+    int lastProcessorVertexAddedTo;
+    private int prevProcessNum = -1;
 
 
     public State(int numProcessors, Graph g) {
-        visited = new ArrayList<>();
+        traversed = new ArrayList<>();
         processors = new ArrayList<>();
         this.g = g;
         for (int i = 0; i < numProcessors; i++) {
             processors.add(new Processor());
         }
-        candidate = new PriorityQueue<>(new VertexComparator());
-        candidate.addAll(g.getRoots());
+        toTraverse = new PriorityQueue<>(new VertexComparator());
+        toTraverse.addAll(g.getRoots());
         currentLevel = 0;
-        costToBottomLevel = g.calculateBottomLevel();
+        costToBottomLevel = g.getGreatestCost();
+        currentCost = 0;
     }
 
     private State(State copyState) {
-        visited = new ArrayList<>();
-        visited.addAll(copyState.visited);
+        traversed = new ArrayList<>();
+        traversed.addAll(copyState.traversed);
         processors = new ArrayList<>();
         this.g = copyState.g;
         for (int i = 0; i < copyState.processors.size(); i++) {
             processors.add(new Processor(copyState.processors.get(i)));
         }
-        candidate = new PriorityQueue<>(new VertexComparator());
-        candidate.addAll(copyState.candidate);
+        toTraverse = new PriorityQueue<>(new VertexComparator());
+        toTraverse.addAll(copyState.toTraverse);
         currentLevel = copyState.currentLevel;
         costToBottomLevel = copyState.costToBottomLevel;
+
     }
 
-    private int calculateBottomLevel() {
-        for (int i = 1; i < processors.size(); i++) {
-            Processor prev = processors.get(i - 1);
-            Processor p = processors.get(i);
-            costToBottomLevel = Math.max(prev.boundCost, p.boundCost);
-        }
-        return costToBottomLevel;
-    }
+    public List<Vertex> getPrevVertices(Vertex v, List<Vertex> traversed){
+        List<Vertex> prevVertices = new ArrayList<>();
 
-    private boolean updateLists(Vertex v) {
-        visited.add(v);
-        candidate.remove(v);
-
-        for (Edge e : v.getOutgoingEdges()) {
-            Vertex toAdd = e.getToVertex();
-            if (!candidate.contains(toAdd) && !visited.contains(toAdd)) {
-                candidate.add(toAdd);
+        for (Vertex v1 : traversed) {
+            if (v.containsIncomingVertex(v1)) {
+                prevVertices.add(v1);
             }
         }
-        return true;
+        return prevVertices;
     }
 
     public State addVertex(int processorNum, Vertex v) {
-        //Update the current list of vertices
-        updateLists(v);
+        // Clone state then add the new vertex. Will also have to clone the processor list and processor block
+        // list within it -> reference disappears once u clone so must use int
+        State result = new State(this);
+        result.lastProcessorVertexAddedTo = processorNum;
+        result.traversed.add(v);
+        result.toTraverse.remove(v);
 
-        //ScheduleVertex //TODO refactor to schedule Task, Maybe call Vertex Task
-        processors.get(processorNum).addVertex(v, visited);
+        List<Vertex> prevVertices = getPrevVertices(v, traversed);
 
-        currentLevel++;
-        calculateBottomLevel();
+        //System.out.println(result.processors);
+
+
+
+        Vertex lastVertex;
+        int endTime= 0;
+        if (prevVertices.size() > 0 ){
+            lastVertex = prevVertices.get(prevVertices.size() - 1);
+            for (Processor processor : result.processors) {
+                //System.out.println("hash " + processor);
+                for (ProcessorBlock block : processor.processorBlockList) {
+                    if (block.getV() == lastVertex) {
+                        endTime = block.getEndTime();
+                    }
+
+                }
+            }
+            //System.out.println("end " + endTime);
+        }
+
+
+
+        List<ProcessorBlock> hasBlock = new ArrayList<>();
+        if (prevProcessNum != -1){
+            hasBlock = result.processors.get(prevProcessNum).processorBlockList;
+        }
+
+        //System.out.println(Arrays.toString(hasBlock.toArray()));
+        // Add the vertex to processor x, at the earliest possible time.
+        result.processors.get(processorNum).addVertex(v, result.traversed, endTime);
+
+        prevProcessNum = processorNum;
+        // Set the new currentCost && current level
+        result.currentLevel = currentLevel + 1;
+
+        for (Processor p : result.processors) {
+            if (p.boundCost > result.costToBottomLevel) {
+                //result.currentCost += v.getCost();
+                result.costToBottomLevel = p.boundCost;
+            }
+        }
+
+        result.currentCost = result.costToBottomLevel + v.getCost();
+
+
+        // Update the toTraverseList with new vertexes to travers
+        for (Edge e : v.getOutgoingEdges()) {
+            Vertex toAdd = e.getToVertex();
+            if (!result.toTraverse.contains(toAdd) && !result.traversed.contains(toAdd)) {
+                result.toTraverse.add(toAdd);
+            }
+        }
 
         // Required to check for duplicates later.
-        Collections.sort(processors);
+        Collections.sort(result.processors);
+        //System.out.println(result);
 
-        return this;
+        return result;
     }
 
     public boolean canVisit(Vertex v) {
         //Vertex / Edges to be update to have the from vertices f
         //TODO
-        return v.canVisit(visited);
+        return v.canVisit(traversed);
     }
 
     public boolean allVisited() {
         //Checks if any more vertexes exist to expand
-        return candidate.isEmpty();
+        return toTraverse.isEmpty();
     }
 
     public HashSet<State> generatePossibilities() {
@@ -101,18 +148,17 @@ public class State {
         //TODO implement hashcode so the hashset actually functions as a hashset
         HashSet<State> possibleStates = new HashSet<>();
         if (!allVisited()) {
-            List<Vertex> visited = new ArrayList<>();
-            for (Vertex v : candidate) {
+            List<Vertex> toAddList = new ArrayList<>();
+            for (Vertex v : toTraverse) {
                 if (canVisit(v)) {
-                    visited.add(v);
+                    toAddList.add(v);
                     for (int i = 0; i < processors.size(); i++) {
-                        State toAdd = new State(this);
-                        possibleStates.add(toAdd.addVertex(i, v));
+                        possibleStates.add(addVertex(i, v));
                     }
                 }
             }
-            candidate.addAll(visited);
-            candidate.removeAll(visited);
+            toTraverse.addAll(toAddList);
+            toTraverse.removeAll(toAddList);
         }
 
         return possibleStates;
@@ -134,11 +180,11 @@ public class State {
     public String toString() {
 
         StringBuilder sb = new StringBuilder();
-        sb.append("\nCurrent Level: " + currentLevel + " Bottom Level: " + costToBottomLevel);
+        sb.append("\nCurrent Level: " + currentLevel + " Bottom Level: " + costToBottomLevel + " Current Cost: ");
         for (int i = 0; i < processors.size(); i++) {
             Processor p = processors.get(i);
             sb.append("\nProcessor " + i + ":" + p.toString());
         }
-        return sb.toString() + "\nVerticies Left:" + candidate;
+        return sb.toString() + "\nVerticies Left:" + toTraverse;
     }
 }

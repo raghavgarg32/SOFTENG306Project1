@@ -37,6 +37,7 @@ public class AStar {
                         candidate.add(s1);
                         if (s1.allVisited() && s1.costToBottomLevel < minFullPath) {
                             minFullPath = s1.costToBottomLevel;
+                            result = s1;
                         }
                     }
                     visited.add(s1.toString());

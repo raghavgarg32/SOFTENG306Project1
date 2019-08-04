@@ -13,14 +13,14 @@ public class Main {
         Graph g = graphCreator.createGraph();
       //  System.out.println(g);
 
-        DotParser dp = new DotParser(new File("data/input2.dot"));
+        DotParser dp = new DotParser(new File("data/input.dot"));
         Graph g1 = null;
         try {
             g1 = dp.parseGraph();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        new AStar(2,g1).runAlgorhithm();
+        System.out.println( new AStar(2,g1).runAlgorhithm());
        // System.out.println(g1);
         //System.out.println(g1.calculateBottomLevel());
 
