@@ -6,46 +6,46 @@ import java.util.Stack;
 
 public class DFS {
     private final int numP;
-    private Stack<State> stateStack;
+    private Stack<Schedule> scheduleStack;
     Graph graph;
     private int boundValue;
 
     public DFS(int numProcessors, Graph g) {
         graph = g;
-        stateStack = new Stack<State>();
+        scheduleStack = new Stack<Schedule>();
         numP = numProcessors;
 
         //Init state
-        stateStack.push(new State(numP, graph));
+        scheduleStack.push(new Schedule(numP, graph));
         boundValue = Integer.MAX_VALUE;
 
 
 
     }
 
-    public State runDFS() {
-        State bestState = new State(numP, graph);
-        while (!stateStack.empty()) {
-            State state = stateStack.pop();
+    public Schedule runDFS() {
+        Schedule bestSchedule = new Schedule(numP, graph);
+        while (!scheduleStack.empty()) {
+            Schedule schedule = scheduleStack.pop();
 
 
 
             int currentBoundValue = boundValue;
-            if (state.currentCost < currentBoundValue) {
-                if (state.allVisited()) {
-                    boundValue = state.currentCost;
-                    bestState = state;
+            if (schedule.currentCost < currentBoundValue) {
+                if (schedule.allVisited()) {
+                    boundValue = schedule.currentCost;
+                    bestSchedule = schedule;
                 } else {
-                    for (State nextState : state.generatePossibilities()) {
-                        System.out.println(nextState);
+                    for (Schedule nextSchedule : schedule.generatePossibilities()) {
+                        System.out.println(nextSchedule);
 
-                        stateStack.push(nextState);
+                        scheduleStack.push(nextSchedule);
                     }
                 }
             }
 
         }
-        return bestState;
+        return bestSchedule;
     }
 
 }

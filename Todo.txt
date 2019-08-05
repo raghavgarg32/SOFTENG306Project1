@@ -22,8 +22,8 @@ Exceptions
     Not enough cores?
 
 Go over data objects
-    Implement a state object
-    Override algorhithm.State comparator - cost then node
+    Implement a schedule object
+    Override algorhithm.Schedule comparator - cost then node
 
 Interfaces
     Algorhithms
@@ -50,46 +50,46 @@ A* heuristic
 	The bottom level - time take on the longest processor
 	Always an underestimate
 	Enqueue initial<level,heuristic values/estimated cost values
-	For state 5,earliest start time is 4(2+2),   4+4 = 8
-	For state 6, earliest start time is 2(2) Bottom level is 5(2+3)
+	For schedule 5,earliest start time is 4(2+2),   4+4 = 8
+	For schedule 6, earliest start time is 2(2) Bottom level is 5(2+3)
 
 	1:14 The order 2 should be 6 and 5 and 3 and 4 and 7
 	Now the fix/six will be level 2 and 7. and 5 will be level 2 and it will be 8 and 3 will be 
 	1:15 wtf is he saying and a ntoher will be 3 and another should be 5
 	now its 1,7 2,8 and its 4, its 5 adn this is level 2
 
-	For state 16, earliest execution time for b is 5, and the bottom level will be 4 and for the state 17, the earliest start time is 4 for 4 and the bottom level is 4 so its 8
+	For schedule 16, earliest execution time for b is 5, and the bottom level will be 4 and for the schedule 17, the earliest start time is 4 for 4 and the bottom level is 4 so its 8
 
 	SO the priority queue will be 7 
 
 	We considered 8 here, with heauristics 8 but lower level
 	17, 4,5,5,7,16,level 3 its 9
 
-	state 3 morphs into 8,9,10,11
+	schedule 3 morphs into 8,9,10,11
 	3 will be removed then it becomes 17,16 and then 2,3,4,6
 
-	state 8 level 2 execution of b earliest start time is 4 cause diff processor with respect to a . Bottom level of b will be 4
+	schedule 8 level 2 execution of b earliest start time is 4 cause diff processor with respect to a . Bottom level of b will be 4
 
-	algorhithm.State 9 earliest start time is 2. Bottom level of b is 4 so it will be 6
+	algorhithm.Schedule 9 earliest start time is 2. Bottom level of b is 4 so it will be 6
 
-	algorhithm.State 10 easrliest start time is 3, bottom level of c is 5 so it will be 8
+	algorhithm.Schedule 10 easrliest start time is 3, bottom level of c is 5 so it will be 8
 
-	state 11 : earliset start time is 2 plus 5 is 7
+	schedule 11 : earliset start time is 2 plus 5 is 7
 
-	state 16 will still be the head.
+	schedule 16 will still be the head.
 
-	3 8 head is actually state 9 then 17,3,8,11,2,7,and 
+	3 8 head is actually schedule 9 then 17,3,8,11,2,7,and
 	11, 2, 7 ,8 ,17, 
 	all of them are now 8
 	with level 2
 	and then the 16 here
 
-	algorhithm.State 22 earliest execution time is 3. 3 plus execution of c is 6. Bottom level of c is 5 .
-	algorhithm.State 23 earliest execution time is 4. bottom level of c is 5. THere will be nine/line
+	algorhithm.Schedule 22 earliest execution time is 3. 3 plus execution of c is 6. Bottom level of c is 5 .
+	algorhithm.Schedule 23 earliest execution time is 4. bottom level of c is 5. THere will be nine/line
 
-	algorhithm.State 26: Bottom level of b will be 4, earliest execution time is  8
+	algorhithm.Schedule 26: Bottom level of b will be 4, earliest execution time is  8
 
-	algorhithm.State 27: earliest execution time will be 5  + 4 = 9( Bottom level??)
+	algorhithm.Schedule 27: earliest execution time will be 5  + 4 = 9( Bottom level??)
 
 	17/22/27
 

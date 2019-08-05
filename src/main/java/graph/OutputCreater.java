@@ -1,14 +1,14 @@
 package graph;
 
-import algorhithm.State;
+import algorhithm.Schedule;
 
 public class OutputCreater {
 
-    public void displayOutputOnConsole(State state) {
+    public void displayOutputOnConsole(Schedule schedule) {
 
     }
 
-    public void createOutputFile(State state) {
+    public void createOutputFile(Schedule schedule) {
 
     }
 

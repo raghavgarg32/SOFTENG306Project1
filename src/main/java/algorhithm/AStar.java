@@ -8,7 +8,7 @@ import java.util.PriorityQueue;
 public class AStar {
     int minFullPath = Integer.MAX_VALUE;
     boolean traversed;
-    PriorityQueue<State> candidate;
+    PriorityQueue<Schedule> candidate;
     HashSet<String> visited;
     //PriorityQueue<State> states = new PriorityQueue<>();
 
@@ -21,14 +21,14 @@ public class AStar {
         traversed = false;
 
         //Todo implement state with root vertex;
-        candidate.add(new State(numProcessors, graph));
+        candidate.add(new Schedule(numProcessors, graph));
     }
 
-    public State runAlgorhithm() {
-        State result = null;
+    public Schedule runAlgorhithm() {
+        Schedule result = null;
         while (!candidate.isEmpty() && candidate.peek().costToBottomLevel <= minFullPath) {
-            State s = candidate.poll();
-            for (State s1 : s.generatePossibilities()) {
+            Schedule s = candidate.poll();
+            for (Schedule s1 : s.generatePossibilities()) {
                 //TODO ensure toString creates a unique sorted schedule string
                 if (!visited.contains(s1)) {
                     System.out.println(s1);
