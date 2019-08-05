@@ -162,6 +162,14 @@ public class Processor implements Comparable<Processor> {
         return result;
     }
 
+    public int getEndTime(){
+        if (processorBlockList.size() > 0){
+            return processorBlockList.get(processorBlockList.size() - 1).getEndTime();
+        }
+        return 0;
+
+    }
+
     @Override
     public boolean equals(Object o) {
         Processor p = (Processor) o;
