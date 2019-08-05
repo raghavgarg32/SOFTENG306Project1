@@ -133,6 +133,11 @@ public class Vertex {
         return outgoingEdges;
     }
 
+    public String toStringSolution() {
+        String output = id + "\t[Weight=" + cost + ",Start=" + startTime + ",Processor=" + processorNo +"];";
+        return output;
+    }
+
     @Override
     public String toString() {
         String output = id + "\t[Weight=" + cost + "];";

@@ -29,8 +29,8 @@ public class Processor implements Comparable<Processor> {
         boundCost = 0;
     }
 
-    public Processor(Processor toCopy) {
-
+    public Processor(Processor toCopy, int processorNumber) {
+        this.processorNumber = processorNumber;
         processorBlockList = new ArrayList<>();
         processorBlockHashMap = new HashMap<String, Integer>();
         startCost = toCopy.startCost;

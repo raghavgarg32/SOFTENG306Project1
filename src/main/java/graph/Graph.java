@@ -19,6 +19,10 @@ public class Graph {
         greatestCost = Integer.MIN_VALUE;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void addVertex(String key, Vertex vertex) {
         vertexHashMap.put(key, vertex);
     }
@@ -29,6 +33,14 @@ public class Graph {
 
     public Vertex getVertex(String key) {
         return vertexHashMap.get(key);
+    }
+
+    public HashMap<String, Edge> getEdgeHashMap() {
+        return edgeHashMap;
+    }
+
+    public HashMap<String, Vertex> getVertexHashMap() {
+        return vertexHashMap;
     }
 
     public List<Vertex> getRoots() {
