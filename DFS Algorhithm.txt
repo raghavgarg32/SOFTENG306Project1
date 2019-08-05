@@ -10,7 +10,7 @@ While the priorityQueue is not empty:
         Add the possibilities onto the priority queue
     Pop off the priority queue
 
-    if current is full schedule and cheaper than minFullPath:
+    if current is full state and cheaper than minFullPath:
         replace minFullPath
 
         For all states in priority queue:

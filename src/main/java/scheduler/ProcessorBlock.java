@@ -1,4 +1,4 @@
-package algorhithm;
+package scheduler;
 
 import graph.Vertex;
 

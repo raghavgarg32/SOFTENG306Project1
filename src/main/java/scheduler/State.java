@@ -1,20 +1,33 @@
-package algorhithm;
+package scheduler;
 
 import graph.Graph;
 import graph.Vertex;
 import graph.Edge;
+import graph.VertexComparator;
 
 import java.util.*;
 
 /**
  * Class to represent a schedule
  */
-public class Schedule {
+public class State {
     List<Processor> processors;
     int currentCost;
     int currentLevel;
     int costToBottomLevel;
     Graph g;
+
+    public int getCurrentCost() {
+        return currentCost;
+    }
+
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public int getCostToBottomLevel() {
+        return costToBottomLevel;
+    }
 
     List<Vertex> traversed;
     PriorityQueue<Vertex> toTraverse;
@@ -22,7 +35,7 @@ public class Schedule {
     private int prevProcessNum = -1;
 
 
-    public Schedule(int numProcessors, Graph g) {
+    public State(int numProcessors, Graph g) {
         traversed = new ArrayList<>();
         processors = new ArrayList<>();
         this.g = g;
@@ -36,18 +49,18 @@ public class Schedule {
         currentCost = 0;
     }
 
-    private Schedule(Schedule copySchedule) {
+    private State(State copyState) {
         traversed = new ArrayList<>();
-        traversed.addAll(copySchedule.traversed);
+        traversed.addAll(copyState.traversed);
         processors = new ArrayList<>();
-        this.g = copySchedule.g;
-        for (int i = 0; i < copySchedule.processors.size(); i++) {
-            processors.add(new Processor(copySchedule.processors.get(i)));
+        this.g = copyState.g;
+        for (int i = 0; i < copyState.processors.size(); i++) {
+            processors.add(new Processor(copyState.processors.get(i)));
         }
         toTraverse = new PriorityQueue<>(new VertexComparator());
-        toTraverse.addAll(copySchedule.toTraverse);
-        currentLevel = copySchedule.currentLevel;
-        costToBottomLevel = copySchedule.costToBottomLevel;
+        toTraverse.addAll(copyState.toTraverse);
+        currentLevel = copyState.currentLevel;
+        costToBottomLevel = copyState.costToBottomLevel;
 
     }
 
@@ -62,7 +75,7 @@ public class Schedule {
         return prevVertices;
     }
 
-    public Schedule addVertex(int processorNum, Vertex v) {
+    public State addVertex(int processorNum, Vertex v) {
         // Clone state then add the new vertex. Will also have to clone the processor list and processor block
         // list within it -> reference disappears once u clone so must use int
         lastProcessorVertexAddedTo = processorNum;
@@ -146,20 +159,20 @@ public class Schedule {
         return toTraverse.isEmpty();
     }
 
-    public HashSet<Schedule> generatePossibilities() {
+    public HashSet<State> generatePossibilities() {
         //Generates a list of possible states to visit
         //TODO implement hashcode so the hashset actually functions as a hashset
-        HashSet<Schedule> possibleSchedules = new HashSet<>();
-        List<Schedule> possibleStatesList = new ArrayList<>();
+        HashSet<State> possibleStates = new HashSet<>();
+        List<State> possibleStatesList = new ArrayList<>();
         if (!allVisited()) {
             List<Vertex> toAddList = new ArrayList<>();
             for (Vertex v : toTraverse) {
                 if (canVisit(v)) {
                     toAddList.add(v);
                     for (int i = 0; i < processors.size(); i++) {
-                        Schedule copy = new Schedule(this);
+                        State copy = new State(this);
                         copy.addVertex(i, v);
-                        possibleSchedules.add(copy);
+                        possibleStates.add(copy);
                         possibleStatesList.add(copy);
                     }
                 }
@@ -168,7 +181,7 @@ public class Schedule {
             toTraverse.removeAll(toAddList);
         }
 
-        return possibleSchedules;
+        return possibleStates;
 
     }
 

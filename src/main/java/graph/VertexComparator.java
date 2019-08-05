@@ -1,4 +1,4 @@
-package algorhithm;
+package graph;
 
 import graph.Vertex;
 

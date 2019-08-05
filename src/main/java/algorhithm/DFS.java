@@ -1,51 +1,52 @@
 package algorhithm;
 
 import graph.Graph;
+import scheduler.State;
 
 import java.util.Stack;
 
 public class DFS {
     private final int numP;
-    private Stack<Schedule> scheduleStack;
+    private Stack<State> stateStack;
     Graph graph;
     private int boundValue;
 
     public DFS(int numProcessors, Graph g) {
         graph = g;
-        scheduleStack = new Stack<Schedule>();
+        stateStack = new Stack<State>();
         numP = numProcessors;
 
         //Init state
-        scheduleStack.push(new Schedule(numP, graph));
+        stateStack.push(new State(numP, graph));
         boundValue = Integer.MAX_VALUE;
 
 
 
     }
 
-    public Schedule runDFS() {
-        Schedule bestSchedule = new Schedule(numP, graph);
-        while (!scheduleStack.empty()) {
-            Schedule schedule = scheduleStack.pop();
+    public State runDFS() {
+        State bestState = new State(numP, graph);
+        while (!stateStack.empty()) {
+            State state = stateStack.pop();
 
 
 
             int currentBoundValue = boundValue;
-            if (schedule.currentCost < currentBoundValue) {
-                if (schedule.allVisited()) {
-                    boundValue = schedule.currentCost;
-                    bestSchedule = schedule;
+            if (state.getCurrentCost() < currentBoundValue) {
+                if (state.allVisited()) {
+                    boundValue = state.getCurrentCost();
+                    bestState = state;
                 } else {
-                    for (Schedule nextSchedule : schedule.generatePossibilities()) {
-                        System.out.println(nextSchedule);
+                    for (State nextState : state.generatePossibilities()) {
+                        System.out.println(nextState);
 
-                        scheduleStack.push(nextSchedule);
+                        stateStack.push(nextState);
                     }
                 }
             }
 
         }
-        return bestSchedule;
+        return bestState;
     }
 
 }

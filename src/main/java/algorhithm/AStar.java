@@ -1,6 +1,8 @@
 package algorhithm;
 
 import graph.Graph;
+import scheduler.AStarComparator;
+import scheduler.State;
 
 import java.util.HashSet;
 import java.util.PriorityQueue;
@@ -8,7 +10,7 @@ import java.util.PriorityQueue;
 public class AStar {
     int minFullPath = Integer.MAX_VALUE;
     boolean traversed;
-    PriorityQueue<Schedule> candidate;
+    PriorityQueue<State> candidate;
     HashSet<String> visited;
     //PriorityQueue<State> states = new PriorityQueue<>();
 
@@ -21,21 +23,21 @@ public class AStar {
         traversed = false;
 
         //Todo implement state with root vertex;
-        candidate.add(new Schedule(numProcessors, graph));
+        candidate.add(new State(numProcessors, graph));
     }
 
-    public Schedule runAlgorhithm() {
-        Schedule result = null;
-        while (!candidate.isEmpty() && candidate.peek().costToBottomLevel <= minFullPath) {
-            Schedule s = candidate.poll();
-            for (Schedule s1 : s.generatePossibilities()) {
+    public State runAlgorhithm() {
+        State result = null;
+        while (!candidate.isEmpty() && candidate.peek().getCostToBottomLevel() <= minFullPath) {
+            State s = candidate.poll();
+            for (State s1 : s.generatePossibilities()) {
                 //TODO ensure toString creates a unique sorted schedule string
                 if (!visited.contains(s1)) {
                     System.out.println(s1);
-                    if (s1.costToBottomLevel < minFullPath) {
+                    if (s1.getCostToBottomLevel() < minFullPath) {
                         candidate.add(s1);
-                        if (s1.allVisited() && s1.costToBottomLevel < minFullPath) {
-                            minFullPath = s1.costToBottomLevel;
+                        if (s1.allVisited() && s1.getCostToBottomLevel() < minFullPath) {
+                            minFullPath = s1.getCostToBottomLevel();
                             result = s1;
                         }
                     }
