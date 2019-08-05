@@ -1,7 +1,7 @@
-package Graph;
-
-import Files.DotParser;
-import ForAlgorhithms.AStar;
+import algorhithm.DFS;
+import files.DotParser;
+import algorhithm.AStar;
+import graph.Graph;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,8 +23,6 @@ public class Main {
         //System.out.println(g1.calculateBottomLevel());
 
     }
-
-
 
 }
 

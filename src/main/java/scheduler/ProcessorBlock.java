@@ -1,6 +1,6 @@
-package ForAlgorhithms;
+package scheduler;
 
-import Graph.Vertex;
+import graph.Vertex;
 
 /**
  * Class to represent the time used on a processor

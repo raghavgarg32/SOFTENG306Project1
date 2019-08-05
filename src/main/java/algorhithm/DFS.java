@@ -1,8 +1,8 @@
-package ForAlgorhithms;
+package algorhithm;
 
-import Graph.Graph;
+import graph.Graph;
+import scheduler.State;
 
-import java.util.HashSet;
 import java.util.Stack;
 
 public class DFS {
@@ -32,9 +32,9 @@ public class DFS {
 
 
             int currentBoundValue = boundValue;
-            if (state.currentCost < currentBoundValue) {
+            if (state.getCurrentCost() < currentBoundValue) {
                 if (state.allVisited()) {
-                    boundValue = state.currentCost;
+                    boundValue = state.getCurrentCost();
                     bestState = state;
                 } else {
                     for (State nextState : state.generatePossibilities()) {

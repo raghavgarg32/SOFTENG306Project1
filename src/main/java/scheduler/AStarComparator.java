@@ -1,4 +1,4 @@
-package ForAlgorhithms;
+package scheduler;
 
 import java.util.Comparator;
 

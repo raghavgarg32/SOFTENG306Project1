@@ -1,6 +1,6 @@
-package Files;
+package files;
 
-import Graph.Graph;
+import graph.Graph;
 import com.paypal.digraph.parser.GraphEdge;
 import com.paypal.digraph.parser.GraphNode;
 import com.paypal.digraph.parser.GraphParser;
@@ -9,9 +9,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import Graph.Vertex;
-import Graph.Edge;
-import Graph.Graph;
+import graph.Vertex;
+import graph.Edge;
 
 public class DotParser {
     File f;

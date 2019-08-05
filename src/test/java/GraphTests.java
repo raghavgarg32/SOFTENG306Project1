@@ -1,5 +1,5 @@
-import Files.DotParser;
-import Graph.Graph;
+import files.DotParser;
+import graph.Graph;
 import org.junit.Assert;
 import org.junit.Test;
 

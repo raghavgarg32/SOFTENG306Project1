@@ -1,8 +1,9 @@
-package ForAlgorhithms;
+package algorhithm;
 
-import Graph.Graph;
+import graph.Graph;
+import scheduler.AStarComparator;
+import scheduler.State;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
@@ -27,16 +28,16 @@ public class AStar {
 
     public State runAlgorhithm() {
         State result = null;
-        while (!candidate.isEmpty() && candidate.peek().costToBottomLevel <= minFullPath) {
+        while (!candidate.isEmpty() && candidate.peek().getCostToBottomLevel() <= minFullPath) {
             State s = candidate.poll();
             for (State s1 : s.generatePossibilities()) {
                 //TODO ensure toString creates a unique sorted schedule string
                 if (!visited.contains(s1)) {
                     System.out.println(s1);
-                    if (s1.costToBottomLevel < minFullPath) {
+                    if (s1.getCostToBottomLevel() < minFullPath) {
                         candidate.add(s1);
-                        if (s1.allVisited() && s1.costToBottomLevel < minFullPath) {
-                            minFullPath = s1.costToBottomLevel;
+                        if (s1.allVisited() && s1.getCostToBottomLevel() < minFullPath) {
+                            minFullPath = s1.getCostToBottomLevel();
                             result = s1;
                         }
                     }

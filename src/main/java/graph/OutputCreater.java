@@ -1,6 +1,6 @@
-package Graph;
+package graph;
 
-import ForAlgorhithms.State;
+import scheduler.State;
 
 public class OutputCreater {
 

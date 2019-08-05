@@ -12,7 +12,7 @@ A. Keep Track of past states which are the same
     1,a,2,c,3,b => a,b,c
     Get alias function? -> two things of the same node type. cost, switch time and
 A. Multi-thread every child branch
-A. Generate Possibilities/ Set up schedule Object
+A. Generate Possibilities/ Set up state Object
 A. Implement A*
 A. Visualisation
 
@@ -23,7 +23,7 @@ Exceptions
 
 Go over data objects
     Implement a state object
-    Override ForAlgorhithms.State comparator - cost then node
+    Override scheduler.State comparator - cost then node
 
 Interfaces
     Algorhithms
@@ -70,26 +70,26 @@ A* heuristic
 
 	state 8 level 2 execution of b earliest start time is 4 cause diff processor with respect to a . Bottom level of b will be 4
 
-	ForAlgorhithms.State 9 earliest start time is 2. Bottom level of b is 4 so it will be 6
+	scheduler.State 9 earliest start time is 2. Bottom level of b is 4 so it will be 6
 
-	ForAlgorhithms.State 10 easrliest start time is 3, bottom level of c is 5 so it will be 8
+	scheduler.State 10 easrliest start time is 3, bottom level of c is 5 so it will be 8
 
 	state 11 : earliset start time is 2 plus 5 is 7
 
 	state 16 will still be the head.
 
-	3 8 head is actually state 9 then 17,3,8,11,2,7,and 
+	3 8 head is actually state 9 then 17,3,8,11,2,7,and
 	11, 2, 7 ,8 ,17, 
 	all of them are now 8
 	with level 2
 	and then the 16 here
 
-	ForAlgorhithms.State 22 earliest execution time is 3. 3 plus execution of c is 6. Bottom level of c is 5 .
-	ForAlgorhithms.State 23 earliest execution time is 4. bottom level of c is 5. THere will be nine/line
+	scheduler.State 22 earliest execution time is 3. 3 plus execution of c is 6. Bottom level of c is 5 .
+	scheduler.State 23 earliest execution time is 4. bottom level of c is 5. THere will be nine/line
 
-	ForAlgorhithms.State 26: Bottom level of b will be 4, earliest execution time is  8
+	scheduler.State 26: Bottom level of b will be 4, earliest execution time is  8
 
-	ForAlgorhithms.State 27: earliest execution time will be 5  + 4 = 9( Bottom level??)
+	scheduler.State 27: earliest execution time will be 5  + 4 = 9( Bottom level??)
 
 	17/22/27
 

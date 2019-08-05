@@ -1,6 +1,6 @@
-package ForAlgorhithms;
+package graph;
 
-import Graph.Vertex;
+import graph.Vertex;
 
 import java.util.Comparator;
 
