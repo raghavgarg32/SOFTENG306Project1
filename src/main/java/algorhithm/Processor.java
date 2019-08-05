@@ -1,10 +1,9 @@
-package ForAlgorhithms;
+package algorhithm;
 
-import Graph.Graph;
-import Graph.Vertex;
+import graph.Graph;
+import graph.Vertex;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 

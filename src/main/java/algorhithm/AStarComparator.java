@@ -1,4 +1,4 @@
-package ForAlgorhithms;
+package algorhithm;
 
 import java.util.Comparator;
 

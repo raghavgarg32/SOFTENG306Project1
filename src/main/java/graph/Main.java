@@ -1,7 +1,7 @@
-package Graph;
+package graph;
 
-import Files.DotParser;
-import ForAlgorhithms.AStar;
+import files.DotParser;
+import algorhithm.AStar;
 
 import java.io.File;
 import java.io.FileNotFoundException;

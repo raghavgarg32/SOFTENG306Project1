@@ -1,8 +1,7 @@
-package ForAlgorhithms;
+package algorhithm;
 
-import Graph.Graph;
+import graph.Graph;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 

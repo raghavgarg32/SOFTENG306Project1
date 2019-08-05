@@ -1,8 +1,8 @@
-package ForAlgorhithms;
+package algorhithm;
 
-import Graph.Graph;
-import Graph.Vertex;
-import Graph.Edge;
+import graph.Graph;
+import graph.Vertex;
+import graph.Edge;
 
 import java.util.*;
 
