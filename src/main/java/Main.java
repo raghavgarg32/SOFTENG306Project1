@@ -1,7 +1,7 @@
 import files.DotParser;
 import algorhithm.AStar;
 import graph.Graph;
-import graph.OutputCreator;
+import files.OutputCreator;
 import scheduler.State;
 
 import java.io.File;

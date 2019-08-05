@@ -1,5 +1,8 @@
-package graph;
+package files;
 
+import graph.Edge;
+import graph.Graph;
+import graph.Vertex;
 import scheduler.State;
 
 import java.util.HashMap;
