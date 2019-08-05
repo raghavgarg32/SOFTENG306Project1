@@ -1,7 +1,8 @@
-import algorhithm.DFS;
 import files.DotParser;
 import algorhithm.AStar;
 import graph.Graph;
+import graph.OutputCreator;
+import scheduler.State;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,9 +19,12 @@ public class Main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        System.out.println( new AStar(2,g1).runAlgorhithm());
-       // System.out.println(g1);
-        //System.out.println(g1.calculateBottomLevel());
+        State solution = new AStar(2,g1).runAlgorhithm();
+
+        //System.out.println(solution);
+        OutputCreator out = new OutputCreator(solution);
+        out.displayOutputOnConsole();
+
 
     }
 
