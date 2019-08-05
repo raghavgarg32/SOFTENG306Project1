@@ -5,10 +5,15 @@ import graph.Graph;
 import graph.Vertex;
 import scheduler.State;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * This class is used for creating the output file in the same structure outlined within the brief
+ */
 public class OutputCreator {
 
     private State state;
@@ -20,14 +25,32 @@ public class OutputCreator {
         graph = state.getG();
     }
 
+    /**
+     * Displays output string on the console
+     */
     public void displayOutputOnConsole() {
         System.out.println(constructOutputLine());
     }
 
-    public void createOutputFile(String fileLocation) {
+    /**
+     * Creates a file within the /data/ directory for output
+     * @param name
+     */
+    public void createOutputFile(String name) {
+        String filePath = "data/" + name + ".dot";
+        String output = constructOutputLine();
+        try (PrintWriter out = new PrintWriter(filePath)) {
+            out.println(output);
+        } catch (FileNotFoundException fnfe){
+            fnfe.printStackTrace();
+        }
 
     }
 
+    /**
+     * Constructs a string for the output with the same structure as that which is in the brief
+     * @return String which represents the constructed output
+     */
     private String constructOutputLine() {
         HashMap<String, Vertex> vertices = graph.getVertexHashMap();
         HashMap<String, Edge> edges = graph.getEdgeHashMap();
