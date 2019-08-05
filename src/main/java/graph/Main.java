@@ -1,5 +1,6 @@
 package graph;
 
+import algorhithm.DFS;
 import files.DotParser;
 import algorhithm.AStar;
 
@@ -18,7 +19,7 @@ public class Main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        System.out.println( new AStar(2,g1).runAlgorhithm());
+        System.out.println( new DFS(2,g1).runDFS());
        // System.out.println(g1);
         //System.out.println(g1.calculateBottomLevel());
 
