@@ -55,7 +55,7 @@ public class State {
         processors = new ArrayList<>();
         this.g = copyState.g;
         for (int i = 0; i < copyState.processors.size(); i++) {
-            processors.add(new Processor(copyState.processors.get(i)));
+            processors.add(new Processor(copyState.processors.get(i), i));
         }
         toTraverse = new PriorityQueue<>(new VertexComparator());
         toTraverse.addAll(copyState.toTraverse);
@@ -206,5 +206,11 @@ public class State {
             sb.append("\nProcessor " + i + ":" + p.toString());
         }
         return sb.toString() + "\nVerticies Left:" + toTraverse;
+    }
+
+    public void outputFormat(){
+        for (Processor p : processors){
+            p.outputFormat();
+        }
     }
 }
