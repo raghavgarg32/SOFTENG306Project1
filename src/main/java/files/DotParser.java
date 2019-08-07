@@ -12,6 +12,8 @@ import java.io.FileNotFoundException;
 import graph.Vertex;
 import graph.Edge;
 
+//TODO: Should probably make this a single ton. We're creating a graph each time this is called,
+// when we should just run it once- Brian
 public class DotParser {
     File f;
 

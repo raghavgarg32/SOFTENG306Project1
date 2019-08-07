@@ -13,4 +13,7 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'com.paypal.digraph', name: 'digraph-parser', version: '1.0'
+    compile group: 'org.graphstream', name: 'gs-ui', version: '1.3'
+
+
 }
