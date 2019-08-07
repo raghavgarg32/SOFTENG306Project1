@@ -38,8 +38,6 @@ public class DFS {
                     bestState = state;
                 } else {
                     for (State nextState : state.generatePossibilities()) {
-                        System.out.println(nextState);
-
                         stateStack.push(nextState);
                     }
                 }

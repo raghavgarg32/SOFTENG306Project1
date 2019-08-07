@@ -1,3 +1,4 @@
+import algorhithm.DFS;
 import files.DotParser;
 import algorhithm.AStar;
 import graph.Graph;
@@ -19,9 +20,12 @@ public class Main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        State solution = new AStar(2,g1).runAlgorhithm();
+        //State solution = new AStar(2,g1).runAlgorhithm();
 
-        //System.out.println(solution);
+       State solution = new DFS(2,g1).runDFS();
+
+
+        System.out.println(solution);
         OutputCreator out = new OutputCreator(solution);
         out.displayOutputOnConsole();
 

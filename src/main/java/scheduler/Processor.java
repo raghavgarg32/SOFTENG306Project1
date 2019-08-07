@@ -2,6 +2,7 @@ package scheduler;
 
 import graph.Graph;
 import graph.Vertex;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,86 +60,63 @@ public class Processor implements Comparable<Processor> {
         return false;
     }
 
+    public Pair<Vertex,Integer> getLatestPreVertices(List<Vertex> prevVertices, HashMap<Vertex, Integer> prevVertexEndTimeHashMap) {
+        Vertex latestPrevVertex = prevVertices.get(prevVertices.size() - 1);
+        int latestPrevVertexEndTime = prevVertexEndTimeHashMap.get(latestPrevVertex);
+        for (Vertex vertex : prevVertices){
+            if (latestPrevVertexEndTime < prevVertexEndTimeHashMap.get(vertex)){
+                latestPrevVertex = vertex;
+                latestPrevVertexEndTime = prevVertexEndTimeHashMap.get(vertex);
+            }
+        }
 
-    public int addVertex(Vertex v, List<Vertex> traversed, int prevEndTime) {
+        Pair<Vertex, Integer> latestPrevVertAndEndTime = new Pair<>(latestPrevVertex,latestPrevVertexEndTime);
+
+        return latestPrevVertAndEndTime;
+
+    }
+
+    public int addVertex(Vertex v, List<Vertex> traversed, HashMap<Vertex, Integer> prevVertexEndTimeHashMap) {
         int startTime = 0;
         if (processorBlockList.size() != 0) {
             ProcessorBlock lastProcessorBlock = processorBlockList.get(processorBlockList.size() - 1);
             startTime = lastProcessorBlock.getEndTime();
         }
 
-        Vertex lastVertex = null;
         List<Vertex> prevVertices = getPrevVertices(v, traversed);
-        if (prevVertices.size() > 0 ){
-            lastVertex = prevVertices.get(prevVertices.size() - 1);
-            //System.out.println("prev " + lastVertex);
+        if (prevVertices.size() > 0){
 
-        }
+            Pair<Vertex, Integer> latestPrevVertAndEndTime = getLatestPreVertices(prevVertices,prevVertexEndTimeHashMap);
 
-        int costTillNow;
+            Vertex latestPrevVertex = latestPrevVertAndEndTime.getKey();
+            int latestPrevVertexEndTime = latestPrevVertAndEndTime.getValue();
 
-        if (lastVertex != null){
-            costTillNow = processorBlockHashMap.get(lastVertex.getId());
-            //System.out.println("cost " + costTillNow);
+            if (traversed.size() > 1 ){
+                if (isVertexInProcessor(latestPrevVertex)) {
+                    if (processorBlockList.size() > 0) {
+                        ProcessorBlock lastProcessorBlock = processorBlockList.get(processorBlockList.size() - 1);
+                        startTime = latestPrevVertexEndTime;
+                        if (lastProcessorBlock.getEndTime() > startTime) {
+                            startTime = lastProcessorBlock.getEndTime();
+                        }
+                    }
 
-        }
-
-
-        int comCost = 0;
-
-        Boolean isOnDiffProcessor = true;
-        if (traversed.size() > 1 && processorBlockList.size() == 0) {
-
-            costTillNow = prevEndTime;
-            //System.out.println("cost " + costTillNow);
-            comCost = v.getEdgeWeightFrom(lastVertex);
-            startTime = costTillNow + comCost;
-        } else if (traversed.size() > 1 && processorBlockList.size() > 0){
-            if (!isVertexInProcessor(traversed.get(traversed.size() - 2))) {
-                costTillNow = prevEndTime;
-                comCost = v.getEdgeWeightFrom(lastVertex);
-                startTime = costTillNow + comCost;
-                //System.out.println("cost " + costTillNow);
+                } else if (!isVertexInProcessor(latestPrevVertex)){
+                    int comCost = v.getEdgeWeightFrom(latestPrevVertex);
+                    startTime = latestPrevVertexEndTime + comCost;
+                    if (processorBlockList.size() > 0) {
+                        ProcessorBlock lastProcessorBlock = processorBlockList.get(processorBlockList.size() - 1);
+                        if (lastProcessorBlock.getEndTime() > startTime) {
+                            startTime = lastProcessorBlock.getEndTime();
+                        }
+                    }
+                }
             }
-        }  else {
-            isOnDiffProcessor = false;
+
         }
 
-
-        //TODO plz go over this. Need to check whether or not the communication cost need to be added.
-        //Value of lowest edge from any previous vertex
-//        int comCost = Integer.MAX_VALUE;
-//        if (v.isRoot()) {
-//            comCost = 0;
-//        }
-//
-//        for (ProcessorBlock processorBlock : processorBlockList) {
-//            Vertex v1 = processorBlock.getV();
-//            if (v.containsIncomingVertex(v1)) {
-//                comCost = 0;
-//                break;
-//            }
-//        }
-//        if (comCost != 0) {
-//            //Out of all the other incoming verticies from the other processors, grab the lowest edge weight.
-//
-//            for (Vertex v1 : traversed) {
-//                if (v.containsIncomingVertex(v1)) {
-//                    //TODO calculate start time
-//                    //Calculate start time
-//                    int tempComCost = v.getEdgeWeightFrom(v1);
-//                    if (tempComCost < comCost) {
-//                        comCost = tempComCost;
-//                    }
-//                }
-//            }
-//        }
-//        startTime += comCost;
         ProcessorBlock newProcBlock = new ProcessorBlock(v, startTime);
         processorBlockList.add(newProcBlock);
-        processorBlockHashMap.put(v.getId(),newProcBlock.getEndTime());
-
-        //System.out.println(Arrays.asList(processorBlockHashMap));
 
         boundCost = startTime + v.getBottomLevel();
         return boundCost;

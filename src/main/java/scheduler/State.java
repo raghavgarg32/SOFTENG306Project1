@@ -68,7 +68,8 @@ public class State {
 
     }
 
-    public List<Vertex> getPrevVertices(Vertex v) {
+
+    public List<Vertex> getPrevVertices(Vertex v, List<Vertex> traversed){
         List<Vertex> prevVertices = new ArrayList<>();
 
         for (Vertex v1 : traversed) {
@@ -79,6 +80,18 @@ public class State {
         return prevVertices;
     }
 
+    public HashMap<Vertex, Integer> getPrevVertexEndTimeHashMap(List<Vertex> prevVertices) {
+        HashMap<Vertex, Integer> prevVertexEndTimeHashMap = new HashMap<Vertex, Integer>();
+        if (prevVertices.size() > 0 ){
+            for (Processor processor : processors) {
+                for (ProcessorBlock block : processor.processorBlockList) {
+                    prevVertexEndTimeHashMap.put(block.getV(), block.getEndTime());
+                }
+            }
+        }
+        return prevVertexEndTimeHashMap;
+    }
+
     public State addVertex(int processorNum, Vertex v) {
         // Clone state then add the new vertex. Will also have to clone the processor list and processor block
         // list within it -> reference disappears once u clone so must use int
@@ -86,38 +99,14 @@ public class State {
         traversed.add(v);
         toTraverse.remove(v);
 
-        List<Vertex> prevVertices = getPrevVertices(v);
+        List<Vertex> prevVertices = getPrevVertices(v, traversed);
 
-        //System.out.println(result.processors);
-
-
-        Vertex lastVertex;
-        int endTime = 0;
-        if (prevVertices.size() > 0) {
-            lastVertex = prevVertices.get(prevVertices.size() - 1);
-            for (Processor processor : processors) {
-                //System.out.println("hash " + processor);
-                for (ProcessorBlock block : processor.processorBlockList) {
-                    if (block.getV() == lastVertex) {
-                        endTime = block.getEndTime();
-                    }
-
-                }
-            }
-            //System.out.println("end " + endTime);
-        }
-
-
-        List<ProcessorBlock> hasBlock = new ArrayList<>();
-        if (prevProcessNum != -1) {
-            hasBlock = processors.get(prevProcessNum).processorBlockList;
-        }
+        HashMap<Vertex, Integer> prevVertexEndTimeHashMap = getPrevVertexEndTimeHashMap(prevVertices);
 
         //System.out.println(Arrays.toString(hasBlock.toArray()));
         // Add the vertex to processor x, at the earliest possible time.
-        processors.get(processorNum).addVertex(v, traversed, endTime);
+        processors.get(processorNum).addVertex(v, traversed, prevVertexEndTimeHashMap);
 
-        prevProcessNum = processorNum;
         // Set the new currentCost && current level
         currentLevel = currentLevel + 1;
 
@@ -147,7 +136,6 @@ public class State {
 
         // Required to check for duplicates later.
         Collections.sort(processors);
-        //System.out.println(result);
 
         return this;
     }
