@@ -49,7 +49,7 @@ public class State {
         toTraverse = new PriorityQueue<>(new VertexComparator());
         toTraverse.addAll(g.getRoots());
         currentLevel = 0;
-        costToBottomLevel = g.getGreatestCost();
+        costToBottomLevel = g.calculateBottomLevel();
         currentCost = 0;
     }
 
@@ -105,7 +105,8 @@ public class State {
 
         //System.out.println(Arrays.toString(hasBlock.toArray()));
         // Add the vertex to processor x, at the earliest possible time.
-        processors.get(processorNum).addVertex(v, traversed, prevVertexEndTimeHashMap);
+       int boundCost =  processors.get(processorNum).addVertex(v, traversed, prevVertexEndTimeHashMap);
+        costToBottomLevel = Math.max(costToBottomLevel, boundCost);
 
         // Set the new currentCost && current level
         currentLevel = currentLevel + 1;
@@ -113,10 +114,6 @@ public class State {
         int stateEndTime = 0;
 
         for (Processor p : processors) {
-            if (p.boundCost > costToBottomLevel) {
-                //result.currentCost += v.getCost();
-                costToBottomLevel = p.boundCost;
-            }
 
             if (stateEndTime < p.getEndTime()) {
                 stateEndTime = p.getEndTime();
