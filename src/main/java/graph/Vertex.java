@@ -9,8 +9,13 @@ public class Vertex {
     private List<Edge> outgoingEdges;
     private List<Edge> incomingEdges;
     private List<Vertex> incomingVerticies;
+    private List<Vertex> outgoingVerticies;
     int bottomLevel;
     int level;
+
+    public List<Vertex> getOutgoingVerticies() {
+        return outgoingVerticies;
+    }
 
     // These variables are for output parsing ONLY they are not changed during the execution of the algorithm
     int startTime;
@@ -43,6 +48,7 @@ public class Vertex {
         outgoingEdges = new ArrayList<>();
         incomingEdges = new ArrayList<>();
         incomingVerticies = new ArrayList<>();
+        outgoingVerticies = new ArrayList<>();
         bottomLevel = -1;
         findLevel();
     }
@@ -124,6 +130,7 @@ public class Vertex {
 
     public void addOutgoingEdge(Edge edge) {
         outgoingEdges.add(edge);
+        outgoingVerticies.add(edge.getToVertex());
     }
 
     public String getId() {

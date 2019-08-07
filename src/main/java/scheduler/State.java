@@ -16,6 +16,7 @@ public class State {
     int currentLevel;
     int costToBottomLevel;
     HashMap<Vertex, Integer> prevVertexEndTimeHashMap;
+    HashMap<Vertex,Vertex> vertexPrevVertexHashMap;
     Graph g;
 
     public int getCurrentCost() {

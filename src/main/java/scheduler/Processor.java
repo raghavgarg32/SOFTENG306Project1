@@ -59,7 +59,7 @@ public class Processor implements Comparable<Processor> {
         return visited.contains(vertex);
     }
 
-    public Pair<Vertex,Integer> getLatestPreVertices(List<Vertex> prevVertices, HashMap<Vertex, Integer> prevVertexEndTimeHashMap) {
+    public Vertex getLatestPreVertices(List<Vertex> prevVertices, HashMap<Vertex, Integer> prevVertexEndTimeHashMap) {
         Vertex latestPrevVertex = prevVertices.get(prevVertices.size() - 1);
         int latestPrevVertexEndTime = prevVertexEndTimeHashMap.get(latestPrevVertex);
         for (Vertex vertex : prevVertices){
@@ -69,10 +69,7 @@ public class Processor implements Comparable<Processor> {
             }
         }
 
-        Pair<Vertex, Integer> latestPrevVertAndEndTime = new Pair<>(latestPrevVertex,latestPrevVertexEndTime);
-
-        return latestPrevVertAndEndTime;
-
+        return latestPrevVertex;
     }
 
     public int addVertex(Vertex v, List<Vertex> traversed, HashMap<Vertex, Integer> prevVertexEndTimeHashMap) {
@@ -86,10 +83,13 @@ public class Processor implements Comparable<Processor> {
         List<Vertex> prevVertices = v.getCommonVertices( traversed);
         if (prevVertices.size() > 0){
 
-            Pair<Vertex, Integer> latestPrevVertAndEndTime = getLatestPreVertices(prevVertices,prevVertexEndTimeHashMap);
+            //TODO improve have hashmap<Vertex,Vertex> whihc is previous vertex with greatest endTime
 
-            Vertex latestPrevVertex = latestPrevVertAndEndTime.getKey();
-            int latestPrevVertexEndTime = latestPrevVertAndEndTime.getValue();
+            //Pair<Vertex, > latestPrevVertAndEndTime = ;
+
+            Vertex latestPrevVertex = getLatestPreVertices(prevVertices,prevVertexEndTimeHashMap);
+            int latestPrevVertexEndTime =prevVertexEndTimeHashMap.get(latestPrevVertex);// latestPrevVertAndEndTime
+            // .getValue();
 
             if (traversed.size() > 1 ){
                 if (isVertexInProcessor(latestPrevVertex)) {
