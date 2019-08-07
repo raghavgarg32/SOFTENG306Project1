@@ -22,7 +22,7 @@ public class Main {
         }
         //State solution = new AStar(2,g1).runAlgorhithm();
 
-       State solution = new AStar(2,g1).runAlgorhithm();
+       State solution = new DFS(2,g1).runDFS();
 
 
         System.out.println(solution);
