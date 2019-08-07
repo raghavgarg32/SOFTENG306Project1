@@ -71,7 +71,7 @@ public class State {
     }
 
 
-    public List<Vertex> getPrevVertices(Vertex v) {
+  /*  public List<Vertex> getPrevVertices(Vertex v) {
         List<Vertex> prevVertices = new ArrayList<>();
 
         for (Vertex v1 : traversed) {
@@ -80,7 +80,7 @@ public class State {
             }
         }
         return prevVertices;
-    }
+    }*/
 
 /*
     public HashMap<Vertex, Integer> getPrevVertexEndTimeHashMap(List<Vertex> prevVertices) {
@@ -102,8 +102,6 @@ public class State {
         lastProcessorVertexAddedTo = processorNum;
         traversed.add(v);
         toTraverse.remove(v);
-
-        List<Vertex> prevVertices = getPrevVertices(v);
 
         //System.out.println(Arrays.toString(hasBlock.toArray()));
         // Add the vertex to processor x, at the earliest possible time.

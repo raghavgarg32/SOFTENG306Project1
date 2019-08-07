@@ -44,7 +44,7 @@ public class Processor implements Comparable<Processor> {
         visited = new HashSet<>(toCopy.visited);
     }
 
-    public List<Vertex> getPrevVertices(Vertex v, List<Vertex> traversed){
+   /* public List<Vertex> getPrevVertices(Vertex v, List<Vertex> traversed){
         List<Vertex> prevVertices = new ArrayList<>();
 
         for (Vertex v1 : traversed) {
@@ -53,7 +53,7 @@ public class Processor implements Comparable<Processor> {
             }
         }
         return prevVertices;
-    }
+    }*/
 
     public Boolean isVertexInProcessor(Vertex vertex){
         return visited.contains(vertex);
@@ -83,7 +83,7 @@ public class Processor implements Comparable<Processor> {
             startTime = lastProcessorBlock.getEndTime();
         }
 
-        List<Vertex> prevVertices = getPrevVertices(v, traversed);
+        List<Vertex> prevVertices = v.getCommonVertices( traversed);
         if (prevVertices.size() > 0){
 
             Pair<Vertex, Integer> latestPrevVertAndEndTime = getLatestPreVertices(prevVertices,prevVertexEndTimeHashMap);

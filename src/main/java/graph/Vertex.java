@@ -20,6 +20,11 @@ public class Vertex {
         this.startTime = startTime;
     }
 
+   public List<Vertex> getCommonVertices(List<Vertex> vList){
+        List<Vertex> common = new ArrayList<>(incomingVerticies);
+        common.retainAll(vList);
+        return common;
+    }
     public void setProcessorNo(int processorNo) {
         this.processorNo = processorNo;
     }
