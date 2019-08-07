@@ -6,6 +6,7 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -14,6 +15,7 @@ import java.util.List;
 public class Processor implements Comparable<Processor> {
     List<ProcessorBlock> processorBlockList;
     HashMap<String,Integer> processorBlockHashMap;
+    HashSet<Vertex> visited;
     Vertex startVertex;
     Graph g;
 
@@ -28,6 +30,7 @@ public class Processor implements Comparable<Processor> {
         processorBlockList = new ArrayList<>();
         startCost = 0;
         boundCost = 0;
+        visited = new HashSet<>();
     }
 
     public Processor(Processor toCopy, int processorNumber) {
@@ -38,6 +41,7 @@ public class Processor implements Comparable<Processor> {
         boundCost = toCopy.boundCost;
         processorBlockList.addAll(toCopy.processorBlockList);
         processorBlockHashMap = toCopy.processorBlockHashMap;
+        visited = new HashSet<>(toCopy.visited);
     }
 
     public List<Vertex> getPrevVertices(Vertex v, List<Vertex> traversed){
@@ -52,12 +56,7 @@ public class Processor implements Comparable<Processor> {
     }
 
     public Boolean isVertexInProcessor(Vertex vertex){
-        for (ProcessorBlock block : processorBlockList){
-            if (block.getV() == vertex){
-                return  true;
-            }
-        }
-        return false;
+        return visited.contains(vertex);
     }
 
     public Pair<Vertex,Integer> getLatestPreVertices(List<Vertex> prevVertices, HashMap<Vertex, Integer> prevVertexEndTimeHashMap) {
@@ -77,6 +76,7 @@ public class Processor implements Comparable<Processor> {
     }
 
     public int addVertex(Vertex v, List<Vertex> traversed, HashMap<Vertex, Integer> prevVertexEndTimeHashMap) {
+        visited.add(v);
         int startTime = 0;
         if (processorBlockList.size() != 0) {
             ProcessorBlock lastProcessorBlock = processorBlockList.get(processorBlockList.size() - 1);
