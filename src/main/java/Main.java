@@ -12,11 +12,11 @@ public class Main {
 
     private static String[] cliParser(String[] args) {
 
-        String[] result = new String[3];
+        String[] result = new String[5];
 
         Options options = new Options(); //Adding option values, e.g. -a -f -g etc., which will be parsed
-        options.addOption("f", true, "Choose input file");
-        options.addOption("p", true, "Number of processors");
+        options.addOption("p", true, "Number of cores");
+        options.addOption("v", false, "Visualise the search");
         options.addOption("o", true, "Choose output file name");
 
         // parser is used for the parsing of the input, here args
@@ -26,27 +26,41 @@ public class Main {
         String defaultFile = "data/input.dot";
         String defaultProcessors = "2";
         String defaultOutput = "output.dot";
+        String defaultCores = "1";
+        String defaultVisulize = "false";
         result[0] = defaultFile;
         result[1] = defaultProcessors;
         result[2] = defaultOutput;
+        result[3] = defaultCores;
+        result[4] = defaultVisulize;
 
+        // Mandatory options
+        if (args.length > 1) {
+            result[0] = args[0]; // File path
+            result[1] = args[1]; // Number of processors
+        } else {
+            System.out.println("Options for file path and number of processors missing. Default values (File path: \"" + defaultFile + "\", Num. processors: \"" +
+                    defaultProcessors + ") chosen");
+        }
+
+        // Optional options
         try {
             CommandLine cmd = parser.parse(options, args);
 
             //This approach can be followed for Options with values
-            if(cmd.hasOption("f")) { result[0] = cmd.getOptionValue("f"); } // handles -f (file path) option
-            else { System.out.println("Option -f not present, default \"" + defaultFile + "\" chosen"); }
+            if(cmd.hasOption("p")) { result[3] =  cmd.getOptionValue("P"); } // handles -p (number of cores) option
+            else { System.out.println("Option -p not present, default value \"" + defaultCores + "\" chosen"); }
 
-            if(cmd.hasOption("p")) { result[1] =  cmd.getOptionValue("p"); } // handles -p (number of processors) option
-            else { System.out.println("Option -p not present, default \"" + defaultProcessors + "\" chosen"); }
+            if(cmd.hasOption("v")) { result[4] = "true"; } // handles -v flag (visualization) option
+            else { System.out.println("Option -v not present, default value \"" + defaultVisulize + "\" chosen"); }
 
             if(cmd.hasOption("o")) { result[2] =  cmd.getOptionValue("o"); } // handles -o (output file name) option
             else { System.out.println("Option -o not present, default \"" + defaultOutput + "\" chosen"); }
 
         } catch (ParseException e) { //Will be thrown if no value is provided
             System.err.println(e);
-            System.out.println("Default values (File path: \"" + defaultFile + "\", Num. processors: \"" +
-                    defaultProcessors + ", Num. processors: \"" + defaultOutput + "\") chosen");
+            System.out.println("Default values (Num. cores: \"" + defaultCores + "\", visualise: \"" +
+                    defaultVisulize + ", output file: \"" + defaultOutput + "\") chosen");
         }
 
         return result;
