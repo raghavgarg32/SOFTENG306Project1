@@ -5,6 +5,8 @@ import graph.Graph;
 import graph.Vertex;
 import scheduler.State;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -24,7 +26,14 @@ public class OutputCreator {
         System.out.println(constructOutputLine());
     }
 
-    public void createOutputFile(String fileLocation) {
+    public void createOutputFile(String name) {
+        String filePath = "data/" + name + ".dot";
+        String output = constructOutputLine();
+        try (PrintWriter out = new PrintWriter(filePath)) {
+            out.println(output);
+        } catch (FileNotFoundException fnfe){
+            fnfe.printStackTrace();
+        }
 
     }
 
