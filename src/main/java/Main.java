@@ -10,6 +10,15 @@ import java.io.FileNotFoundException;
 
 public class Main {
 
+    public static boolean isStringIsNumericAndPositive(String str) {
+        try {
+            if (Integer.parseInt(str) > 0) return true;
+        } catch (NumberFormatException | NullPointerException nfe) {
+            return false;
+        }
+        return false;
+    }
+
     private static String[] cliParser(String[] args) {
 
         String[] result = new String[5];
@@ -37,7 +46,9 @@ public class Main {
         // Mandatory options
         if (args.length > 1) {
             result[0] = args[0]; // File path
-            result[1] = args[1]; // Number of processors
+            if (isStringIsNumericAndPositive(args[1])) result[1] = args[1]; // Number of processors
+            else { System.err.println("Invalid value for number of processors, default value \"" + defaultProcessors + "\" chosen");}
+
         } else {
             System.out.println("Options for file path and number of processors missing. Default values (File path: \"" + defaultFile + "\", Num. processors: \"" +
                     defaultProcessors + ") chosen");
@@ -48,8 +59,9 @@ public class Main {
             CommandLine cmd = parser.parse(options, args);
 
             //This approach can be followed for Options with values
-            if(cmd.hasOption("p")) { result[3] =  cmd.getOptionValue("P"); } // handles -p (number of cores) option
-            else { System.out.println("Option -p not present, default value \"" + defaultCores + "\" chosen"); }
+            if(cmd.hasOption("p")) {
+                if (isStringIsNumericAndPositive(cmd.getOptionValue("P"))) { result[3] = cmd.getOptionValue("P"); } // handles -p (number of cores) option
+            } else { System.out.println("Option -p not present or invalid, default value \"" + defaultCores + "\" chosen"); }
 
             if(cmd.hasOption("v")) { result[4] = "true"; } // handles -v flag (visualization) option
             else { System.out.println("Option -v not present, default value \"" + defaultVisulize + "\" chosen"); }
@@ -69,7 +81,9 @@ public class Main {
     public static void main(String[] args) {
       //  System.out.println(g);
 
-        String[] result = cliParser(args); // result[0]: file path, result[1]: num. processors, result[2]: output
+
+        String[] result = cliParser(args); // result[0]: file path, result[1]: num. processors, result[2]: output, result[3]: num. cores, result[4]: visualise
+                                           // result[] vil be an array of Strings, remember to parse value to correct type
 
         DotParser dp = new DotParser(new File(result[0]));
         Graph g1 = null;
