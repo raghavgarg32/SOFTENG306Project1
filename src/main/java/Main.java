@@ -13,16 +13,16 @@ public class Main {
     public static void main(String[] args) {
       //  System.out.println(g);
 
-        DotParser dp = new DotParser(new File("data/input.dot"));
+        DotParser dp = new DotParser(new File("data/Nodes_11_OutTree.dot"));
         Graph g1 = null;
         try {
             g1 = dp.parseGraph();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        //State solution = new AStar(2,g1).runAlgorhithm();
+        State solution = new AStar(1,g1).runAlgorhithm();
 
-       State solution = new DFS(2,g1).runDFS();
+       //State solution = new DFS(2,g1).runDFS();
 
 
         System.out.println(solution);

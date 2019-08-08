@@ -5,7 +5,7 @@ import scheduler.State;
 
 import java.util.Stack;
 
-public class DFS {
+public class DFS implements Algorithm {
     private final int numP;
     private Stack<State> stateStack;
     Graph graph;
@@ -24,7 +24,7 @@ public class DFS {
 
     }
 
-    public State runDFS() {
+    public State runAlgorhithm() {
         State bestState = new State(numP, graph);
         while (!stateStack.empty()) {
             State state = stateStack.pop();
