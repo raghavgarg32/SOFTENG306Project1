@@ -1,4 +1,3 @@
-import algorhithm.DFS;
 import files.DotParser;
 import algorhithm.AStar;
 import graph.Graph;
@@ -80,6 +79,10 @@ public class Main {
         return result;
     }
 
+    /**
+     * TODO: Refactor all of these statements in the main. We want main to be quite short.
+     * @param args
+     */
     public static void main(String[] args) {
       //  System.out.println(g);
 
@@ -95,7 +98,7 @@ public class Main {
             e.printStackTrace();
         }
       
-        State solution = new AStar(Integer.parseInt(result[1]),g1).runAlgorhithm();
+        State solution = new AStar(Integer.parseInt(result[1]),g1).runAlgorithm();
 
        //State solution = new DFS(2,g1).runDFS();
 
