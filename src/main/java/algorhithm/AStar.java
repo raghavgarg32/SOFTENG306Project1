@@ -7,7 +7,7 @@ import scheduler.State;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
-public class AStar {
+public class AStar  implements  Algorithm{
     int minFullPath = Integer.MAX_VALUE;
     boolean traversed;
     PriorityQueue<State> candidate;
