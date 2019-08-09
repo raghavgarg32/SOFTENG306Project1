@@ -91,32 +91,14 @@ public class Graph {
 
     @Override
     public boolean equals(Object o){
-
-        Graph g2 = (Graph) o;
-
-        for(Vertex v : vertexHashMap.values()){
-            if (!g2.vertexHashMap.values().contains(v)){
-                return false;
-            }
-        }
-
-        for(Edge e:edgeHashMap.values()){
-            if (!g2.edgeHashMap.values().contains(e)){
-                return false;
-            }
-        }
-        return true;
+        Graph g = (Graph) o;
+        return  g.hashCode() == this.hashCode();
     }
 
     @Override
     public int hashCode() {
-        int result = 13;
-        for(Vertex v : vertexHashMap.values()) {
-            result = result * v.hashCode();
-        }
-        for(Edge e:edgeHashMap.values()){
-            result = result * e.hashCode();
-        }
+        int result = 13 * vertexHashMap.hashCode() * edgeHashMap.hashCode();
+
         return result;
     }
 }

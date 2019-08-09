@@ -198,11 +198,13 @@ public class Vertex {
 
     @Override
     public int hashCode() {
-        return this.toString().hashCode();
+        int result = 17 * id.hashCode() * outgoingEdges.hashCode() * cost;
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        return this.toString().equals(obj.toString());
+        Vertex v = (Vertex) obj;
+        return v.hashCode() == this.hashCode();
     }
 }

@@ -48,12 +48,13 @@ public class Edge {
 
     @Override
     public int hashCode() {
-        return this.toString().hashCode();
+        int result = 19 * id.hashCode() * switchCost;
+        return result;
     }
 
     @Override
     public boolean equals(Object o){
         Edge e = (Edge) o;
-        return this.toString().equals(e.toString());
+        return e.hashCode() == this.hashCode();
     }
 }
