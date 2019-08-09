@@ -160,13 +160,16 @@ public class State {
     }
 
     @Override
-    public int hashCode() {
-        return toString().hashCode();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        State state = (State) o;
+        return Objects.equals(processors, state.processors);
     }
 
     @Override
-    public boolean equals(Object o) {
-        return toString().equals(o.toString());
+    public int hashCode() {
+        return Objects.hash(processors);
     }
 
     //TODO return a copy of State, fpr a;; addVertex here.

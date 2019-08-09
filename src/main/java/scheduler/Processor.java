@@ -4,10 +4,7 @@ import graph.Graph;
 import graph.Vertex;
 import javafx.util.Pair;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * Class to represent one CPU/processor on a schedule
@@ -138,13 +135,15 @@ public class Processor implements Comparable<Processor> {
 
     @Override
     public boolean equals(Object o) {
-        Processor p = (Processor) o;
-        return this.toString().equals(p.toString());
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Processor processor = (Processor) o;
+        return Objects.equals(processorBlockList, processor.processorBlockList);
     }
 
     @Override
     public int hashCode() {
-        return toString().hashCode();
+        return Objects.hash(processorBlockList);
     }
 
     @Override

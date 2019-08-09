@@ -2,6 +2,8 @@ package scheduler;
 
 import graph.Vertex;
 
+import java.util.Objects;
+
 /**
  * Class to represent the time used on a processor
  */
@@ -40,5 +42,19 @@ public class ProcessorBlock implements Comparable<ProcessorBlock>{
            result =  -endTime + o.endTime;
        }
        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProcessorBlock that = (ProcessorBlock) o;
+        return startTime == that.startTime &&
+                Objects.equals(v, that.v);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(v, startTime);
     }
 }
