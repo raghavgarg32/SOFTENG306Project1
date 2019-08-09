@@ -69,9 +69,8 @@ public class State {
         traversed.addAll(copyState.traversed);
         processors = new ArrayList<>();
         this.g = copyState.g;
-        for (int i = 0; i < copyState.processors.size(); i++) {
-            processors.add(new Processor(copyState.processors.get(i), i + 1));
-        }
+            processors.add(new Processor(copyState.processors.get(0), 0));
+
         toTraverse = new PriorityQueue<>(new VertexComparator());
         toTraverse.addAll(copyState.toTraverse);
         currentLevel = copyState.currentLevel;
@@ -142,15 +141,14 @@ public class State {
                 if (canVisit(v)) {
                     toAddList.add(v);
                     HashSet<Processor> checkedProcessors = new HashSet<>();
-                    for (int i = 0; i < processors.size(); i++) {
                         State copy = new State(this);
-                        Processor p = processors.get(i);
+                        Processor p = processors.get(0);
                         if(!checkedProcessors.contains(p)) {
                             checkedProcessors.add(p);
-                            copy.addVertex(i, v);
+                            copy.addVertex(0, v);
                             possibleStates.add(copy);
                         }
-                    }
+
                 }
             }
             toTraverse.addAll(toAddList);
