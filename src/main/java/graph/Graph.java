@@ -70,9 +70,6 @@ public class Graph {
     }
 
 
-    public Edge getEdge(String key) {
-        return edgeHashMap.get(key);
-    }
 
     //Get the bottom level of a graph
     public int calculateBottomLevel() {
