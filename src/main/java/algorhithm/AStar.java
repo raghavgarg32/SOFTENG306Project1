@@ -16,7 +16,7 @@ public class AStar  implements  Algorithm{
     private int minFullPath = Integer.MAX_VALUE;
     private boolean traversed;
     private PriorityQueue<State> candidate;
-    private HashSet<String> visited;
+    private HashSet<State> visited;
     private Graph graph;
 
     public AStar(int numProcessors, Graph graph) {
@@ -36,7 +36,6 @@ public class AStar  implements  Algorithm{
         while (!candidate.isEmpty() && candidate.peek().getCostToBottomLevel() <= minFullPath) {
             State s = candidate.poll();
             for (State s1 : s.generatePossibilities()) {
-                //TODO ensure toString creates a unique sorted schedule string
                 if (!visited.contains(s1)) {
                     if (s1.getCostToBottomLevel() < minFullPath) {
                         candidate.add(s1);
@@ -45,7 +44,7 @@ public class AStar  implements  Algorithm{
                             result = s1;
                         }
                     }
-                    visited.add(s1.toString());
+                    visited.add(s1);
                 }
             }
 

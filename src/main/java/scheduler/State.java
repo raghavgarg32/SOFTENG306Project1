@@ -135,9 +135,7 @@ public class State {
 
     public HashSet<State> generatePossibilities() {
         //Generates a list of possible states to visit
-        //TODO implement hashcode so the hashset actually functions as a hashset
         HashSet<State> possibleStates = new HashSet<>();
-        List<State> possibleStatesList = new ArrayList<>();
         if (!allVisited()) {
             List<Vertex> toAddList = new ArrayList<>();
             for (Vertex v : toTraverse) {
@@ -147,7 +145,6 @@ public class State {
                         State copy = new State(this);
                         copy.addVertex(i, v);
                         possibleStates.add(copy);
-                        possibleStatesList.add(copy);
                     }
                 }
             }
