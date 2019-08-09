@@ -57,11 +57,8 @@ public class Graph {
         return edgeHashMap.get(key);
     }
 
+    //Get the bottom level of a graph
     public int calculateBottomLevel() {
-        //for (Vertex v : vertexHashMap.values()) {
-          //  v.calculateBottomLevel();
-        //}
-        //return -1;
         Map.Entry<String,Vertex> entry = vertexHashMap.entrySet().iterator().next();
         // Get root vertex
         String key = entry.getKey();
@@ -79,5 +76,36 @@ public class Graph {
     @Override
     public String toString() {
         return vertexHashMap.toString() + edgeHashMap.toString();
+    }
+
+    @Override
+    public boolean equals(Object o){
+
+        Graph g2 = (Graph) o;
+
+        for(Vertex v : vertexHashMap.values()){
+            if (!g2.vertexHashMap.values().contains(v)){
+                return false;
+            }
+        }
+
+        for(Edge e:edgeHashMap.values()){
+            if (!g2.edgeHashMap.values().contains(e)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 13;
+        for(Vertex v : vertexHashMap.values()) {
+            result = result * v.hashCode();
+        }
+        for(Edge e:edgeHashMap.values()){
+            result = result * e.hashCode();
+        }
+        return result;
     }
 }

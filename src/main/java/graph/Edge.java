@@ -1,10 +1,14 @@
 package graph;
 
+/**
+ * A class to represent an edge of our graphs
+ */
 public class Edge {
     private String id;
     private Vertex fromVertex;
     private Vertex toVertex;
     private int switchCost;
+
 
     public Edge(Vertex fromVertex, Vertex toVertex, int switchCost) {
         this.fromVertex = fromVertex;
@@ -45,5 +49,16 @@ public class Edge {
         String weight = Integer.toString(switchCost);
         String output = id +  "\t[Weight=" + weight + "];";
         return output;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o){
+        Edge e = (Edge) o;
+        return this.toString().equals(e.toString());
     }
 }

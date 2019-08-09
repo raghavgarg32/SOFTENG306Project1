@@ -56,6 +56,10 @@ public class State {
         prevVertexEndTimeHashMap = new HashMap<>();
     }
 
+    /**
+     * Create a copy a given state
+     * @param copyState
+     */
     private State(State copyState) {
         traversed = new ArrayList<>();
         traversed.addAll(copyState.traversed);

@@ -3,7 +3,7 @@ package algorhithm;
 import scheduler.State;
 
 /**
- * An interface containing the basis of the algorithms used
+ * Interface to represent an algorithm
  */
 public interface Algorithm {
     public State runAlgorithm();
