@@ -57,11 +57,8 @@ public class Graph {
         return edgeHashMap.get(key);
     }
 
+    //Get the bottom level of a graph
     public int calculateBottomLevel() {
-        //for (Vertex v : vertexHashMap.values()) {
-          //  v.calculateBottomLevel();
-        //}
-        //return -1;
         Map.Entry<String,Vertex> entry = vertexHashMap.entrySet().iterator().next();
         // Get root vertex
         String key = entry.getKey();

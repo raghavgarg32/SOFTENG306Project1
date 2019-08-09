@@ -7,6 +7,11 @@ import scheduler.State;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
+/**
+ * Algorithm which deals with using the A star implementation. Here, a priority queue
+ * is used to ensure that nodes with least cost are placed with greatest priority followed
+ * by their level.
+ */
 public class AStar  implements  Algorithm{
     int minFullPath = Integer.MAX_VALUE;
     boolean traversed;
@@ -22,10 +27,13 @@ public class AStar  implements  Algorithm{
         this.graph = graph;
         traversed = false;
 
-        //Todo implement state with root vertex;
         candidate.add(new State(numProcessors, graph));
     }
 
+    /**
+     * Runs the algorithm
+     * @return
+     */
     public State runAlgorhithm() {
         State result = null;
         while (!candidate.isEmpty() && candidate.peek().getCostToBottomLevel() <= minFullPath) {

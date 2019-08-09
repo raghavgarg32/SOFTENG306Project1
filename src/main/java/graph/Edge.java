@@ -1,10 +1,14 @@
 package graph;
 
+/**
+ * A class to represent an edge of our graphs
+ */
 public class Edge {
     private String id;
     private Vertex fromVertex;
     private Vertex toVertex;
     private int switchCost;
+
 
     public Edge(Vertex fromVertex, Vertex toVertex, int switchCost) {
         this.fromVertex = fromVertex;
