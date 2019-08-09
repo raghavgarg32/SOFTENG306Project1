@@ -1,3 +1,4 @@
+import algorhithm.DFS;
 import files.DotParser;
 import algorhithm.AStar;
 import graph.Graph;
@@ -62,12 +63,13 @@ public class Main {
             if(cmd.hasOption("p")) {
                 if (isStringIsNumericAndPositive(cmd.getOptionValue("P"))) { result[3] = cmd.getOptionValue("P"); } // handles -p (number of cores) option
             } else { System.out.println("Option -p not present or invalid, default value \"" + defaultCores + "\" chosen"); }
-
-            if(cmd.hasOption("v")) { result[4] = "true"; } // handles -v flag (visualization) option
-            else { System.out.println("Option -v not present, default value \"" + defaultVisulize + "\" chosen"); }
-
+          
             if(cmd.hasOption("o")) { result[2] =  cmd.getOptionValue("o"); } // handles -o (output file name) option
             else { System.out.println("Option -o not present, default \"" + defaultOutput + "\" chosen"); }
+            
+            //This approach can be followed for Options without values (flags)
+            if(cmd.hasOption("v")) { result[4] = "true"; } // handles -v flag (visualization) option
+            else { System.out.println("Option -v not present, default value \"" + defaultVisulize + "\" chosen"); }
 
         } catch (ParseException e) { //Will be thrown if no value is provided
             System.err.println(e);
@@ -81,20 +83,24 @@ public class Main {
     public static void main(String[] args) {
       //  System.out.println(g);
 
-
         String[] result = cliParser(args); // result[0]: file path, result[1]: num. processors, result[2]: output, result[3]: num. cores, result[4]: visualise
                                            // result[] vil be an array of Strings, remember to parse value to correct type
 
         DotParser dp = new DotParser(new File(result[0]));
+
         Graph g1 = null;
         try {
             g1 = dp.parseGraph();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+      
         State solution = new AStar(Integer.parseInt(result[1]),g1).runAlgorhithm();
 
-        //System.out.println(solution);
+       //State solution = new DFS(2,g1).runDFS();
+
+
+        System.out.println(solution);
         OutputCreator out = new OutputCreator(solution);
         out.displayOutputOnConsole();
 
