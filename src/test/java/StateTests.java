@@ -38,8 +38,7 @@ public class StateTests {
         State optimalState = new DFS(2, createdGraph).runAlgorithm();
         Graph createdGraph1 = createGraph("Nodes_8_Random.dot");
         State optimalState1 = new DFS(2, createdGraph1).runAlgorithm();
-        System.out.println(optimalState.equals(optimalState1));
-
+        Assert.assertTrue(optimalState.equals(optimalState1));
     }
 
     /**
