@@ -2,6 +2,9 @@ package algorhithm;
 
 import scheduler.State;
 
+/**
+ * Interface to represent an algorithm
+ */
 public interface Algorithm {
-    public State runAlgorhithm();
+    public State runAlgorithm();
 }

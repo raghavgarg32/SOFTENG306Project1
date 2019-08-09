@@ -24,7 +24,7 @@ public class DFS implements Algorithm {
 
     }
 
-    public State runAlgorhithm() {
+    public State runAlgorithm() {
         State bestState = new State(numP, graph);
         while (!stateStack.empty()) {
             State state = stateStack.pop();

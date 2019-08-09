@@ -56,6 +56,10 @@ public class State {
         prevVertexEndTimeHashMap = new HashMap<>();
     }
 
+    /**
+     * Create a copy a given state
+     * @param copyState
+     */
     private State(State copyState) {
         traversed = new ArrayList<>();
         traversed.addAll(copyState.traversed);
@@ -70,32 +74,6 @@ public class State {
         costToBottomLevel = copyState.costToBottomLevel;
         prevVertexEndTimeHashMap = new HashMap<>(copyState.prevVertexEndTimeHashMap);
     }
-
-
-  /*  public List<Vertex> getPrevVertices(Vertex v) {
-        List<Vertex> prevVertices = new ArrayList<>();
-
-        for (Vertex v1 : traversed) {
-            if (v.containsIncomingVertex(v1)) {
-                prevVertices.add(v1);
-            }
-        }
-        return prevVertices;
-    }*/
-
-/*
-    public HashMap<Vertex, Integer> getPrevVertexEndTimeHashMap(List<Vertex> prevVertices) {
-        HashMap<Vertex, Integer> prevVertexEndTimeHashMap = new HashMap<Vertex, Integer>();
-        if (prevVertices.size() > 0) {
-            for (Processor processor : processors) {
-                for (ProcessorBlock block : processor.processorBlockList) {
-                    prevVertexEndTimeHashMap.put(block.getV(), block.getEndTime());
-                }
-            }
-        }
-        return prevVertexEndTimeHashMap;
-    }
-*/
 
     public State addVertex(int processorNum, Vertex v) {
         // Clone state then add the new vertex. Will also have to clone the processor list and processor block

@@ -12,6 +12,7 @@ public class Edge {
     //communication cost of the edge
     private int switchCost;
 
+
     public Edge(Vertex fromVertex, Vertex toVertex, int switchCost) {
         this.fromVertex = fromVertex;
         this.toVertex = toVertex;

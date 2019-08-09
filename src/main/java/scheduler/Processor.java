@@ -20,7 +20,6 @@ public class Processor implements Comparable<Processor> {
     Graph g;
 
     int processorNumber;
-
     int boundCost;
     int startCost;
 
@@ -44,20 +43,10 @@ public class Processor implements Comparable<Processor> {
         visited = new HashSet<>(toCopy.visited);
     }
 
-   /* public List<Vertex> getPrevVertices(Vertex v, List<Vertex> traversed){
-        List<Vertex> prevVertices = new ArrayList<>();
-
-        for (Vertex v1 : traversed) {
-            if (v.containsIncomingVertex(v1)) {
-                prevVertices.add(v1);
-            }
-        }
-        return prevVertices;
-    }*/
-
     public Boolean isVertexInProcessor(Vertex vertex){
         return visited.contains(vertex);
     }
+
 
     public Vertex getLatestPreVertices(List<Vertex> prevVertices, HashMap<Vertex, Integer> prevVertexEndTimeHashMap) {
         Vertex latestPrevVertex = prevVertices.get(prevVertices.size() - 1);

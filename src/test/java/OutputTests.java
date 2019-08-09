@@ -1,7 +1,6 @@
 import files.DotParser;
 import files.OutputCreator;
 import graph.Graph;
-import jdk.javadoc.internal.doclets.toolkit.util.DocFinder;
 import org.junit.Assert;
 import org.junit.Test;
 import scheduler.State;

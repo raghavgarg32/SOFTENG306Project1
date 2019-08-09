@@ -69,10 +69,12 @@ public class Graph {
         return result;
     }
 
-    /**
-     * Get the bottom level for the whole graph
-     * @return
-     */
+
+    public Edge getEdge(String key) {
+        return edgeHashMap.get(key);
+    }
+
+    //Get the bottom level of a graph
     public int calculateBottomLevel() {
         Map.Entry<String,Vertex> entry = vertexHashMap.entrySet().iterator().next();
         // Get root vertex
