@@ -39,7 +39,7 @@ public class OutputTests {
             Graph g = dp.parseGraph();
             State s = new State(1, g);
             OutputCreator oc = new OutputCreator(s);
-            oc.createOutputFile("output3");
+            oc.createOutputFile("output3.dot");
 
             DotParser dp2 = new DotParser(new File("data/" + "output3.dot"));
             Graph g1 = dp2.parseGraph();
