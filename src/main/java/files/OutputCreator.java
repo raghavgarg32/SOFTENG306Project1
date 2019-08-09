@@ -39,7 +39,7 @@ public class OutputCreator {
      */
 
     public void createOutputFile(String name) {
-        String filePath = "data/" + name + ".dot";
+        String filePath = "data/" + name;
         String output = constructOutputLine();
         try (PrintWriter out = new PrintWriter(filePath)) {
             out.println(output);
