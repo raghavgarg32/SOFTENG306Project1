@@ -72,36 +72,17 @@ public class State {
 
         List<Vertex> prevVertices = getPrevVertices(v, traversed);
 
-        //System.out.println(result.processors);
-
-
-
-        Vertex lastVertex;
-        int endTime= 0;
+        HashMap<Vertex, Integer> prevVertexEndTimeHashMap = new HashMap<Vertex, Integer>();
         if (prevVertices.size() > 0 ){
-            lastVertex = prevVertices.get(prevVertices.size() - 1);
             for (Processor processor : result.processors) {
-                //System.out.println("hash " + processor);
                 for (ProcessorBlock block : processor.processorBlockList) {
-                    if (block.getV() == lastVertex) {
-                        endTime = block.getEndTime();
-                    }
-
+                    prevVertexEndTimeHashMap.put(block.getV(), block.getEndTime());
                 }
             }
-            //System.out.println("end " + endTime);
         }
 
-
-
-        List<ProcessorBlock> hasBlock = new ArrayList<>();
-        if (prevProcessNum != -1){
-            hasBlock = result.processors.get(prevProcessNum).processorBlockList;
-        }
-
-        //System.out.println(Arrays.toString(hasBlock.toArray()));
         // Add the vertex to processor x, at the earliest possible time.
-        result.processors.get(processorNum).addVertex(v, result.traversed, endTime);
+        result.processors.get(processorNum).addVertex(v, result.traversed, prevVertexEndTimeHashMap);
 
         prevProcessNum = processorNum;
         // Set the new currentCost && current level
@@ -132,8 +113,6 @@ public class State {
         }
 
         // Required to check for duplicates later.
-        //Collections.sort(result.processors);
-        //System.out.println(result);
 
         return result;
     }
