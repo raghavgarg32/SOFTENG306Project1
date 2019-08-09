@@ -1,3 +1,4 @@
+import algorhithm.AStar;
 import files.DotParser;
 import graph.Graph;
 import org.junit.Assert;
@@ -61,5 +62,14 @@ public class GraphTests {
     public void testCalculationOfBottomLevelForSingleNode() {
         Graph createdGraph = createGraph("singleNode.dot");
         Assert.assertEquals(2,createdGraph.calculateBottomLevel());
+    }
+
+    /**
+     *  This tests if the algorithm can handle inputs with multiple roots and exits
+     */
+    @Test
+    public void testGraphWithMultipleEntriesAndExits(){
+        Graph createdGraph = createGraph("input4.dot");
+        Assert.assertEquals(15, new AStar(2, createdGraph).runAlgorhithm().getCurrentCost());
     }
 }
