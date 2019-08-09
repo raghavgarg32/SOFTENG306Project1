@@ -97,7 +97,7 @@ public class Main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-      
+
         State solution = new AStar(Integer.parseInt(result[1]),g1).runAlgorithm();
 
        //State solution = new DFS(2,g1).runDFS();
