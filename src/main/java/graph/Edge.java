@@ -48,6 +48,11 @@ public class Edge {
     }
 
     @Override
+    public int hashCode() {
+        return this.toString().hashCode();
+    }
+
+    @Override
     public boolean equals(Object o){
         Edge e = (Edge) o;
         return this.toString().equals(e.toString());

@@ -99,4 +99,16 @@ public class Graph {
         }
         return true;
     }
+
+    @Override
+    public int hashCode() {
+        int result = 13;
+        for(Vertex v : vertexHashMap.values()) {
+            result = result * v.hashCode();
+        }
+        for(Edge e:edgeHashMap.values()){
+            result = result * e.hashCode();
+        }
+        return result;
+    }
 }

@@ -157,6 +157,11 @@ public class Vertex {
     }
 
     @Override
+    public int hashCode() {
+        return this.toString().hashCode();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         return this.toString().equals(obj.toString());
     }
