@@ -62,6 +62,10 @@ public class Vertex {
         return level;
     }
 
+    public List<Vertex> getIncomingVerticies() {
+        return incomingVerticies;
+    }
+
     public boolean containsIncomingVertex(Vertex v) {
         return incomingVerticies.contains(v);
     }

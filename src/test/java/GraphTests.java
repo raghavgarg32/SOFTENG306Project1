@@ -33,7 +33,6 @@ public class GraphTests {
     public void testCalculationOfBottomLevel() {
         Graph createdGraph = createGraph("input.dot");
         Assert.assertEquals(7,createdGraph.calculateBottomLevel());
-
     }
 
     /**
@@ -70,6 +69,6 @@ public class GraphTests {
     @Test
     public void testGraphWithMultipleEntriesAndExits(){
         Graph createdGraph = createGraph("input4.dot");
-        Assert.assertEquals(15, new AStar(2, createdGraph).runAlgorhithm().getCurrentCost());
+        Assert.assertEquals(15, new AStar(2, createdGraph).runAlgorithm().getCurrentCost());
     }
 }

@@ -19,6 +19,10 @@ public class State {
     HashMap<Vertex,Vertex> vertexPrevVertexHashMap;
     Graph g;
 
+    public List<Processor> getProcessors() {
+        return processors;
+    }
+
     public int getCurrentCost() {
         return currentCost;
     }
@@ -177,10 +181,36 @@ public class State {
         }
         return sb.toString() + "\nVerticies Left:" + toTraverse;
     }
-
     public void outputFormat() {
         for (Processor p : processors) {
             p.outputFormat();
         }
+
+    }
+
+    /**
+     * Ensures that a given schedule is valid by ensuring all end time for all vertices of a given
+     * vertex are lower than the scheduled start time of that vertex
+     * @return
+     */
+    public boolean isValid() {
+        PriorityQueue<ProcessorBlock> pbs = new PriorityQueue<>();
+        HashMap<Vertex,ProcessorBlock> vertexProcessorBlockHashMap = new HashMap<>();
+        for (Processor p : processors) {
+            for(ProcessorBlock pb:p.getProcessorBlockList()){
+                pbs.add(pb);
+                vertexProcessorBlockHashMap.put(pb.getV(),pb);
+            }
+        }
+        for(ProcessorBlock pb: pbs){
+            Vertex v = pb.getV();
+            int starttime = pb.getStartTime();
+            for(Vertex v1: v.getIncomingVerticies()){
+                if(starttime < vertexProcessorBlockHashMap.get(v1).getEndTime()){
+                    return false;
+                };
+            }
+        }
+        return true;
     }
 }

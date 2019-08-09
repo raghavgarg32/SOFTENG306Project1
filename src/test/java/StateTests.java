@@ -4,6 +4,8 @@ import files.DotParser;
 import graph.Graph;
 import org.junit.Assert;
 import org.junit.Test;
+import scheduler.Processor;
+import scheduler.ProcessorBlock;
 import scheduler.State;
 
 import java.io.File;
@@ -37,6 +39,7 @@ public class StateTests {
         Graph createdGraph = createGraph("Nodes_8_Random.dot");
         State optimalState = new DFS(2, createdGraph).runAlgorithm();
         Assert.assertEquals(optimalState.getCurrentCost(), 581);
+        Assert.assertTrue(optimalState.isValid());
     }
 
     /**
@@ -47,6 +50,7 @@ public class StateTests {
         Graph createdGraph = createGraph("Nodes_9_SeriesParallel.dot");
         State optimalState = new AStar(2, createdGraph).runAlgorithm();
         Assert.assertEquals(optimalState.getCurrentCost(), 55);
+        Assert.assertTrue(optimalState.isValid());
     }
 
     /**
@@ -58,6 +62,7 @@ public class StateTests {
         Graph createdGraph = createGraph("Nodes_10_Random.dot");
         State optimalState = new DFS(2, createdGraph).runAlgorithm();
         Assert.assertEquals(optimalState.getCurrentCost(), 50);
+        Assert.assertTrue(optimalState.isValid());
     }
 
     /**
@@ -68,6 +73,7 @@ public class StateTests {
         Graph createdGraph = createGraph("Nodes_11_OutTree.dot");
         State optimalState = new DFS(2, createdGraph).runAlgorithm();
         Assert.assertEquals(optimalState.getCurrentCost(), 350);
+        Assert.assertTrue(optimalState.isValid());
     }
 
     /**
@@ -78,6 +84,7 @@ public class StateTests {
         Graph createdGraph = createGraph("Nodes_7_OutTree.dot");
         State optimalState = new DFS(2, createdGraph).runAlgorithm();
         Assert.assertEquals(optimalState.getCurrentCost(), 28);
+        Assert.assertTrue(optimalState.isValid());
     }
 
     /**
@@ -88,6 +95,7 @@ public class StateTests {
         Graph createdGraph = createGraph("Nodes_11_OutTree.dot");
         State optimalState = new DFS(4, createdGraph).runAlgorithm();
         Assert.assertEquals(optimalState.getCurrentCost(), 227);
+        Assert.assertTrue(optimalState.isValid());
     }
 
     /**
@@ -98,6 +106,7 @@ public class StateTests {
         Graph createdGraph = createGraph("Nodes_8_Random.dot");
         State optimalState = new DFS(4, createdGraph).runAlgorithm();
         Assert.assertEquals(optimalState.getCurrentCost(), 581);
+        Assert.assertTrue(optimalState.isValid());
     }
 
     /**
@@ -109,6 +118,7 @@ public class StateTests {
         Graph createdGraph = createGraph("Nodes_10_Random.dot");
         State optimalState = new DFS(4, createdGraph).runAlgorithm();
         Assert.assertEquals(optimalState.getCurrentCost(), 50);
+        Assert.assertTrue(optimalState.isValid());
     }
 
     /**
@@ -119,6 +129,7 @@ public class StateTests {
         Graph createdGraph = createGraph("Nodes_9_SeriesParallel.dot");
         State optimalState = new DFS(4, createdGraph).runAlgorithm();
         Assert.assertEquals(optimalState.getCurrentCost(), 55);
+        Assert.assertTrue(optimalState.isValid());
     }
 
     /**
@@ -129,6 +140,7 @@ public class StateTests {
         Graph createdGraph = createGraph("Nodes_7_OutTree.dot");
         State optimalState = new DFS(4, createdGraph).runAlgorithm();
         Assert.assertEquals(optimalState.getCurrentCost(), 22);
+        Assert.assertTrue(optimalState.isValid());
     }
 
     /**
@@ -139,6 +151,7 @@ public class StateTests {
         Graph createdGraph = createGraph("Nodes_11_OutTree.dot");
         State optimalState = new DFS(1, createdGraph).runAlgorithm();
         Assert.assertEquals(optimalState.getCurrentCost(), 640);
+        Assert.assertTrue(optimalState.isValid());
     }
 
     /**
@@ -149,6 +162,7 @@ public class StateTests {
         Graph createdGraph = createGraph("Nodes_8_Random.dot");
         State optimalState = new DFS(1, createdGraph).runAlgorithm();
         Assert.assertEquals(optimalState.getCurrentCost(), 969);
+        Assert.assertTrue(optimalState.isValid());
     }
 
     /**
@@ -160,6 +174,7 @@ public class StateTests {
         Graph createdGraph = createGraph("Nodes_10_Random.dot");
         State optimalState = new DFS(1, createdGraph).runAlgorithm();
         Assert.assertEquals(optimalState.getCurrentCost(), 63);
+        Assert.assertTrue(optimalState.isValid());
     }
 
     /**
@@ -170,6 +185,7 @@ public class StateTests {
         Graph createdGraph = createGraph("Nodes_9_SeriesParallel.dot");
         State optimalState = new DFS(1, createdGraph).runAlgorithm();
         Assert.assertEquals(optimalState.getCurrentCost(), 55);
+        Assert.assertTrue(optimalState.isValid());
     }
 
     /**
@@ -180,5 +196,6 @@ public class StateTests {
         Graph createdGraph = createGraph("Nodes_7_OutTree.dot");
         State optimalState = new DFS(1, createdGraph).runAlgorithm();
         Assert.assertEquals(optimalState.getCurrentCost(), 40);
+        Assert.assertTrue(optimalState.isValid());
     }
 }

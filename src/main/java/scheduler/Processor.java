@@ -162,5 +162,7 @@ public class Processor implements Comparable<Processor> {
 
     }
 
-
+    public List<ProcessorBlock> getProcessorBlockList() {
+        return processorBlockList;
+    }
 }

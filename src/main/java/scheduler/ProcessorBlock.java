@@ -5,7 +5,7 @@ import graph.Vertex;
 /**
  * Class to represent the time used on a processor
  */
-public class ProcessorBlock {
+public class ProcessorBlock implements Comparable<ProcessorBlock>{
     private Vertex v;
     private int startTime;
     private int endTime;
@@ -31,5 +31,14 @@ public class ProcessorBlock {
     @Override
     public String toString() {
         return "id:" + v.getId() +" start_time:" + startTime + " end_time:" + endTime;
+    }
+
+    @Override
+    public int compareTo(ProcessorBlock o) {
+       int result = -startTime +o.startTime;
+       if(result == 0){
+           result =  -endTime + o.endTime;
+       }
+       return result;
     }
 }
