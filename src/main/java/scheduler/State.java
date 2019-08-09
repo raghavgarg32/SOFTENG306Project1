@@ -15,7 +15,13 @@ public class State {
     int currentCost;
     int currentLevel;
     int costToBottomLevel;
+    HashMap<Vertex, Integer> prevVertexEndTimeHashMap;
+    HashMap<Vertex,Vertex> vertexPrevVertexHashMap;
     Graph g;
+
+    public List<Processor> getProcessors() {
+        return processors;
+    }
 
     public int getCurrentCost() {
         return currentCost;
@@ -44,39 +50,33 @@ public class State {
         processors = new ArrayList<>();
         this.g = g;
         for (int i = 0; i < numProcessors; i++) {
-            processors.add(new Processor(i+1));
+            processors.add(new Processor(i + 1));
         }
         toTraverse = new PriorityQueue<>(new VertexComparator());
         toTraverse.addAll(g.getRoots());
         currentLevel = 0;
-        costToBottomLevel = g.getGreatestCost();
+        costToBottomLevel = g.calculateBottomLevel();
         currentCost = 0;
+        prevVertexEndTimeHashMap = new HashMap<>();
     }
 
+    /**
+     * Create a copy a given state
+     * @param copyState
+     */
     private State(State copyState) {
         traversed = new ArrayList<>();
         traversed.addAll(copyState.traversed);
         processors = new ArrayList<>();
         this.g = copyState.g;
         for (int i = 0; i < copyState.processors.size(); i++) {
-            processors.add(new Processor(copyState.processors.get(i), i+1));
+            processors.add(new Processor(copyState.processors.get(i), i + 1));
         }
         toTraverse = new PriorityQueue<>(new VertexComparator());
         toTraverse.addAll(copyState.toTraverse);
         currentLevel = copyState.currentLevel;
         costToBottomLevel = copyState.costToBottomLevel;
-
-    }
-
-    public List<Vertex> getPrevVertices(Vertex v) {
-        List<Vertex> prevVertices = new ArrayList<>();
-
-        for (Vertex v1 : traversed) {
-            if (v.containsIncomingVertex(v1)) {
-                prevVertices.add(v1);
-            }
-        }
-        return prevVertices;
+        prevVertexEndTimeHashMap = new HashMap<>(copyState.prevVertexEndTimeHashMap);
     }
 
     public State addVertex(int processorNum, Vertex v) {
@@ -86,48 +86,17 @@ public class State {
         traversed.add(v);
         toTraverse.remove(v);
 
-        List<Vertex> prevVertices = getPrevVertices(v);
-
-        //System.out.println(result.processors);
-
-
-        Vertex lastVertex;
-        int endTime = 0;
-        if (prevVertices.size() > 0) {
-            lastVertex = prevVertices.get(prevVertices.size() - 1);
-            for (Processor processor : processors) {
-                //System.out.println("hash " + processor);
-                for (ProcessorBlock block : processor.processorBlockList) {
-                    if (block.getV() == lastVertex) {
-                        endTime = block.getEndTime();
-                    }
-
-                }
-            }
-            //System.out.println("end " + endTime);
-        }
-
-
-        List<ProcessorBlock> hasBlock = new ArrayList<>();
-        if (prevProcessNum != -1) {
-            hasBlock = processors.get(prevProcessNum).processorBlockList;
-        }
-
         //System.out.println(Arrays.toString(hasBlock.toArray()));
         // Add the vertex to processor x, at the earliest possible time.
-        processors.get(processorNum).addVertex(v, traversed, endTime);
+        int boundCost = processors.get(processorNum).addVertex(v, traversed, prevVertexEndTimeHashMap);
+        costToBottomLevel = Math.max(costToBottomLevel, boundCost);
 
-        prevProcessNum = processorNum;
         // Set the new currentCost && current level
         currentLevel = currentLevel + 1;
 
         int stateEndTime = 0;
 
         for (Processor p : processors) {
-            if (p.boundCost > costToBottomLevel) {
-                //result.currentCost += v.getCost();
-                costToBottomLevel = p.boundCost;
-            }
 
             if (stateEndTime < p.getEndTime()) {
                 stateEndTime = p.getEndTime();
@@ -147,7 +116,8 @@ public class State {
 
         // Required to check for duplicates later.
         Collections.sort(processors);
-        //System.out.println(result);
+        prevVertexEndTimeHashMap.putIfAbsent(v,currentCost);
+        prevVertexEndTimeHashMap.put(v,Math.max(prevVertexEndTimeHashMap.get(v),currentCost));
 
         return this;
     }
@@ -165,19 +135,21 @@ public class State {
 
     public HashSet<State> generatePossibilities() {
         //Generates a list of possible states to visit
-        //TODO implement hashcode so the hashset actually functions as a hashset
         HashSet<State> possibleStates = new HashSet<>();
-        List<State> possibleStatesList = new ArrayList<>();
         if (!allVisited()) {
             List<Vertex> toAddList = new ArrayList<>();
             for (Vertex v : toTraverse) {
                 if (canVisit(v)) {
                     toAddList.add(v);
+                    HashSet<Processor> checkedProcessors = new HashSet<>();
                     for (int i = 0; i < processors.size(); i++) {
                         State copy = new State(this);
-                        copy.addVertex(i, v);
-                        possibleStates.add(copy);
-                        possibleStatesList.add(copy);
+                        Processor p = processors.get(i);
+                        if(!checkedProcessors.contains(p)) {
+                            checkedProcessors.add(p);
+                            copy.addVertex(i, v);
+                            possibleStates.add(copy);
+                        }
                     }
                 }
             }
@@ -190,13 +162,16 @@ public class State {
     }
 
     @Override
-    public int hashCode() {
-        return toString().hashCode();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        State state = (State) o;
+        return Objects.equals(processors, state.processors);
     }
 
     @Override
-    public boolean equals(Object o) {
-        return toString().equals(o.toString());
+    public int hashCode() {
+        return Objects.hash(processors);
     }
 
     //TODO return a copy of State, fpr a;; addVertex here.
@@ -211,10 +186,36 @@ public class State {
         }
         return sb.toString() + "\nVerticies Left:" + toTraverse;
     }
-
-    public void outputFormat(){
-        for (Processor p : processors){
+    public void outputFormat() {
+        for (Processor p : processors) {
             p.outputFormat();
         }
+
+    }
+
+    /**
+     * Ensures that a given schedule is valid by ensuring all end time for all vertices of a given
+     * vertex are lower than the scheduled start time of that vertex
+     * @return
+     */
+    public boolean isValid() {
+        PriorityQueue<ProcessorBlock> pbs = new PriorityQueue<>();
+        HashMap<Vertex,ProcessorBlock> vertexProcessorBlockHashMap = new HashMap<>();
+        for (Processor p : processors) {
+            for(ProcessorBlock pb:p.getProcessorBlockList()){
+                pbs.add(pb);
+                vertexProcessorBlockHashMap.put(pb.getV(),pb);
+            }
+        }
+        for(ProcessorBlock pb: pbs){
+            Vertex v = pb.getV();
+            int starttime = pb.getStartTime();
+            for(Vertex v1: v.getIncomingVerticies()){
+                if(starttime < vertexProcessorBlockHashMap.get(v1).getEndTime()){
+                    return false;
+                };
+            }
+        }
+        return true;
     }
 }

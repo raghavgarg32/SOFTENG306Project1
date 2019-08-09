@@ -7,33 +7,36 @@ import scheduler.State;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
-public class AStar {
-    int minFullPath = Integer.MAX_VALUE;
-    boolean traversed;
-    PriorityQueue<State> candidate;
-    HashSet<String> visited;
-    //PriorityQueue<State> states = new PriorityQueue<>();
-
-    Graph graph;
+/**
+ * Algorithm which deals with using the A star implementation. Here, a priority queue
+ * is used to ensure that nodes with least cost are placed with greatest priority followed
+ * by their level.
+ */
+public class AStar  implements  Algorithm{
+    private int minFullPath = Integer.MAX_VALUE;
+    private boolean traversed;
+    private PriorityQueue<State> candidate;
+    private HashSet<State> visited;
+    private Graph graph;
 
     public AStar(int numProcessors, Graph graph) {
         candidate = new PriorityQueue<>(new AStarComparator());
         visited = new HashSet();
         this.graph = graph;
         traversed = false;
-
-        //Todo implement state with root vertex;
         candidate.add(new State(numProcessors, graph));
     }
 
-    public State runAlgorhithm() {
+    /**
+     * Runs the algorithm
+     * @return
+     */
+    public State runAlgorithm() {
         State result = null;
         while (!candidate.isEmpty() && candidate.peek().getCostToBottomLevel() <= minFullPath) {
             State s = candidate.poll();
             for (State s1 : s.generatePossibilities()) {
-                //TODO ensure toString creates a unique sorted schedule string
                 if (!visited.contains(s1)) {
-                    System.out.println(s1);
                     if (s1.getCostToBottomLevel() < minFullPath) {
                         candidate.add(s1);
                         if (s1.allVisited() && s1.getCostToBottomLevel() < minFullPath) {
@@ -41,8 +44,7 @@ public class AStar {
                             result = s1;
                         }
                     }
-                    visited.add(s1.toString());
-
+                    visited.add(s1);
                 }
             }
 

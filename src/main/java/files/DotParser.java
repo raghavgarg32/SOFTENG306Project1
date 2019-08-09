@@ -12,8 +12,9 @@ import java.io.FileNotFoundException;
 import graph.Vertex;
 import graph.Edge;
 
-//TODO: Should probably make this a single ton. We're creating a graph each time this is called,
-// when we should just run it once- Brian
+/**
+ * Class to help deal with file input, and generating a corresponding graph from this input
+ */
 public class DotParser {
     File f;
 
@@ -21,10 +22,16 @@ public class DotParser {
         this.f = f;
     }
 
+    /**
+     * Main method in charge of parsing the graph
+     * @return
+     * @throws FileNotFoundException
+     */
     public Graph parseGraph() throws FileNotFoundException {
         GraphParser graphParser = new GraphParser(new FileInputStream(f));
         Graph g = new Graph(graphParser.getGraphId());
 
+        //Set up the vertices
         for (GraphNode node : graphParser.getNodes().values()) {
             String nodeName = node.getId();
             String weight = node.getAttribute("Weight").toString();
@@ -33,6 +40,7 @@ public class DotParser {
             g.addVertex(nodeName, toAdd);
         }
 
+        //Set up the edges
         for (GraphEdge e : graphParser.getEdges().values()) {
             String fromVertex = e.getNode1().getId();
             String toVertex = e.getNode2().getId();
@@ -44,7 +52,6 @@ public class DotParser {
             Edge toAdd = new Edge(from, to, weightInt);
             from.addOutgoingEdge(toAdd);
             g.addEdge(toAdd.getId(),toAdd);
-
         }
 
         return g;

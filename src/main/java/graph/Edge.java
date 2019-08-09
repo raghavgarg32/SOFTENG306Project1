@@ -1,10 +1,17 @@
 package graph;
 
+/**
+ * A class representing a directed edge between two vertices
+ */
 public class Edge {
     private String id;
+    //the vertex the edge is pointing from
     private Vertex fromVertex;
+    //the vertex the edge is pointing to
     private Vertex toVertex;
+    //communication cost of the edge
     private int switchCost;
+
 
     public Edge(Vertex fromVertex, Vertex toVertex, int switchCost) {
         this.fromVertex = fromVertex;
@@ -15,14 +22,6 @@ public class Edge {
         toVertex.addIncomingEdge(this);
 
     }
-
-    Edge(String id, int cost, Vertex fromVertex, Vertex toVertex){
-        this.id = id;
-        this.fromVertex = fromVertex;
-        this.toVertex = toVertex;
-        switchCost = cost;
-    }
-
 
     public String getId() {
         return id;
@@ -45,5 +44,17 @@ public class Edge {
         String weight = Integer.toString(switchCost);
         String output = id +  "\t[Weight=" + weight + "];";
         return output;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 19 * id.hashCode() * switchCost;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        Edge e = (Edge) o;
+        return e.hashCode() == this.hashCode();
     }
 }
