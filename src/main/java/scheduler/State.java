@@ -141,10 +141,15 @@ public class State {
             for (Vertex v : toTraverse) {
                 if (canVisit(v)) {
                     toAddList.add(v);
+                    HashSet<Processor> checkedProcessors = new HashSet<>();
                     for (int i = 0; i < processors.size(); i++) {
                         State copy = new State(this);
-                        copy.addVertex(i, v);
-                        possibleStates.add(copy);
+                        Processor p = processors.get(i);
+                        if(!checkedProcessors.contains(p)) {
+                            checkedProcessors.add(p);
+                            copy.addVertex(i, v);
+                            possibleStates.add(copy);
+                        }
                     }
                 }
             }
