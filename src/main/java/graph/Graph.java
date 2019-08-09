@@ -80,4 +80,23 @@ public class Graph {
     public String toString() {
         return vertexHashMap.toString() + edgeHashMap.toString();
     }
+
+    @Override
+    public boolean equals(Object o){
+
+        Graph g2 = (Graph) o;
+
+        for(Vertex v : vertexHashMap.values()){
+            if (!g2.vertexHashMap.values().contains(v)){
+                return false;
+            }
+        }
+
+        for(Edge e:edgeHashMap.values()){
+            if (!g2.edgeHashMap.values().contains(e)){
+                return false;
+            }
+        }
+        return true;
+    }
 }

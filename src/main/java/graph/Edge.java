@@ -46,4 +46,10 @@ public class Edge {
         String output = id +  "\t[Weight=" + weight + "];";
         return output;
     }
+
+    @Override
+    public boolean equals(Object o){
+        Edge e = (Edge) o;
+        return this.toString().equals(e.toString());
+    }
 }

@@ -60,19 +60,12 @@ public class OutputCreator {
 
         StringBuilder output = new StringBuilder("digraph " + graph.getName() + " {");
 
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            Vertex v = (Vertex) pair.getValue();
+        for(Vertex v : vertices.values()){
             output.append("\n\t").append(v.toStringSolution());
-            it.remove();
         }
 
-        Iterator it2 = edges.entrySet().iterator();
-        while (it2.hasNext()) {
-            Map.Entry pair2 = (Map.Entry)it2.next();
-            Edge e = (Edge) pair2.getValue();
+        for(Edge e:edges.values()){
             output.append("\n\t").append(e.toString());
-            it2.remove();
         }
 
         output.append("\n}");
