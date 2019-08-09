@@ -2,6 +2,7 @@ import files.DotParser;
 import files.OutputCreator;
 import graph.Graph;
 import jdk.javadoc.internal.doclets.toolkit.util.DocFinder;
+import org.junit.Assert;
 import org.junit.Test;
 import scheduler.State;
 
@@ -34,12 +35,20 @@ public class OutputTests {
      */
     @Test
     public void testOutputFile() {
-        Graph g = createGraph("input3.dot");
-        State s = new State(1, g);
-        OutputCreator oc = new OutputCreator(s);
-        oc.createOutputFile("output3.dot");
+        try {
+            DotParser dp = new DotParser(new File("data/" + "input3.dot"));
+            Graph g = dp.parseGraph();
+            State s = new State(1, g);
+            OutputCreator oc = new OutputCreator(s);
+            oc.createOutputFile("output3");
 
-        //Graph g1 = createGraph("output3.dot");
-        //System.out.println(g1);
+            DotParser dp2 = new DotParser(new File("data/" + "output3.dot"));
+            Graph g1 = dp2.parseGraph();
+            Assert.assertEquals(g, g1);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+
     }
 }
