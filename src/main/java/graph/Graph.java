@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A class representing the entire graph with vertices and edges
+ */
 public class Graph {
 
     private int greatestCost;
@@ -43,6 +46,19 @@ public class Graph {
         return vertexHashMap;
     }
 
+    public int getGreatestCost() {
+        return greatestCost;
+    }
+
+    public Edge getEdge(String key) {
+        return edgeHashMap.get(key);
+    }
+
+
+    /**
+     * Get the vertices with no incoming edges
+     * @return the list of vertices with no incoming edges
+     */
     public List<Vertex> getRoots() {
         List<Vertex> result = new ArrayList<>();
         for (Vertex vertex : vertexHashMap.values()) {
@@ -53,15 +69,11 @@ public class Graph {
         return result;
     }
 
-    public Edge getEdge(String key) {
-        return edgeHashMap.get(key);
-    }
-
+    /**
+     * Get the bottom level for the whole graph
+     * @return
+     */
     public int calculateBottomLevel() {
-        //for (Vertex v : vertexHashMap.values()) {
-          //  v.calculateBottomLevel();
-        //}
-        //return -1;
         Map.Entry<String,Vertex> entry = vertexHashMap.entrySet().iterator().next();
         // Get root vertex
         String key = entry.getKey();
@@ -72,9 +84,6 @@ public class Graph {
         return greatestCost;
     }
 
-    public int getGreatestCost() {
-        return greatestCost;
-    }
 
     @Override
     public String toString() {
