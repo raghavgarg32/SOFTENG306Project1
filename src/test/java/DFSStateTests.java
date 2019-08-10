@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * A test class to test multiple input graphs with the AStar algorithm.
  */
-public class StateTests {
+public class DFSStateTests {
     /**
      * A method for creating a graph for the test cases.
      *
