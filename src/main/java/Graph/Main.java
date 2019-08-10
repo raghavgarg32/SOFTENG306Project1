@@ -13,7 +13,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        String [] files = new String[] {"data/Nodes_7_OutTree.dot","data/Nodes_8_Random.dot","data/Nodes_9_SeriesParallel.dot","data/Nodes_10_Random.dot","data/Nodes_11_OutTree.dot"};
+        String [] files = new String[] {"data/Nodes_9_SeriesParallel.dot","data/Nodes_10_Random.dot","data/Nodes_11_OutTree.dot"};
         for (int i = 0; i < files.length; i++) {
 
             DotParser dp = new DotParser(new File(files[i]));
@@ -23,12 +23,11 @@ public class Main {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            //new AStar(2,g1).runAlgorhithm();
+            new AStar(2,g1).runAlgorhithm();
             //new DFS(2,g1).runDFS();
             System.out.println(new DFS(1, g1).runDFS());
         }
-        // System.out.println(g1);
-        //System.out.println(g1.calculateBottomLevel());
+
 
     }
 
