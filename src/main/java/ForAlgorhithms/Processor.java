@@ -6,6 +6,7 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -14,34 +15,44 @@ import java.util.List;
 public class Processor implements Comparable<Processor> {
     List<ProcessorBlock> processorBlockList;
     List<Vertex> processorVertexList;
+
+    HashMap<String,Integer> processorBlockHashMap;
+    HashSet<Vertex> visited;
     Vertex startVertex;
     Graph g;
 
+    int processorNumber;
     int boundCost;
     int startCost;
 
-    Processor() {
+    /**
+     * Setting up the fields of the Processor with initial values
+     */
+    Processor(int processorNumber) {
+        processorBlockHashMap = new HashMap<String, Integer>();
+        this.processorNumber = processorNumber;
         processorBlockList = new ArrayList<>();
         processorVertexList = new ArrayList<Vertex>();
+
         startCost = 0;
         boundCost = 0;
+        visited = new HashSet<>();
     }
 
-    public void getVerticesInProcessor(){
-        List<Vertex> verticesInProcessor = new ArrayList<Vertex>();
-        for (ProcessorBlock block : processorBlockList){
-            verticesInProcessor.add(block.getV());
-        }
-
-        processorVertexList = verticesInProcessor;
-    }
-
-    public Processor(Processor toCopy) {
-
+    /**
+     * Create a copy a given processor
+     */
+    public Processor(Processor toCopy, int processorNumber) {
+        this.processorNumber = processorNumber;
         processorBlockList = new ArrayList<>();
+        processorVertexList = new ArrayList<>();
+        processorBlockHashMap = new HashMap<String, Integer>();
         startCost = toCopy.startCost;
         boundCost = toCopy.boundCost;
         processorBlockList.addAll(toCopy.processorBlockList);
+        processorVertexList.addAll(toCopy.processorVertexList);
+        processorBlockHashMap = toCopy.processorBlockHashMap;
+        visited = new HashSet<>(toCopy.visited);
     }
 
     public List<Vertex> getVerticesVDependsOn(Vertex v, List<Vertex> traversed){
@@ -72,8 +83,6 @@ public class Processor implements Comparable<Processor> {
             startTime = lastProcessorBlock.getEndTime();
         }
 
-        getVerticesInProcessor();
-
         List<Vertex> verticesVIsDependedOn = getVerticesVDependsOn(v, traversed);
 
         List<Vertex> dependedVerticesNotInProc = getDependedVerticesNotInProc(verticesVIsDependedOn);
@@ -97,6 +106,7 @@ public class Processor implements Comparable<Processor> {
 
         ProcessorBlock newProcBlock = new ProcessorBlock(v, startTime);
         processorBlockList.add(newProcBlock);
+        processorVertexList.add(v);
 
         boundCost = startTime + v.getBottomLevel();
         return boundCost;
