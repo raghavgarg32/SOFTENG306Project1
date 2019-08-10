@@ -1,10 +1,15 @@
 package algorhithm;
 
 import graph.Graph;
+import javafx.event.EventType;
 import scheduler.AStarComparator;
 import scheduler.State;
+import visualisation.processor.listeners.ObservableAlgorithm;
+import visualisation.processor.listeners.SchedulerListener;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.PriorityQueue;
 
 /**
@@ -12,19 +17,24 @@ import java.util.PriorityQueue;
  * is used to ensure that nodes with least cost are placed with greatest priority followed
  * by their level.
  */
-public class AStar  implements  Algorithm{
+public class AStar implements  Algorithm,ObservableAlgorithm {
+    private List<SchedulerListener> listeners = new ArrayList<>();
     private int minFullPath = Integer.MAX_VALUE;
     private boolean traversed;
     private PriorityQueue<State> candidate;
     private HashSet<State> visited;
     private Graph graph;
 
+    private State finalState;
+    private int numberOfProcessors;
+
     public AStar(int numProcessors, Graph graph) {
+        this.numberOfProcessors = numProcessors;
         candidate = new PriorityQueue<>(new AStarComparator());
         visited = new HashSet();
         this.graph = graph;
         traversed = false;
-        candidate.add(new State(numProcessors, graph));
+        candidate.add(new State(numberOfProcessors, graph));
     }
 
     /**
@@ -32,7 +42,7 @@ public class AStar  implements  Algorithm{
      * @return
      */
     public State runAlgorithm() {
-        State result = null;
+        finalState = null;
         while (!candidate.isEmpty() && candidate.peek().getCostToBottomLevel() <= minFullPath) {
             State s = candidate.poll();
             for (State s1 : s.generatePossibilities()) {
@@ -41,15 +51,42 @@ public class AStar  implements  Algorithm{
                         candidate.add(s1);
                         if (s1.allVisited() && s1.getCostToBottomLevel() < minFullPath) {
                             minFullPath = s1.getCostToBottomLevel();
-                            result = s1;
+                            finalState = s1;
                         }
                     }
                     visited.add(s1);
                 }
             }
-
         }
-        return result;
+        fireEvent(AlgorithmEvents.GET_NUMBER_OF_PROCESSORS);
+        fireEvent(AlgorithmEvents.ALGORITHM_FINISHED);
+        return finalState;
+    }
+
+    @Override
+    public void addListener(SchedulerListener listener) {
+        listeners.add(listener);
+    }
+
+    @Override
+    public void removeListener(SchedulerListener listener) {
+        listeners.remove(listener);
+    }
+
+    @Override
+    public void fireEvent(AlgorithmEvents event) {
+        switch (event) {
+            case GET_NUMBER_OF_PROCESSORS:
+                for (SchedulerListener listener : listeners) {
+                    listener.getNumberOfProcessors(numberOfProcessors);
+                }
+                return;
+            case ALGORITHM_FINISHED:
+                for (SchedulerListener listener : listeners) {
+                    listener.getState(finalState);
+                }
+                return;
+        }
     }
 
     //Todo implement this class.
