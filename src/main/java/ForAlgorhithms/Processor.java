@@ -63,7 +63,7 @@ public class Processor implements Comparable<Processor> {
     }
 
     /**
-     * Out of all of the vertices the new vertex relies on has the latest finish time
+     * Out of all of the vertices the new vertex relies on has the latest end time
      * @param prevVertices
      * @param prevVertexEndTimeHashMap
      * @return
