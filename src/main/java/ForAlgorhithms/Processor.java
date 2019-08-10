@@ -4,14 +4,9 @@ import Graph.Graph;
 import Graph.Vertex;
 import javafx.util.Pair;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
-/**
- * Class to represent one CPU/processor on a schedule
- */
+
 public class Processor implements Comparable<Processor> {
     List<ProcessorBlock> processorBlockList;
     List<Vertex> processorVertexList;
@@ -25,9 +20,7 @@ public class Processor implements Comparable<Processor> {
     int boundCost;
     int startCost;
 
-    /**
-     * Setting up the fields of the Processor with initial values
-     */
+
     Processor(int processorNumber) {
         processorBlockHashMap = new HashMap<String, Integer>();
         this.processorNumber = processorNumber;
@@ -39,9 +32,7 @@ public class Processor implements Comparable<Processor> {
         visited = new HashSet<>();
     }
 
-    /**
-     * Create a copy a given processor
-     */
+
     public Processor(Processor toCopy, int processorNumber) {
         this.processorNumber = processorNumber;
         processorBlockList = new ArrayList<>();
@@ -55,61 +46,45 @@ public class Processor implements Comparable<Processor> {
         visited = new HashSet<>(toCopy.visited);
     }
 
-    public List<Vertex> getVerticesVDependsOn(Vertex v, List<Vertex> traversed){
-        List<Vertex> prevVertices = new ArrayList<>();
+    public Boolean isVertexInProcessor(Vertex vertex){
+        return visited.contains(vertex);
+    }
+
+    public Vertex getLatestPreVertices(List<Vertex> prevVertices, HashMap<Vertex, Integer> prevVertexEndTimeHashMap) {
+        Vertex latestPrevVertex = prevVertices.get(prevVertices.size() - 1);
+        int latestPrevVertexEndTime = prevVertexEndTimeHashMap.get(latestPrevVertex);
+        for (Vertex vertex : prevVertices){
+            if (latestPrevVertexEndTime < prevVertexEndTimeHashMap.get(vertex)){
+                latestPrevVertex = vertex;
+                latestPrevVertexEndTime = prevVertexEndTimeHashMap.get(vertex);
+            }
+        }
+
+        return latestPrevVertex;
+    }
+
+    public List<Vertex> getVerticesVIsDependedOn(Vertex v, List<Vertex> traversed){
+        List<Vertex> verticesVIsDependedOn = new ArrayList<>();
 
         for (Vertex v1 : traversed) {
             if (v.containsIncomingVertex(v1)) {
-                prevVertices.add(v1);
+                verticesVIsDependedOn.add(v1);
             }
         }
-        return prevVertices;
+        return verticesVIsDependedOn;
     }
 
-    public Boolean isVertexInProcessor(Vertex vertex){
-        for (ProcessorBlock block : processorBlockList){
-            if (block.getV() == vertex){
-                return  true;
+    private List<Vertex> getDependedVerticesNotInProc(List<Vertex> verticesVIsDependedOn) {
+        List<Vertex> dependedVerticesNotInProc = new ArrayList<Vertex>();
+
+        for (Vertex vertixVIsDependedOn : verticesVIsDependedOn){
+            if (!processorVertexList.contains(vertixVIsDependedOn)){
+                dependedVerticesNotInProc.add(vertixVIsDependedOn);
             }
         }
-        return false;
-    }
 
+        return dependedVerticesNotInProc;
 
-    public int addVertex(Vertex v, List<Vertex> traversed, HashMap<Vertex, Integer> prevVertexEndTimeHashMap) {
-        int startTime = 0;
-        if (processorBlockList.size() != 0) {
-            ProcessorBlock lastProcessorBlock = processorBlockList.get(processorBlockList.size() - 1);
-            startTime = lastProcessorBlock.getEndTime();
-        }
-
-        List<Vertex> verticesVIsDependedOn = getVerticesVDependsOn(v, traversed);
-
-        List<Vertex> dependedVerticesNotInProc = getDependedVerticesNotInProc(verticesVIsDependedOn);
-
-
-        if (dependedVerticesNotInProc.size() > 0) {
-            int timeOfStart = getStartTime(v, dependedVerticesNotInProc, prevVertexEndTimeHashMap);
-            if (processorBlockList.size() != 0) {
-                ProcessorBlock lastProcessorBlock = processorBlockList.get(processorBlockList.size() - 1);
-                if (lastProcessorBlock.getEndTime() > timeOfStart){
-                    startTime = lastProcessorBlock.getEndTime();
-                } else {
-                    startTime = timeOfStart;
-                }
-            } else{
-                startTime = timeOfStart;
-            }
-
-        }
-
-
-        ProcessorBlock newProcBlock = new ProcessorBlock(v, startTime);
-        processorBlockList.add(newProcBlock);
-        processorVertexList.add(v);
-
-        boundCost = startTime + v.getBottomLevel();
-        return boundCost;
     }
 
     private int getStartTime(Vertex v, List<Vertex> dependedVerticesNotInProc, HashMap<Vertex,Integer> prevVertexEndTimeHashMap) {
@@ -129,33 +104,38 @@ public class Processor implements Comparable<Processor> {
 
     }
 
-    private List<Vertex> getDependedVerticesNotInProc(List<Vertex> verticesVIsDependedOn) {
-        List<Vertex> dependedVerticesNotInProc = new ArrayList<Vertex>();
 
-        for (Vertex vertixVIsDependedOn : verticesVIsDependedOn){
-            if (!processorVertexList.contains(vertixVIsDependedOn)){
-                dependedVerticesNotInProc.add(vertixVIsDependedOn);
-            }
+    public int addVertex(Vertex v, List<Vertex> traversed, HashMap<Vertex, Integer> prevVertexEndTimeHashMap) {
+        int startTime = 0;
+        if (processorBlockList.size() != 0) {
+            ProcessorBlock lastProcessorBlock = processorBlockList.get(processorBlockList.size() - 1);
+            startTime = lastProcessorBlock.getEndTime();
         }
 
-        return dependedVerticesNotInProc;
+        List<Vertex> verticesVIsDependedOn = getVerticesVIsDependedOn(v, traversed);
 
-    }
+        List<Vertex> dependedVerticesNotInProc = getDependedVerticesNotInProc(verticesVIsDependedOn);
 
-    public Pair<Vertex,Integer> getLatestPreVertices(List<Vertex> prevVertices, HashMap<Vertex, Integer> prevVertexEndTimeHashMap) {
-        Vertex latestPrevVertex = prevVertices.get(prevVertices.size() - 1);
-        int latestPrevVertexEndTime = prevVertexEndTimeHashMap.get(latestPrevVertex);
-        for (Vertex vertex : prevVertices){
-            if (latestPrevVertexEndTime < prevVertexEndTimeHashMap.get(vertex)){
-                latestPrevVertex = vertex;
-                latestPrevVertexEndTime = prevVertexEndTimeHashMap.get(vertex);
+        if (dependedVerticesNotInProc.size() > 0) {
+            int potentialTimeOfStart = getStartTime(v, dependedVerticesNotInProc, prevVertexEndTimeHashMap);
+            if (processorBlockList.size() != 0) {
+                ProcessorBlock lastProcessorBlock = processorBlockList.get(processorBlockList.size() - 1);
+                if (lastProcessorBlock.getEndTime() > potentialTimeOfStart){
+                    startTime = lastProcessorBlock.getEndTime();
+                } else {
+                    startTime = potentialTimeOfStart;
+                }
+            } else{
+                startTime = potentialTimeOfStart;
             }
+
         }
+        ProcessorBlock newProcBlock = new ProcessorBlock(v, startTime);
+        processorBlockList.add(newProcBlock);
+        processorVertexList.add(v);
 
-        Pair<Vertex, Integer> latestPrevVertAndEndTime = new Pair<>(latestPrevVertex,latestPrevVertexEndTime);
-
-        return latestPrevVertAndEndTime;
-
+        boundCost = startTime + v.getBottomLevel();
+        return boundCost;
     }
 
     @Override
@@ -185,17 +165,25 @@ public class Processor implements Comparable<Processor> {
 
     @Override
     public boolean equals(Object o) {
-        Processor p = (Processor) o;
-        return this.toString().equals(p.toString());
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Processor processor = (Processor) o;
+        return Objects.equals(processorBlockList, processor.processorBlockList);
     }
 
     @Override
     public int hashCode() {
-        return toString().hashCode();
+        return Objects.hash(processorBlockList);
     }
 
     @Override
     public String toString() {
         return processorBlockList.toString();
+    }
+
+
+
+    public List<ProcessorBlock> getProcessorBlockList() {
+        return processorBlockList;
     }
 }
