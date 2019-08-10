@@ -1,11 +1,9 @@
-import algorhithm.AStar;
-import algorhithm.DFS;
+import algorithm.AStar;
+import algorithm.DFS;
 import files.DotParser;
 import graph.Graph;
 import org.junit.Assert;
 import org.junit.Test;
-import scheduler.Processor;
-import scheduler.ProcessorBlock;
 import scheduler.State;
 
 import java.io.File;

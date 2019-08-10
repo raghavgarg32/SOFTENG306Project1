@@ -1,9 +1,8 @@
 import files.DotParser;
-import algorhithm.AStar;
+import algorithm.AStar;
 import graph.Graph;
 import files.OutputCreator;
 import org.apache.commons.cli.*;
-import scheduler.State;
 
 import java.io.File;
 import java.io.FileNotFoundException;
