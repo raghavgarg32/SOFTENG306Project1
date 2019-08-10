@@ -16,7 +16,6 @@ public class DFS {
         stateStack = new Stack<State>();
         numP = numProcessors;
 
-        //Init state
         stateStack.push(new State(numP, graph));
         boundValue = Integer.MAX_VALUE;
 

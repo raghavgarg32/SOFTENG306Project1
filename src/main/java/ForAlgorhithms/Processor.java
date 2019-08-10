@@ -5,7 +5,6 @@ import Graph.Vertex;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class Processor implements Comparable<Processor> {
         boundCost = 0;
     }
 
-    public void setVerticesInProcessor(){
+    public void getVerticesInProcessor(){
         List<Vertex> verticesInProcessor = new ArrayList<Vertex>();
         for (ProcessorBlock block : processorBlockList){
             verticesInProcessor.add(block.getV());
@@ -45,7 +44,7 @@ public class Processor implements Comparable<Processor> {
         processorBlockList.addAll(toCopy.processorBlockList);
     }
 
-    public List<Vertex> getPrevVertices(Vertex v, List<Vertex> traversed){
+    public List<Vertex> getVerticesVDependsOn(Vertex v, List<Vertex> traversed){
         List<Vertex> prevVertices = new ArrayList<>();
 
         for (Vertex v1 : traversed) {
@@ -73,9 +72,9 @@ public class Processor implements Comparable<Processor> {
             startTime = lastProcessorBlock.getEndTime();
         }
 
-        setVerticesInProcessor();
+        getVerticesInProcessor();
 
-        List<Vertex> verticesVIsDependedOn = getPrevVertices(v, traversed);
+        List<Vertex> verticesVIsDependedOn = getVerticesVDependsOn(v, traversed);
 
         List<Vertex> dependedVerticesNotInProc = getDependedVerticesNotInProc(verticesVIsDependedOn);
 
