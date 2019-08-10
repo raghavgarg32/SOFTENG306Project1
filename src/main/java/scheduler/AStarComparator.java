@@ -1,15 +1,13 @@
-package ForAlgorhithms;
+package scheduler;
 
 import java.util.Comparator;
 
+/**
+ * Class to help implement the priority queue required by the A star comparator.
+ * Cost to bottom level is checked before the current level
+ */
 public class AStarComparator implements  Comparator<State>{
 
-    /**
-     * TODO This function should sort by the current bottom cost total then by the level
-     * @
-     * @param t1
-     * @return
-     */
 
     @Override
     public int compare(State state, State t1) {

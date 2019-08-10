@@ -1,11 +1,16 @@
-package ForAlgorhithms;
+package algorithm;
 
-import Graph.Graph;
+import graph.Graph;
+import scheduler.State;
 
-import java.util.HashSet;
 import java.util.Stack;
 
-public class DFS {
+/**
+ * Algorithm which deals with using the DFS implementation. Here, a stack is used to allow
+ * us to view the last assigned state and then allows us to explore the states that follow
+ * the last assigned state. This enables us to implement the DFS algorithm.
+ */
+public class DFS implements Algorithm {
     private final int numP;
     private Stack<State> stateStack;
     Graph graph;
@@ -16,6 +21,7 @@ public class DFS {
         stateStack = new Stack<State>();
         numP = numProcessors;
 
+        //Init state
         stateStack.push(new State(numP, graph));
         boundValue = Integer.MAX_VALUE;
 
@@ -23,21 +29,23 @@ public class DFS {
 
     }
 
-    public State runDFS() {
+    /**
+     * This is the implementation of the DFS algorithm
+     * @return
+     */
+    public State runAlgorithm() {
         State bestState = new State(numP, graph);
         while (!stateStack.empty()) {
+            //get latest state
             State state = stateStack.pop();
-
-
-
             int currentBoundValue = boundValue;
-            if (state.currentCost < currentBoundValue) {
+            //If cost of state equals or greater than bound value don't visit its following states then
+            if (state.getCurrentCost() < currentBoundValue) {
                 if (state.allVisited()) {
-                    boundValue = state.currentCost;
+                    boundValue = state.getCurrentCost();
                     bestState = state;
                 } else {
                     for (State nextState : state.generatePossibilities()) {
-
                         stateStack.push(nextState);
                     }
                 }

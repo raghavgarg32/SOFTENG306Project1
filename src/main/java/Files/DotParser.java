@@ -1,6 +1,6 @@
-package Files;
+package files;
 
-import Graph.Graph;
+import graph.Graph;
 import com.paypal.digraph.parser.GraphEdge;
 import com.paypal.digraph.parser.GraphNode;
 import com.paypal.digraph.parser.GraphParser;
@@ -9,10 +9,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import Graph.Vertex;
-import Graph.Edge;
-import Graph.Graph;
+import graph.Vertex;
+import graph.Edge;
 
+/**
+ * Class to help deal with file input, and generating a corresponding graph from this input
+ */
 public class DotParser {
     File f;
 
@@ -20,10 +22,16 @@ public class DotParser {
         this.f = f;
     }
 
+    /**
+     * Main method in charge of parsing the graph
+     * @return
+     * @throws FileNotFoundException
+     */
     public Graph parseGraph() throws FileNotFoundException {
         GraphParser graphParser = new GraphParser(new FileInputStream(f));
         Graph g = new Graph(graphParser.getGraphId());
 
+        //Set up the vertices
         for (GraphNode node : graphParser.getNodes().values()) {
             String nodeName = node.getId();
             String weight = node.getAttribute("Weight").toString();
@@ -32,6 +40,7 @@ public class DotParser {
             g.addVertex(nodeName, toAdd);
         }
 
+        //Set up the edges
         for (GraphEdge e : graphParser.getEdges().values()) {
             String fromVertex = e.getNode1().getId();
             String toVertex = e.getNode2().getId();
@@ -42,7 +51,7 @@ public class DotParser {
 
             Edge toAdd = new Edge(from, to, weightInt);
             from.addOutgoingEdge(toAdd);
-
+            g.addEdge(toAdd.getId(),toAdd);
         }
 
         return g;

@@ -1,11 +1,9 @@
-package ForAlgorhithms;
+package scheduler;
 
-import Graph.Graph;
-import Graph.Vertex;
-import javafx.util.Pair;
+import graph.Graph;
+import graph.Vertex;
 
 import java.util.*;
-
 
 /**
  * Class to represent one CPU/processor on a schedule
@@ -63,7 +61,7 @@ public class Processor implements Comparable<Processor> {
     }
 
     /**
-     * Out of all of the vertices the new vertex relies on has the latest end time
+     * Out of all of the vertices the new vertex relies on has the latest finish time
      * @param prevVertices
      * @param prevVertexEndTimeHashMap
      * @return
@@ -233,6 +231,15 @@ public class Processor implements Comparable<Processor> {
         return processorBlockList.toString();
     }
 
+    public void outputFormat() {
+        for (int i =0; i < processorBlockList.size(); i++){
+            ProcessorBlock currentProcessorBlock = processorBlockList.get(i);
+            Vertex currentVertex = currentProcessorBlock.getV();
+            currentVertex.setStartTime(currentProcessorBlock.getStartTime());
+            currentVertex.setProcessorNo(processorNumber);
+        }
+
+    }
 
     public List<ProcessorBlock> getProcessorBlockList() {
         return processorBlockList;
