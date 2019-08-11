@@ -5,6 +5,10 @@ import visualisation.AlgorithmDataStorage;
 import visualisation.AlgorithmListener;
 import visualisation.processor.listeners.SchedulerListener;
 
+/**
+ * This follows the factory design pattern.
+ * A new algorithm is made depending on the algorithm choice, which is determined by the user.
+ */
 public class AlgorithmFactory  {
     public Algorithm createAlgorithm(AlgorithmChoice choice, String[] args, Graph graph) throws Exception {
         SchedulerListener listener = createListener(args);
@@ -18,13 +22,22 @@ public class AlgorithmFactory  {
                 algorithm = new AStar(numberOfProcessors,graph);
                 break;
             default:
+                //TODO: Make our own exception
                 throw new Exception("Not a valid algorithm.");
         }
+
+        //Each algorithm needs to have a listener attached.
+        // Binds the listener to the storage and the algorithm itself.
         algorithm.addListener(listener);
         AlgorithmDataStorage.getInstance().setListener(listener);
         return algorithm;
     }
 
+    /**
+     * Creates a listener for the algorithm
+     * @param result
+     * @return
+     */
     private SchedulerListener createListener(String[] result) {
         SchedulerListener listener = new AlgorithmListener();
         listener.setFileName(result[0]);

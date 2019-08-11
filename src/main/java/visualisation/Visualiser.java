@@ -6,13 +6,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import visualisation.controllers.GUIController;
-import visualisation.processor.listeners.SchedulerListener;
 
+/**
+ * This class generates the GUI to visualise our algorithm.
+ */
 public class Visualiser extends Application {
-
     private GUIController controller;
-    private static final int SCENE_HEIGHT = 800;
-    private static final int SCENE_WIDTH = 1200;
+    private final int SCENE_HEIGHT = 800;
+    private final int SCENE_WIDTH = 1200;
+    private final String VISUALISATION_TITLE = "Visualisation";
+    private final String SCENE_PATH = "views/GUI.fxml";
 
     public Visualiser(){
         super();
@@ -25,12 +28,6 @@ public class Visualiser extends Application {
         launch(args);
     }
 
-    // Just to test if the application opens without running all of the code
-    // TODO: Delete later and call startVisual instead when the arg is inputted
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     /**
      * Creates the GUI application
      * @param stage
@@ -39,7 +36,7 @@ public class Visualiser extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader=new FXMLLoader();
-        loader.setLocation(Visualiser.class.getResource("views/GUI.fxml"));
+        loader.setLocation(Visualiser.class.getResource(SCENE_PATH));
         Parent root=loader.load();
         Scene scene = new Scene(root);
         controller = loader.getController();
@@ -47,7 +44,7 @@ public class Visualiser extends Application {
         stage.setHeight(SCENE_HEIGHT);
         stage.setWidth(SCENE_WIDTH);
         stage.setResizable(false);
-        stage.setTitle("INSERT TITLE HERE");
+        stage.setTitle(VISUALISATION_TITLE);
         stage.centerOnScreen();
         stage.setScene(scene);
         stage.show();

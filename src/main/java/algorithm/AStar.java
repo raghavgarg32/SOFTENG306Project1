@@ -17,7 +17,6 @@ import java.util.PriorityQueue;
  * by their level.
  */
 public class AStar extends AlgorithmHandler implements  Algorithm {
-    private List<SchedulerListener> listeners = new ArrayList<>();
     private int minFullPath = Integer.MAX_VALUE;
     private boolean traversed;
     private PriorityQueue<State> candidate;
