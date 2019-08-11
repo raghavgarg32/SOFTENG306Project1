@@ -38,9 +38,9 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("-- SOFTENG 306 : Project 1 --");
-        System.out.println("-----------------------------");
+        System.out.println();
         if (args.length == 0) {
-            System.err.println("No arguments found, please try again");
+            System.err.println("No arguments found, please try again. Please use the flag -h for help");
         } else if (args[0].equals("-h")) {
             printHelp();
         } // Checks for help command
@@ -54,7 +54,7 @@ public class Main {
                     out.createOutputFile(result[2]);
                     out.displayOutputOnConsole();
                 } catch (FileNotFoundException e) { // If the file is not found, the error will be caught here
-                    System.err.println("The file was not found. Please type your inputs again. Type -h for help");
+                    System.err.println("The file was not found. Please check your inputs again. Type -h for help");
                 }
             }
         }
@@ -112,25 +112,14 @@ public class Main {
                 String value = "";
                 //System.out.println(args.length);
                 //System.out.println(i);
-                if (i +1 < args.length) {
-                    value = args[i + 1];
-                } else {
-                    System.err.println("Missing value for parameter " + cmd);
-                    System.err.println("Please type -h for help");
-                    System.exit(1);
-                }
 
                 //This approach can be followed for Options with values
                 if (cmd.equals("-p")) {
                     if (isStringIsNumericAndPositive(value)) {
-                        result[3] = value;
+                        result[3] = checkPossible(i, args, cmd);
                     } // handles -p (number of cores) option
-                    else {
-                        System.out.println("Option -p not present or invalid, default value \"" + defaultCores + "\" " +
-                                "chosen");
-                    }
                 } else if (cmd.equals("-o")) {
-                    result[2] = value;
+                    result[2] = checkPossible(i, args, cmd);
                     // handles -o (output file name) option
 //                    System.out.println("Option -o not present, default \"" + defaultOutput + "\" chosen");
                 }
@@ -144,11 +133,24 @@ public class Main {
                     System.exit(1);
                 }
             }
-            System.out.println("The graph will be processed with " + defaultCores);
+            System.out.println("The graph will be processed with " + defaultCores + " processor(s)");
             System.out.println("The graph will be stored as " + defaultOutput);
+            System.out.println();
         }
 
         return result;
+    }
+
+    public static String checkPossible(int i, String[] args, String cmd) {
+        if (i + 1 < args.length) {
+            return args[i + 1];
+        } else {
+            System.err.println("Missing value for parameter " + cmd);
+            System.err.println("Please type -h for help");
+            System.exit(1);
+        }
+
+        return null;
     }
 
 }
