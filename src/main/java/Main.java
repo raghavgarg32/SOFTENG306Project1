@@ -37,8 +37,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        System.out.println("-- SOFTENG 306 : Project 1 --");
-        System.out.println();
         if (args.length == 0) {
             System.err.println("No arguments found, please try again. Please use the flag -h for help");
         } else if (args[0].equals("-h")) {
@@ -80,6 +78,14 @@ public class Main {
         result[2] = defaultOutput;
         result[3] = defaultCores;
         result[4] = defaultVisualize;
+
+        if(args.length>0) {
+            File f = new File(args[0]);
+            if (!f.exists()) {
+                System.err.println("The file was not found. Please check your inputs again. Type -h for help");
+                System.exit(1);
+            }
+        }
 
         // Mandatory options
         if (args.length > 1) { // If both file path and number of processors are entered
