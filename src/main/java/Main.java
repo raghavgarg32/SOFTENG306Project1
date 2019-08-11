@@ -47,7 +47,7 @@ public class Main {
         String defaultProcessors = "4";
         String defaultOutput = "output.dot";
         String defaultCores = "1";
-        String defaultVisualize = "false";
+        String defaultVisualize = "true";
         result[0] = defaultFile;
         result[1] = defaultProcessors;
         result[2] = defaultOutput;
@@ -107,10 +107,11 @@ public class Main {
             listener.setNumberOfProcessors(Integer.parseInt(result[1]));
             astar.addListener(listener);
             State solution = astar.runAlgorithm();
-            new Visualiser(listener).startVisual(args);
             OutputCreator out = new OutputCreator(solution);
             out.createOutputFile(result[2]);
-            if (Boolean.parseBoolean(result[4])) out.displayOutputOnConsole();
+            if (Boolean.parseBoolean(result[4]))  {
+                new Visualiser(listener).startVisual(args);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
