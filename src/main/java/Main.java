@@ -144,8 +144,9 @@ public class Main {
                     System.exit(1);
                 }
             }
-            System.out.println("The graph will be processed with " + result[3] + " processor(s)");
+            System.out.println("The graph will be processed with " + result[1] + " processor(s)");
             System.out.println("The graph will be stored as " + result[2]);
+            System.out.println("This will be processed on one thread as it has not been implemented yet");
             System.out.println();
         }
 
