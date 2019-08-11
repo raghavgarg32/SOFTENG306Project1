@@ -5,6 +5,8 @@ package algorithm;
  * These are used for the listeners
  */
 public enum AlgorithmEvents {
-    GET_NUMBER_OF_PROCESSORS,
-    ALGORITHM_FINISHED
+    UPDATE_TIME_ELAPSED,
+    ALGORITHM_FINISHED,
+    UPDATE_BRANCH_COUNTER
+
 }

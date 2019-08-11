@@ -32,6 +32,7 @@ public class DFS extends AlgorithmHandler implements Algorithm {
      * @return
      */
     public State runAlgorithm() {
+        startTimer();
         State bestState = new State(numP, graph);
         while (!stateStack.empty()) {
             //get latest state
@@ -39,6 +40,7 @@ public class DFS extends AlgorithmHandler implements Algorithm {
             int currentBoundValue = boundValue;
             //If cost of state equals or greater than bound value don't visit its following states then
             if (state.getCurrentCost() < currentBoundValue) {
+                fireEvent(AlgorithmEvents.UPDATE_BRANCH_COUNTER);
                 if (state.allVisited()) {
                     boundValue = state.getCurrentCost();
                     bestState = state;

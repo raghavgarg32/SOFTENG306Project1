@@ -2,14 +2,11 @@ import algorithm.Algorithm;
 import algorithm.AlgorithmChoice;
 import algorithm.AlgorithmFactory;
 import files.DotParser;
-import algorithm.AStar;
 import graph.Graph;
 import files.OutputCreator;
 import org.apache.commons.cli.*;
 import scheduler.State;
-import visualisation.AlgorithmListener;
 import visualisation.Visualiser;
-import visualisation.processor.listeners.SchedulerListener;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,7 +42,7 @@ public class Main {
         CommandLineParser parser = new DefaultParser();
 
         // Default values for parser
-        String defaultFile = "data/input.dot";
+        String defaultFile = "data/Nodes_11_OutTree.dot";
         String defaultProcessors = "2";
         String defaultOutput = "output.dot";
         String defaultCores = "1";
@@ -107,6 +104,7 @@ public class Main {
             State solution = algorithm.runAlgorithm();
             OutputCreator out = new OutputCreator(solution);
             out.createOutputFile(result[2]);
+           // out.displayOutputOnConsole();
             if (Boolean.parseBoolean(result[4]))  {
                 new Visualiser().startVisual(args);
             }
