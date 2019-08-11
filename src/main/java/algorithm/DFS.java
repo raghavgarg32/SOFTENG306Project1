@@ -10,7 +10,7 @@ import java.util.Stack;
  * us to view the last assigned state and then allows us to explore the states that follow
  * the last assigned state. This enables us to implement the DFS algorithm.
  */
-public class DFS implements Algorithm {
+public class DFS extends AlgorithmHandler implements Algorithm {
     private final int numP;
     private Stack<State> stateStack;
     Graph graph;
@@ -24,8 +24,6 @@ public class DFS implements Algorithm {
         //Init state
         stateStack.push(new State(numP, graph));
         boundValue = Integer.MAX_VALUE;
-
-
 
     }
 
@@ -52,6 +50,7 @@ public class DFS implements Algorithm {
             }
 
         }
+        fireEvent(AlgorithmEvents.ALGORITHM_FINISHED,bestState);
         return bestState;
     }
 

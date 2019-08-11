@@ -1,6 +1,5 @@
 package visualisation.controllers;
 
-import application.Application;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import org.graphstream.ui.fx_viewer.FxViewPanel;

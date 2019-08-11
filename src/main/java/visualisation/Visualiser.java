@@ -13,12 +13,9 @@ public class Visualiser extends Application {
     private GUIController controller;
     private static final int SCENE_HEIGHT = 800;
     private static final int SCENE_WIDTH = 1200;
-    public Visualiser(SchedulerListener listener) {
-        super();
-        AlgorithmDataStorage.getInstance().setListener(listener);
-    }
 
     public Visualiser(){
+        super();
     }
     /**
      * This method is called to start the visualisation

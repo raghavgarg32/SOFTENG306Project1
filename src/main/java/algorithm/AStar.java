@@ -16,7 +16,7 @@ import java.util.PriorityQueue;
  * is used to ensure that nodes with least cost are placed with greatest priority followed
  * by their level.
  */
-public class AStar implements  Algorithm,ObservableAlgorithm {
+public class AStar extends AlgorithmHandler implements  Algorithm {
     private List<SchedulerListener> listeners = new ArrayList<>();
     private int minFullPath = Integer.MAX_VALUE;
     private boolean traversed;
@@ -57,29 +57,8 @@ public class AStar implements  Algorithm,ObservableAlgorithm {
                 }
             }
         }
-        fireEvent(AlgorithmEvents.ALGORITHM_FINISHED);
+        fireEvent(AlgorithmEvents.ALGORITHM_FINISHED,finalState);
         return finalState;
-    }
-
-    @Override
-    public void addListener(SchedulerListener listener) {
-        listeners.add(listener);
-    }
-
-    @Override
-    public void removeListener(SchedulerListener listener) {
-        listeners.remove(listener);
-    }
-
-    @Override
-    public void fireEvent(AlgorithmEvents event) {
-        switch (event) {
-            case ALGORITHM_FINISHED:
-                for (SchedulerListener listener : listeners) {
-                    listener.setState(finalState);
-                }
-                return;
-        }
     }
 
     //Todo implement this class.
