@@ -21,12 +21,12 @@ public class Main {
      */
     public static void printHelp() {
         System.out.println("Java -jar scheduler.jar INPUT.dot P [OPTION]");
-        System.out.println("INPUT.dot\ta task graph with integer weigh;ts in dot format.");
+        System.out.println("INPUT.dot\ta task graph with integer weights in dot format.");
         System.out.println("P\t\tnumber of processors to schedule the INPUT graph on");
 
         System.out.println("\nOptional:");
-        System.out.println("-p N\t\tuse N cores for execution in parallel default is sequential)(not yet implemented)");
-        System.out.println("-v\t\tvisualise the search");
+        System.out.println("-p N\t\tuse N cores for execution in parallel default is sequential (not yet implemented)");
+        System.out.println("-v\t\tvisualise the search (not yet implemented)");
         System.out.println("-o OUTPUT\toutput file is named OUTPUT (default is INPUT-output.dot)");
         System.out.println();
         System.out.println("Type \"-h\" to show this help menu");
@@ -95,8 +95,8 @@ public class Main {
 
                 } else if (cmd.equals("-v")) {
                     defaultVisualize = true;
-                    System.out.println("-v is currently unavailable as the visualisation of the search has not been implemented" +
-                            "yet. The result will be shown in this command line" );
+                    System.out.println("-v is currently unavailable as the visualisation of the search has not been implemented " +
+                            "yet. The result will be shown in this command line." );
                 } // handles -v flag (visualization) option
                 else {
                     System.err.println("Unknown optional parameter " + cmd);
@@ -104,11 +104,12 @@ public class Main {
                     System.exit(1);
                 }
             }
-            System.out.println("The graph "+ args[0] + " be processed with " + defaultCores + " processor(s) as " +
-                    "parallel scheduling has not yet been implemented");
             System.out.println("The graph will be stored as " + defaultOutput);
             System.out.println("This will be processed on one thread as it has not been implemented yet.");
             System.out.println();
+            System.out.println("Please wait, it may take a while to return result.");
+            System.out.println();
+
 
             try { // This is where the calculation is done
                 Graph g1 = new DotParser(new File(args[0])).parseGraph();
