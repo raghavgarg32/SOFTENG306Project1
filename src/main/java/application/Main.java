@@ -1,9 +1,12 @@
+package application;
+
 import algorithm.Algorithm;
 import algorithm.AlgorithmChoice;
 import algorithm.AlgorithmFactory;
 import files.DotParser;
 import graph.Graph;
 import files.OutputCreator;
+import javafx.concurrent.Task;
 import org.apache.commons.cli.*;
 import scheduler.State;
 import visualisation.Visualiser;
@@ -12,6 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class Main {
+    private static Algorithm algorithm;
     public static boolean isStringIsNumericAndPositive(String str) {
         try {
             if (Integer.parseInt(str) > 0) return true;
@@ -43,7 +47,7 @@ public class Main {
 
         // Default values for parser
         String defaultFile = "data/Nodes_11_OutTree.dot";
-        String defaultProcessors = "2";
+        String defaultProcessors = "4";
         String defaultOutput = "output.dot";
         String defaultCores = "1";
         String defaultVisualize = "true";
@@ -100,21 +104,38 @@ public class Main {
         // result[] vil be an array of Strings, remember to parse value to correct type
         try {
             Graph g1 = new DotParser(new File(result[0])).parseGraph();
-            Algorithm algorithm = new AlgorithmFactory().createAlgorithm(AlgorithmChoice.ASTAR,result,g1);
-            State solution = algorithm.runAlgorithm();
-            OutputCreator out = new OutputCreator(solution);
-            out.createOutputFile(result[2]);
-           // out.displayOutputOnConsole();
+            algorithm = new AlgorithmFactory().createAlgorithm(AlgorithmChoice.ASTAR,result,g1);
             if (Boolean.parseBoolean(result[4]))  {
                 //TODO: Currently, it creates the visual AFTER the algorithm is finished.
                 //TODO: A better method would be to update the visual DURING the algorithm.
+
+                // Once the application loads, all of the proceeding commands don't occur
                 new Visualiser().startVisual(args);
+            } else {
+                createSolution(args[2]);
             }
+
+           // out.displayOutputOnConsole();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void createSolution(String name) {
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() {
+                scheduler.State solution = algorithm.runAlgorithm();
+                OutputCreator out = new OutputCreator(solution);
+                out.createOutputFile(name);
+                return null;
+            }
+        };
+        new Thread(task).start();
+
     }
 }
 
