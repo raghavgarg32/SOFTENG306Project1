@@ -20,13 +20,13 @@ public class Main {
      * Help Menu
      */
     public static void printHelp() {
-        System.out.println("Java -jar schdeuler.jar INPUT.dot P [OPTION]");
+        System.out.println("Java -jar scheduler.jar INPUT.dot P [OPTION]");
         System.out.println("INPUT.dot\ta task graph with integer weigh;ts in dot format.");
         System.out.println("P\t\tnumber of processors to schedule the INPUT graph on");
 
         System.out.println("\nOptional:");
         System.out.println("-p N\t\tuse N cores for execution in parallel default is sequential)(not yet implemented)");
-        System.out.println("-v\t\tvisualise the serach");
+        System.out.println("-v\t\tvisualise the search");
         System.out.println("-o OUTPUT\toutput file is named OUTPUT (default is INPUT-output.dot)");
         System.out.println();
         System.out.println("Type \"-h\" to show this help menu");
@@ -87,12 +87,16 @@ public class Main {
                         checkForValue(i, args, cmd);
                     }
                     i++;
+                    System.out.println("-p is currently unavailable as this program has not been implemented to run on" +
+                            " multiple cores.\n The program will run sequentially");
                 } else if (cmd.equals("-o")) {
                     defaultOutput = checkForValue(i, args, cmd);
                     i++;
 
                 } else if (cmd.equals("-v")) {
                     defaultVisualize = true;
+                    System.out.println("-v is currently unavailable as the visualisation of the search has not been implemented" +
+                            "yet. The result will be shown in this command line" );
                 } // handles -v flag (visualization) option
                 else {
                     System.err.println("Unknown optional parameter " + cmd);
