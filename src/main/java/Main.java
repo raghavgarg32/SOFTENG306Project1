@@ -106,6 +106,8 @@ public class Main {
             out.createOutputFile(result[2]);
            // out.displayOutputOnConsole();
             if (Boolean.parseBoolean(result[4]))  {
+                //TODO: Currently, it creates the visual AFTER the algorithm is finished.
+                //TODO: A better method would be to update the visual DURING the algorithm.
                 new Visualiser().startVisual(args);
             }
         } catch (FileNotFoundException e) {
