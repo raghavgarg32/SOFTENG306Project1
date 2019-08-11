@@ -2,11 +2,9 @@ import files.DotParser;
 import algorithm.AStar;
 import graph.Graph;
 import files.OutputCreator;
-import org.apache.commons.cli.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 public class Main {
 
@@ -41,9 +39,9 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("-- SOFTENG 306 : Project 1 --");
         System.out.println("-----------------------------");
-        if(args.length ==0){
-           System.err.println("No arguments found, please try again");
-        }else if (args[0].equals("-h")) {
+        if (args.length == 0) {
+            System.err.println("No arguments found, please try again");
+        } else if (args[0].equals("-h")) {
             printHelp();
         } // Checks for help command
         else {
@@ -75,14 +73,6 @@ public class Main {
 
         String[] result = new String[5];
 
-        Options options = new Options(); //Adding option values, e.g. -a -f -g etc., which will be parsed
-        options.addOption("p", true, "Number of cores");
-        options.addOption("v", false, "Visualise the search");
-        options.addOption("o", true, "Choose output file name");
-
-        // parser is used for the parsing of the input, here args
-        CommandLineParser parser = new DefaultParser();
-
         // Default values for parser
         String defaultOutput = "output.dot";
         String defaultCores = "1";
@@ -95,18 +85,7 @@ public class Main {
         if (args.length > 1) { // If both file path and number of processors are entered
             result[0] = args[0]; // File path
             if (result[0].endsWith(".dot")) {
-                if (result[0].contains("/") || result[0].contains("\\")) { // This removes the folder part of the
-                    // file path
-                    if (!isWindows()) {
-                        defaultOutput = result[0].substring(result[0].lastIndexOf('/') + 1,
-                                result[0].lastIndexOf('.')) + "-" + defaultOutput;
-                    } else {
-                        defaultOutput = result[0].substring(result[0].lastIndexOf('\\') + 1,
-                                result[0].lastIndexOf('.')) + "-" + defaultOutput;
-                    }
-                } else {
-                    defaultOutput = result[0].substring(0, result[0].lastIndexOf('.')) + "-" + defaultOutput;
-                }
+                defaultOutput = getFileName(result[0]) + "-" + defaultOutput;
                 result[2] = defaultOutput;
             } else {
                 System.err.println("Invalid file path ending, needs to be a \".dot\" file. Please type your inputs " +
@@ -128,40 +107,45 @@ public class Main {
         }
         // Optional options
         if (result != null) {
-            try {
-                CommandLine cmd = parser.parse(options, args);
+            for (int i = 2; i < args.length; i += 2) {
+                String cmd = args[i];
+                String value = "";
+                //System.out.println(args.length);
+                //System.out.println(i);
+                if (i +1 < args.length) {
+                    value = args[i + 1];
+                } else {
+                    System.err.println("Missing value for parameter " + cmd);
+                    System.err.println("Please type -h for help");
+                    System.exit(1);
+                }
 
                 //This approach can be followed for Options with values
-                if (cmd.hasOption("p")) {
-                    if (isStringIsNumericAndPositive(cmd.getOptionValue("P"))) {
-                        result[3] = cmd.getOptionValue("P");
+                if (cmd.equals("-p")) {
+                    if (isStringIsNumericAndPositive(value)) {
+                        result[3] = value;
                     } // handles -p (number of cores) option
-                } else {
-                    System.out.println("Option -p not present or invalid, default value \"" + defaultCores + "\" " +
-                            "chosen");
+                    else {
+                        System.out.println("Option -p not present or invalid, default value \"" + defaultCores + "\" " +
+                                "chosen");
+                    }
+                } else if (cmd.equals("-o")) {
+                    result[2] = value;
+                    // handles -o (output file name) option
+//                    System.out.println("Option -o not present, default \"" + defaultOutput + "\" chosen");
                 }
-
-                if (cmd.hasOption("o")) {
-                    result[2] = cmd.getOptionValue("o");
-                } // handles -o (output file name) option
-                else {
-                    System.out.println("Option -o not present, default \"" + defaultOutput + "\" chosen");
-                }
-
                 //This approach can be followed for Options without values (flags)
-                if (cmd.hasOption("v")) {
+                else if (cmd.equals("-v")) {
                     result[4] = "true";
                 } // handles -v flag (visualization) option
                 else {
-                    System.out.println("Option -v not present, default value \"" + defaultVisualize + "\" chosen");
+                    System.err.println("Unknown optional parameter " + cmd);
+                    System.err.println("Please type -h for help");
+                    System.exit(1);
                 }
-
-            } catch (ParseException e) { //Will be thrown if no value is provided
-                System.err.println(e);
-                System.out.println("Default values (Num. cores: \"" + defaultCores + "\", visualise: \"" +
-                        defaultVisualize + ", output file: \"" + defaultOutput + "\") chosen");
             }
-            System.out.println();
+            System.out.println("The graph will be processed with " + defaultCores);
+            System.out.println("The graph will be stored as " + defaultOutput);
         }
 
         return result;
