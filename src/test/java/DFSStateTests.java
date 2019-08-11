@@ -1,3 +1,4 @@
+//
 //import algorithm.AStar;
 //import algorithm.DFS;
 //import files.DotParser;
@@ -10,7 +11,7 @@
 //import java.io.FileNotFoundException;
 //
 ///**
-// * A test class to test multiple input graphs with the AStar algorithm.
+// * A test class to test multiple input graphs with the DFS algorithm.
 // */
 //public class DFSStateTests {
 //    /**
