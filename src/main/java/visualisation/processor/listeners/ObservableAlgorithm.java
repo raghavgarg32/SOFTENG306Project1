@@ -1,7 +1,6 @@
 package visualisation.processor.listeners;
 
-import algorhithm.AlgorithmEvents;
-import javafx.event.EventType;
+import algorithm.AlgorithmEvents;
 
 public interface ObservableAlgorithm {
     void addListener(SchedulerListener listener);

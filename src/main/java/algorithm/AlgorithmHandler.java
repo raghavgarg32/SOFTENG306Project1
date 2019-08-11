@@ -7,7 +7,7 @@
 //import java.util.ArrayList;
 //import java.util.List;
 //
-//import  algorhithm.AlgorithmEvents.Events;
+//import  algorithm.AlgorithmEvents.Events;
 //
 //public abstract class AlgorithmHandler implements ObservableAlgorithm {
 //    private List<SchedulerListener> listeners = new ArrayList<>();
