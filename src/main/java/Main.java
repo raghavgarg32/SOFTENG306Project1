@@ -1,12 +1,12 @@
 import files.DotParser;
-import algorhithm.AStar;
+import algorithm.AStar;
 import graph.Graph;
 import files.OutputCreator;
 import org.apache.commons.cli.*;
-import scheduler.State;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class Main {
 
@@ -17,6 +17,61 @@ public class Main {
             return false;
         }
         return false;
+    }
+
+    public static boolean isWindows() {
+        if (System.getProperty("os.name").toLowerCase().startsWith("windows")) return true;
+        return false;
+    }
+
+    public static void printHelp() {
+        System.out.println("Java -jar schdeuler.jar INPUT.dot P [OPTION]");
+        System.out.println("INPUT.dot	\t a task graph with integer weigh;ts in dot format.");
+        System.out.println("P\t\t number of processors to schedule the INPUT graph on");
+
+        System.out.println("Optional:");
+        System.out.println("-p N\t use N cores for execution in paralleldefulat is sequential)(not yet implemented)");
+        System.out.println("-v\t\t visualise the serach");
+        System.out.println("-o OUTPUT\t output file is named OUTPUT (defsult is INPUT-output.dot)");
+        System.out.println();
+        System.out.println("Type \"-h\" to show this help menu and \"-q\" to quit");
+        System.out.println();
+    }
+
+    public static void UI() {
+        System.out.println("-- SOFTENG 306 : Project 1 --");
+        System.out.println("-----------------------------");
+        System.out.println("\nType \"-h\" for help and \"-q\" to quit");
+
+        Scanner sc = new Scanner(System.in);
+        while(sc.hasNextLine()) { // Reads inputs from console
+            String input = sc.nextLine();
+            String[] inputArray = input.split(" ");
+            if (input.equals("-q")) { System.out.println("Exiting programme..."); break; } // Checks for quit command
+            else if (input.equals("-h")) { printHelp(); } // Checks for help command
+            else {
+                String[] result = cliParser(inputArray); // result[0]: file path, result[1]: num. processors, result[2]: output file, result[3]: num. cores, result[4]: visualize
+                if (result != null) {
+                    try { // This is where the calculation is done
+                        Graph g1 = new DotParser(new File(result[0])).parseGraph();
+                        OutputCreator out = new OutputCreator(new AStar(Integer.parseInt(result[1]),g1).runAlgorithm());
+                        out.createOutputFile(result[2]);
+                        if (Boolean.parseBoolean(result[4])) out.displayOutputOnConsole();
+                    } catch (FileNotFoundException e) { // If the file is not found, the error will be caught here
+                        System.err.println("The file was not found. Please type your inputs again. Type -h for help");
+                    }
+                }
+            }
+        }
+    }
+
+    private static String getFileName(String path){
+        File f= new File(path);
+
+        String fileNameWithOutExt = f.getName().replaceFirst("[.][^.]+$", "");
+
+        return fileNameWithOutExt;
+
     }
 
     private static String[] cliParser(String[] args) {
@@ -32,83 +87,70 @@ public class Main {
         CommandLineParser parser = new DefaultParser();
 
         // Default values for parser
-        String defaultFile = "data/input.dot";
-        String defaultProcessors = "2";
         String defaultOutput = "output.dot";
         String defaultCores = "1";
-        String defaultVisulize = "false";
-        result[0] = defaultFile;
-        result[1] = defaultProcessors;
+        String defaultVisualize = "false";
         result[2] = defaultOutput;
         result[3] = defaultCores;
-        result[4] = defaultVisulize;
+        result[4] = defaultVisualize;
 
         // Mandatory options
-        if (args.length > 1) {
+        if (args.length > 1) { // If both file path and number of processors are entered
             result[0] = args[0]; // File path
-            if (isStringIsNumericAndPositive(args[1])) result[1] = args[1]; // Number of processors
-            else { System.err.println("Invalid value for number of processors, default value \"" + defaultProcessors + "\" chosen");}
+            if (result[0].endsWith(".dot")) {
+                if (result[0].contains("/") || result[0].contains("\\")) { // This removes the folder part of the file path
+                    if (!isWindows()) {
+                        defaultOutput = result[0].substring(result[0].lastIndexOf('/') + 1, result[0].lastIndexOf('.')) + "-" + defaultOutput;
+                    } else {
+                        defaultOutput = result[0].substring(result[0].lastIndexOf('\\') + 1, result[0].lastIndexOf('.')) + "-" + defaultOutput;
+                    }
+                } else {
+                    defaultOutput = result[0].substring(0, result[0].lastIndexOf('.')) + "-" + defaultOutput;
+                }
+                result[2] = defaultOutput;
+            } else { System.err.println("Invalid file path ending, needs to be a \".dot\" file. Please type your inputs again. Type -h for help."); result = null; }
 
-        } else {
-            System.out.println("Options for file path and number of processors missing. Default values (File path: \"" + defaultFile + "\", Num. processors: \"" +
-                    defaultProcessors + ") chosen");
+            if (result == null) { /* do nothing */ }
+            else if (isStringIsNumericAndPositive(args[1])) result[1] = args[1]; // Number of processors
+            else { System.err.println("Invalid value for number of processors, please type your inputs again. Type -h for help."); result = null; }
+
+        } else { // If no arguments are provided
+            System.err.println("Missing mandatory argument file path and/or number of processors. Type -h for help.");
+            result = null;
         }
-
         // Optional options
-        try {
-            CommandLine cmd = parser.parse(options, args);
+        if (result != null) {
+            try {
+                CommandLine cmd = parser.parse(options, args);
 
-            //This approach can be followed for Options with values
-            if(cmd.hasOption("p")) {
-                if (isStringIsNumericAndPositive(cmd.getOptionValue("P"))) { result[3] = cmd.getOptionValue("P"); } // handles -p (number of cores) option
-            } else { System.out.println("Option -p not present or invalid, default value \"" + defaultCores + "\" chosen"); }
-          
-            if(cmd.hasOption("o")) { result[2] =  cmd.getOptionValue("o"); } // handles -o (output file name) option
-            else { System.out.println("Option -o not present, default \"" + defaultOutput + "\" chosen"); }
-            
-            //This approach can be followed for Options without values (flags)
-            if(cmd.hasOption("v")) { result[4] = "true"; } // handles -v flag (visualization) option
-            else { System.out.println("Option -v not present, default value \"" + defaultVisulize + "\" chosen"); }
+                //This approach can be followed for Options with values
+                if(cmd.hasOption("p")) {
+                    if (isStringIsNumericAndPositive(cmd.getOptionValue("P"))) { result[3] = cmd.getOptionValue("P"); } // handles -p (number of cores) option
+                } else { System.out.println("Option -p not present or invalid, default value \"" + defaultCores + "\" chosen"); }
 
-        } catch (ParseException e) { //Will be thrown if no value is provided
-            System.err.println(e);
-            System.out.println("Default values (Num. cores: \"" + defaultCores + "\", visualise: \"" +
-                    defaultVisulize + ", output file: \"" + defaultOutput + "\") chosen");
+                if(cmd.hasOption("o")) { result[2] =  cmd.getOptionValue("o"); } // handles -o (output file name) option
+                else { System.out.println("Option -o not present, default \"" + defaultOutput + "\" chosen"); }
+
+                //This approach can be followed for Options without values (flags)
+                if(cmd.hasOption("v")) { result[4] = "true"; } // handles -v flag (visualization) option
+                else { System.out.println("Option -v not present, default value \"" + defaultVisualize + "\" chosen"); }
+
+            } catch (ParseException e) { //Will be thrown if no value is provided
+                System.err.println(e);
+                System.out.println("Default values (Num. cores: \"" + defaultCores + "\", visualise: \"" +
+                        defaultVisualize + ", output file: \"" + defaultOutput + "\") chosen");
+            }
+            System.out.println();
         }
 
         return result;
     }
 
     /**
-     * TODO: Refactor all of these statements in the main. We want main to be quite short.
      * @param args
      */
     public static void main(String[] args) {
-      //  System.out.println(g);
-
-        String[] result = cliParser(args); // result[0]: file path, result[1]: num. processors, result[2]: output, result[3]: num. cores, result[4]: visualise
-                                           // result[] vil be an array of Strings, remember to parse value to correct type
-
-        DotParser dp = new DotParser(new File(result[0]));
-
-        Graph g1 = null;
-        try {
-            g1 = dp.parseGraph();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        State solution = new AStar(Integer.parseInt(result[1]),g1).runAlgorithm();
-
-       //State solution = new DFS(2,g1).runDFS();
-
-
-        System.out.println(solution);
-        OutputCreator out = new OutputCreator(solution);
-        out.displayOutputOnConsole();
-
-
+        UI();
     }
-
 }
 

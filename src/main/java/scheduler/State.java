@@ -44,7 +44,11 @@ public class State {
     int lastProcessorVertexAddedTo;
     private int prevProcessNum = -1;
 
-
+    /**
+     * Sets up the State by assigning initial values to the fields
+     * @param numProcessors
+     * @param g
+     */
     public State(int numProcessors, Graph g) {
         traversed = new ArrayList<>();
         processors = new ArrayList<>();
@@ -69,8 +73,7 @@ public class State {
         traversed.addAll(copyState.traversed);
         processors = new ArrayList<>();
         this.g = copyState.g;
-            processors.add(new Processor(copyState.processors.get(0), 0));
-
+        processors.add(new Processor(copyState.processors.get(0), 0));
         toTraverse = new PriorityQueue<>(new VertexComparator());
         toTraverse.addAll(copyState.toTraverse);
         currentLevel = copyState.currentLevel;
@@ -132,6 +135,10 @@ public class State {
         return toTraverse.isEmpty();
     }
 
+    /**
+     * Generates all of the possible states
+     * @return
+     */
     public HashSet<State> generatePossibilities() {
         //Generates a list of possible states to visit
         HashSet<State> possibleStates = new HashSet<>();
@@ -141,12 +148,12 @@ public class State {
                 if (canVisit(v)) {
                     toAddList.add(v);
                     HashSet<Processor> checkedProcessors = new HashSet<>();
-                        State copy = new State(this);
-                        Processor p = processors.get(0);
-                        if(!checkedProcessors.contains(p)) {
-                            checkedProcessors.add(p);
-                            copy.addVertex(0, v);
-                            possibleStates.add(copy);
+                    State copy = new State(this);
+                    Processor p = processors.get(0);
+                    if(!checkedProcessors.contains(p)) {
+                        checkedProcessors.add(p);
+                        copy.addVertex(0, v);
+                        possibleStates.add(copy);
                         }
 
                 }
@@ -164,12 +171,16 @@ public class State {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         State state = (State) o;
-        return Objects.equals(processors, state.processors);
+        return currentCost == state.currentCost &&
+                currentLevel == state.currentLevel &&
+                processors.equals(state.processors) &&
+                traversed.equals(state.traversed) &&
+                toTraverse.equals(state.toTraverse);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(processors);
+        return Objects.hash(processors, currentCost, currentLevel, traversed, toTraverse);
     }
 
     //TODO return a copy of State, fpr a;; addVertex here.

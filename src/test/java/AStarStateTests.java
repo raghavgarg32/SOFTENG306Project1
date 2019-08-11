@@ -1,8 +1,7 @@
-import algorhithm.AStar;
+import algorithm.AStar;
 import files.DotParser;
 import graph.Graph;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import scheduler.State;
 
@@ -36,6 +35,7 @@ public class AStarStateTests {
     public void testNodes8double() {
         Graph createdGraph = createGraph("Nodes_8_Random.dot");
         State optimalState = new AStar(2, createdGraph).runAlgorithm();
+        System.out.println(optimalState);
         Assert.assertEquals(optimalState.getCurrentCost(), 581);
         Assert.assertTrue(optimalState.isValid());
     }
@@ -47,6 +47,8 @@ public class AStarStateTests {
     public void testNodes9double() {
         Graph createdGraph = createGraph("Nodes_9_SeriesParallel.dot");
         State optimalState = new AStar(2, createdGraph).runAlgorithm();
+        System.out.println(optimalState);
+
         Assert.assertEquals(optimalState.getCurrentCost(), 55);
         Assert.assertTrue(optimalState.isValid());
     }
@@ -59,6 +61,8 @@ public class AStarStateTests {
     public void testNodes10double() {
         Graph createdGraph = createGraph("Nodes_10_Random.dot");
         State optimalState = new AStar(2, createdGraph).runAlgorithm();
+        System.out.println(optimalState);
+
         Assert.assertEquals(optimalState.getCurrentCost(), 50);
         Assert.assertTrue(optimalState.isValid());
     }
@@ -70,6 +74,8 @@ public class AStarStateTests {
     public void testNodes11double() {
         Graph createdGraph = createGraph("Nodes_11_OutTree.dot");
         State optimalState = new AStar(2, createdGraph).runAlgorithm();
+        System.out.println(optimalState);
+
         Assert.assertEquals(optimalState.getCurrentCost(), 350);
         Assert.assertTrue(optimalState.isValid());
     }
@@ -81,6 +87,8 @@ public class AStarStateTests {
     public void testNodes7double() {
         Graph createdGraph = createGraph("Nodes_7_OutTree.dot");
         State optimalState = new AStar(2, createdGraph).runAlgorithm();
+        System.out.println(optimalState);
+
         Assert.assertEquals(optimalState.getCurrentCost(), 28);
         Assert.assertTrue(optimalState.isValid());
     }
@@ -92,6 +100,8 @@ public class AStarStateTests {
     public void testNodes11Quad() {
         Graph createdGraph = createGraph("Nodes_11_OutTree.dot");
         State optimalState = new AStar(4, createdGraph).runAlgorithm();
+        System.out.println(optimalState);
+
         Assert.assertEquals(optimalState.getCurrentCost(), 227);
         Assert.assertTrue(optimalState.isValid());
     }
@@ -103,6 +113,8 @@ public class AStarStateTests {
     public void testNodes8Quad() {
         Graph createdGraph = createGraph("Nodes_8_Random.dot");
         State optimalState = new AStar(4, createdGraph).runAlgorithm();
+        System.out.println(optimalState);
+
         Assert.assertEquals(optimalState.getCurrentCost(), 581);
         Assert.assertTrue(optimalState.isValid());
     }
@@ -115,6 +127,8 @@ public class AStarStateTests {
     public void testNodes10Quad() {
         Graph createdGraph = createGraph("Nodes_10_Random.dot");
         State optimalState = new AStar(4, createdGraph).runAlgorithm();
+        System.out.println(optimalState);
+
         Assert.assertEquals(optimalState.getCurrentCost(), 50);
         Assert.assertTrue(optimalState.isValid());
     }
@@ -126,6 +140,8 @@ public class AStarStateTests {
     public void testNodes9Quad() {
         Graph createdGraph = createGraph("Nodes_9_SeriesParallel.dot");
         State optimalState = new AStar(4, createdGraph).runAlgorithm();
+        System.out.println(optimalState);
+
         Assert.assertEquals(optimalState.getCurrentCost(), 55);
         Assert.assertTrue(optimalState.isValid());
     }
@@ -137,6 +153,8 @@ public class AStarStateTests {
     public void testNodes7Quad() {
         Graph createdGraph = createGraph("Nodes_7_OutTree.dot");
         State optimalState = new AStar(4, createdGraph).runAlgorithm();
+        System.out.println(optimalState);
+
         Assert.assertEquals(optimalState.getCurrentCost(), 22);
         Assert.assertTrue(optimalState.isValid());
     }
@@ -148,6 +166,8 @@ public class AStarStateTests {
     public void testNodes11() {
         Graph createdGraph = createGraph("Nodes_11_OutTree.dot");
         State optimalState = new AStar(1, createdGraph).runAlgorithm();
+        System.out.println(optimalState);
+
         Assert.assertEquals(optimalState.getCurrentCost(), 640);
         Assert.assertTrue(optimalState.isValid());
     }
@@ -159,6 +179,8 @@ public class AStarStateTests {
     public void testNodes8() {
         Graph createdGraph = createGraph("Nodes_8_Random.dot");
         State optimalState = new AStar(1, createdGraph).runAlgorithm();
+        System.out.println(optimalState);
+
         Assert.assertEquals(optimalState.getCurrentCost(), 969);
         Assert.assertTrue(optimalState.isValid());
     }
@@ -171,6 +193,8 @@ public class AStarStateTests {
     public void testNodes10() {
         Graph createdGraph = createGraph("Nodes_10_Random.dot");
         State optimalState = new AStar(1, createdGraph).runAlgorithm();
+        System.out.println(optimalState);
+
         Assert.assertEquals(optimalState.getCurrentCost(), 63);
         Assert.assertTrue(optimalState.isValid());
     }
@@ -182,6 +206,8 @@ public class AStarStateTests {
     public void testNodes9() {
         Graph createdGraph = createGraph("Nodes_9_SeriesParallel.dot");
         State optimalState = new AStar(1, createdGraph).runAlgorithm();
+        System.out.println(optimalState);
+
         Assert.assertEquals(optimalState.getCurrentCost(), 55);
         Assert.assertTrue(optimalState.isValid());
     }
@@ -193,6 +219,8 @@ public class AStarStateTests {
     public void testNodes7() {
         Graph createdGraph = createGraph("Nodes_7_OutTree.dot");
         State optimalState = new AStar(1, createdGraph).runAlgorithm();
+        System.out.println(optimalState);
+
         Assert.assertEquals(optimalState.getCurrentCost(), 40);
         Assert.assertTrue(optimalState.isValid());
     }

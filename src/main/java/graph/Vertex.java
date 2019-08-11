@@ -3,7 +3,10 @@ package graph;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Vertex {
+/**
+ * A class representing the vertices
+ */
+public class    Vertex {
     private String id;
     private int cost;
     private List<Edge> outgoingEdges;
@@ -198,11 +201,13 @@ public class Vertex {
 
     @Override
     public int hashCode() {
-        return this.toString().hashCode();
+        int result = 17 * id.hashCode() * outgoingEdges.hashCode() * cost;
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        return this.toString().equals(obj.toString());
+        Vertex v = (Vertex) obj;
+        return v.hashCode() == this.hashCode();
     }
 }
