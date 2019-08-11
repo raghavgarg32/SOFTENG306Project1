@@ -18,7 +18,7 @@ public class testMain {
 
     @Test
     public void test1core() {
-        Main.main("data/inputnoExist.dot 1".split(" "));
+        Main.main("data/input.dot 1".split(" "));
     }
 
     @Test

@@ -7,18 +7,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class Main {
-
     public static boolean isStringIsNumericAndPositive(String str) {
         try {
             if (Integer.parseInt(str) > 0) return true;
         } catch (NumberFormatException | NullPointerException nfe) {
             return false;
         }
-        return false;
-    }
-
-    public static boolean isWindows() {
-        if (System.getProperty("os.name").toLowerCase().startsWith("windows")) return true;
         return false;
     }
 
@@ -42,30 +36,89 @@ public class Main {
     public static void main(String[] args) {
         if (args.length == 0) {
             System.err.println("No arguments found, please try again. Please use the flag -h for help");
+            System.exit(1);
         } else if (args[0].equals("-h")) {
             printHelp();
         } // Checks for help command
         else {
-            String[] result = cliParser(args); // result[0]: file path, result[1]: num. processors, result[2]: output
-            // file, result[3]: num. cores, result[4]: visualize
-            if (result != null) {
-                try { // This is where the calculation is done
-                    Graph g1 = new DotParser(new File(result[0])).parseGraph();
-                    OutputCreator out = new OutputCreator(new AStar(Integer.parseInt(result[1]), g1).runAlgorithm());
-                    out.createOutputFile(result[2]);
-                    out.displayOutputOnConsole();
-                } catch (FileNotFoundException e) { // If the file is not found, the error will be caught here
+            // Default values for parser
+            String defaultOutput = "output.dot";
+            int defaultCores = 1;
+            boolean defaultVisualize = false;
+
+            if (args.length > 0) {
+                File f = new File(args[0]);
+                if (!f.exists()) {
                     System.err.println("The file was not found. Please check your inputs again. Type -h for help");
+                    System.exit(1);
                 }
+            }
+
+            // Mandatory options
+            if (args.length > 1) { // If both file path and number of processors are entered
+                if (args[0].endsWith(".dot")) {
+                    defaultOutput = getFileName(args[0]) + "-" + defaultOutput;
+                } else {
+                    System.err.println("Invalid file path ending, needs to be a \".dot\" file. Please type your " +
+                            "inputs " +
+                            "again. Type -h for help.");
+                    System.exit(1);
+                }
+
+                if (isStringIsNumericAndPositive(args[1])) {
+                    //defaultCores = Integer.valueOf(args[1]);
+                } else {
+                    System.err.println("Invalid value for number of processors, please type your inputs again. Type " +
+                            "-h for help.");
+                    System.exit(1);
+                }
+
+            } else { // If no arguments are provided
+                System.err.println("Missing mandatory argument file path and/or number of processors. Type -h for " +
+                        "help.");
+                System.exit(1);
+            }
+            for (int i = 2; i < args.length; i++) {
+                String cmd = args[i];
+                String value = "";
+                //This approach can be followed for Options with values
+                if (cmd.equals("-p")) {
+                    if (isStringIsNumericAndPositive(value)) {
+                        checkForValue(i, args, cmd);
+                    }
+                    i++;
+                } else if (cmd.equals("-o")) {
+                    defaultOutput = checkForValue(i, args, cmd);
+                    i++;
+
+                } else if (cmd.equals("-v")) {
+                    defaultVisualize = true;
+                } // handles -v flag (visualization) option
+                else {
+                    System.err.println("Unknown optional parameter " + cmd);
+                    System.err.println("Please type -h for help");
+                    System.exit(1);
+                }
+            }
+            System.out.println("The graph "+ args[0] + " be processed with " + defaultCores + " processor(s) as " +
+                    "parallel scheduling has not yet been implemented");
+            System.out.println("The graph will be stored as " + defaultOutput);
+            System.out.println("This will be processed on one thread as it has not been implemented yet.");
+            System.out.println();
+
+            try { // This is where the calculation is done
+                Graph g1 = new DotParser(new File(args[0])).parseGraph();
+                OutputCreator out = new OutputCreator(new AStar(defaultCores, g1).runAlgorithm());
+                out.createOutputFile(defaultOutput);
+                out.displayOutputOnConsole();
+            } catch (FileNotFoundException e) { // If the file is not found, the error will be caught here
+                System.err.println("The file was not found. Please check your inputs again. Type -h for help");
             }
         }
     }
 
     /**
      * Grabs the filename without extension.
-     *
-     * @param path
-     * @return
      */
     private static String getFileName(String path) {
         File f = new File(path);
@@ -76,90 +129,8 @@ public class Main {
 
     }
 
-    private static String[] cliParser(String[] args) {
-
-        String[] result = new String[5];
-
-        // Default values for parser
-        String defaultOutput = "output.dot";
-        String defaultCores = "1";
-        String defaultVisualize = "false";
-        result[2] = defaultOutput;
-        result[3] = defaultCores;
-        result[4] = defaultVisualize;
-
-        if (args.length > 0) {
-            File f = new File(args[0]);
-            if (!f.exists()) {
-                System.err.println("The file was not found. Please check your inputs again. Type -h for help");
-                System.exit(1);
-            }
-        }
-
-        // Mandatory options
-        if (args.length > 1) { // If both file path and number of processors are entered
-            result[0] = args[0]; // File path
-            if (result[0].endsWith(".dot")) {
-                defaultOutput = getFileName(result[0]) + "-" + defaultOutput;
-                result[2] = defaultOutput;
-            } else {
-                System.err.println("Invalid file path ending, needs to be a \".dot\" file. Please type your inputs " +
-                        "again. Type -h for help.");
-                result = null;
-            }
-
-            if (result == null) { /* do nothing */ } else if (isStringIsNumericAndPositive(args[1]))
-                result[1] = args[1]; // Number of processors
-            else {
-                System.err.println("Invalid value for number of processors, please type your inputs again. Type -h " +
-                        "for help.");
-                result = null;
-            }
-
-        } else { // If no arguments are provided
-            System.err.println("Missing mandatory argument file path and/or number of processors. Type -h for help.");
-            result = null;
-        }
-        // Optional options
-        if (result != null) {
-            for (int i = 2; i < args.length; i ++) {
-                String cmd = args[i];
-                String value = "";
-                //This approach can be followed for Options with values
-                if (cmd.equals("-p")) {
-                    if (isStringIsNumericAndPositive(value)) {
-                        result[3] = checkForValue(i, args, cmd);
-                    }
-                    i++;
-                } else if (cmd.equals("-o")) {
-                    result[2] = checkForValue(i, args, cmd);
-                    i++;
-
-                } else if (cmd.equals("-v")) {
-                    result[4] = "true";
-                } // handles -v flag (visualization) option
-                else {
-                    System.err.println("Unknown optional parameter " + cmd);
-                    System.err.println("Please type -h for help");
-                    System.exit(1);
-                }
-            }
-            System.out.println("The graph will be processed with " + result[1] + " processor(s)");
-            System.out.println("The graph will be stored as " + result[2]);
-            System.out.println("This will be processed on one thread as it has not been implemented yet");
-            System.out.println();
-        }
-
-        return result;
-    }
-
     /**
      * Checks if a value has been provided for a parameter
-     *
-     * @param i
-     * @param args
-     * @param cmd
-     * @return
      */
     public static String checkForValue(int i, String[] args, String cmd) {
         if (i + 1 < args.length) {
