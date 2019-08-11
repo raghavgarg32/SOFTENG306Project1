@@ -22,6 +22,9 @@ public class Main {
         return false;
     }
 
+    /**
+     * Help Menu
+     */
     public static void printHelp() {
         System.out.println("Java -jar schdeuler.jar INPUT.dot P [OPTION]");
         System.out.println("INPUT.dot\ta task graph with integer weigh;ts in dot format.");
@@ -58,6 +61,12 @@ public class Main {
         }
     }
 
+    /**
+     * Grabs the filename without extension.
+     *
+     * @param path
+     * @return
+     */
     private static String getFileName(String path) {
         File f = new File(path);
 
@@ -79,7 +88,7 @@ public class Main {
         result[3] = defaultCores;
         result[4] = defaultVisualize;
 
-        if(args.length>0) {
+        if (args.length > 0) {
             File f = new File(args[0]);
             if (!f.exists()) {
                 System.err.println("The file was not found. Please check your inputs again. Type -h for help");
@@ -113,24 +122,20 @@ public class Main {
         }
         // Optional options
         if (result != null) {
-            for (int i = 2; i < args.length; i += 2) {
+            for (int i = 2; i < args.length; i ++) {
                 String cmd = args[i];
                 String value = "";
-                //System.out.println(args.length);
-                //System.out.println(i);
-
                 //This approach can be followed for Options with values
                 if (cmd.equals("-p")) {
                     if (isStringIsNumericAndPositive(value)) {
-                        result[3] = checkPossible(i, args, cmd);
-                    } // handles -p (number of cores) option
+                        result[3] = checkForValue(i, args, cmd);
+                    }
+                    i++;
                 } else if (cmd.equals("-o")) {
-                    result[2] = checkPossible(i, args, cmd);
-                    // handles -o (output file name) option
-//                    System.out.println("Option -o not present, default \"" + defaultOutput + "\" chosen");
-                }
-                //This approach can be followed for Options without values (flags)
-                else if (cmd.equals("-v")) {
+                    result[2] = checkForValue(i, args, cmd);
+                    i++;
+
+                } else if (cmd.equals("-v")) {
                     result[4] = "true";
                 } // handles -v flag (visualization) option
                 else {
@@ -139,15 +144,23 @@ public class Main {
                     System.exit(1);
                 }
             }
-            System.out.println("The graph will be processed with " + defaultCores + " processor(s)");
-            System.out.println("The graph will be stored as " + defaultOutput);
+            System.out.println("The graph will be processed with " + result[3] + " processor(s)");
+            System.out.println("The graph will be stored as " + result[2]);
             System.out.println();
         }
 
         return result;
     }
 
-    public static String checkPossible(int i, String[] args, String cmd) {
+    /**
+     * Checks if a value has been provided for a parameter
+     *
+     * @param i
+     * @param args
+     * @param cmd
+     * @return
+     */
+    public static String checkForValue(int i, String[] args, String cmd) {
         if (i + 1 < args.length) {
             return args[i + 1];
         } else {
