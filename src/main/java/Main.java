@@ -65,6 +65,15 @@ public class Main {
         }
     }
 
+    private static String getFileName(String path){
+        File f= new File(path);
+
+        String fileNameWithOutExt = f.getName().replaceFirst("[.][^.]+$", "");
+
+        return fileNameWithOutExt;
+
+    }
+
     private static String[] cliParser(String[] args) {
 
         String[] result = new String[5];
@@ -104,11 +113,11 @@ public class Main {
             if (result == null) { /* do nothing */ }
             else if (isStringIsNumericAndPositive(args[1])) result[1] = args[1]; // Number of processors
             else { System.err.println("Invalid value for number of processors, please type your inputs again. Type -h for help."); result = null; }
+
         } else { // If no arguments are provided
             System.err.println("Missing mandatory argument file path and/or number of processors. Type -h for help.");
             result = null;
         }
-
         // Optional options
         if (result != null) {
             try {
