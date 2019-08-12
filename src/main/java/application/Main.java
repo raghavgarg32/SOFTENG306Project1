@@ -47,8 +47,8 @@ public class Main {
 
         //TODO: Delete later
         args = new String[3];
-        args[0] = "data/Nodes_10_Random.dot";
-        args[1] = "4";
+        args[0] = "data/input2.dot";
+        args[1] = "2";
         args[2] = "-v";
         if (args.length == 0) {
             System.err.println("No arguments found, please try again. Please use the flag -h for help");
