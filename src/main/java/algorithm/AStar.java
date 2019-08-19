@@ -18,6 +18,9 @@ public class AStar  implements  Algorithm{
     private PriorityQueue<State> candidate;
     private HashSet<State> visited;
     private Graph graph;
+    protected State result = null;
+    private final int MAX_THREADS = 2;
+    private int threadCounter = 1;
 
     public AStar(int numProcessors, Graph graph) {
         candidate = new PriorityQueue<>(new AStarComparator());
@@ -27,28 +30,49 @@ public class AStar  implements  Algorithm{
         candidate.add(new State(numProcessors, graph));
     }
 
+    public synchronized void changeThreadNumber(int i){
+        threadCounter = threadCounter + 1;
+    }
     /**
      * Runs the algorithm
      * @return
      */
     public State runAlgorithm() {
-        State result = null;
+
         while (!candidate.isEmpty() && candidate.peek().getCostToBottomLevel() <= minFullPath) {
             State s = candidate.poll();
-            for (State s1 : s.generatePossibilities()) {
+
+            HashSet<State> states = s.generatePossibilities();
+
+            for (State s1 : states) {
                 if (!visited.contains(s1)) {
-                    if (s1.getCostToBottomLevel() < minFullPath) {
-                        candidate.add(s1);
-                        if (s1.allVisited() && s1.getCostToBottomLevel() < minFullPath) {
-                            minFullPath = s1.getCostToBottomLevel();
-                            result = s1;
+                    /*if (threadCounter < MAX_THREADS) {
+                        AStarThread t = new AStarThread(this);
+                        t.run();
+                    } else {*/
+                        State res = lookAtState(s1);
+                        if (res != null) {
+                            result = res;
                         }
-                    }
-                    visited.add(s1);
+                    //}
                 }
             }
 
         }
+        return result;
+    }
+
+    private State lookAtState(State s1){
+        State result = null;
+        if (s1.getCostToBottomLevel() < minFullPath) {
+            candidate.add(s1);
+            if (s1.allVisited() && s1.getCostToBottomLevel() < minFullPath) {
+                minFullPath = s1.getCostToBottomLevel();
+                result = s1;
+            }
+        }
+        visited.add(s1);
+
         return result;
     }
 
