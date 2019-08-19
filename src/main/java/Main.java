@@ -38,31 +38,44 @@ public class Main {
         System.out.println();
     }
 
-    public static void UI() {
+    public static void UI(String[] args) {
         System.out.println("-- SOFTENG 306 : Project 1 --");
         System.out.println("-----------------------------");
-        System.out.println("\nType \"-h\" for help and \"-q\" to quit");
 
         Scanner sc = new Scanner(System.in);
-        while(sc.hasNextLine()) { // Reads inputs from console
-            String input = sc.nextLine();
-            String[] inputArray = input.split(" ");
-            if (input.equals("-q")) { System.out.println("Exiting programme..."); break; } // Checks for quit command
-            else if (input.equals("-h")) { printHelp(); } // Checks for help command
-            else {
-                String[] result = cliParser(inputArray); // result[0]: file path, result[1]: num. processors, result[2]: output file, result[3]: num. cores, result[4]: visualize
-                if (result != null) {
-                    try { // This is where the calculation is done
-                        Graph g1 = new DotParser(new File(result[0])).parseGraph();
-                        OutputCreator out = new OutputCreator(new AStar(Integer.parseInt(result[1]),g1).runAlgorithm());
-                        out.createOutputFile(result[2]);
-                        if (Boolean.parseBoolean(result[4])) out.displayOutputOnConsole();
-                    } catch (FileNotFoundException e) { // If the file is not found, the error will be caught here
-                        System.err.println("The file was not found. Please type your inputs again. Type -h for help");
-                    }
+        if (args.length > 0) {
+            System.out.println("Obs: Run without parameters to enter continuous mode\n");
+            handleInput(args);
+        } else {
+            System.out.println("\nType \"-h\" for help and \"-q\" to quit\n");
+            while (sc.hasNextLine()) { // Reads inputs from console
+                String input = sc.nextLine();
+                String[] inputArray = input.split(" ");
+                if (!handleInput(inputArray)) {
+                    break;
                 }
             }
         }
+    }
+
+    public static boolean handleInput(String[] args) {
+        if (args[0].equals("-q")) { System.out.println("Exiting programme..."); return false; } // Checks for quit command
+        else if (args[0].equals("-h")) { printHelp(); } // Checks for help command
+        else {
+            String[] result = cliParser(args); // result[0]: file path, result[1]: num. processors, result[2]: output file, result[3]: num. cores, result[4]: visualize
+            if (result != null) {
+                try { // This is where the calculation is done
+                    System.out.println("Calculating, please wait…\n");
+                    Graph g1 = new DotParser(new File(result[0])).parseGraph();
+                    OutputCreator out = new OutputCreator(new AStar(Integer.parseInt(result[1]),g1).runAlgorithm());
+                    out.createOutputFile(result[2]);
+                    if (Boolean.parseBoolean(result[4])) out.displayOutputOnConsole();
+                } catch (FileNotFoundException e) { // If the file is not found, the error will be caught here
+                    System.err.println("The file was not found. Please type your inputs again. Type -h for help");
+                }
+            }
+        }
+        return true;
     }
 
     private static String getFileName(String path){
@@ -150,7 +163,7 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
-        UI();
+        UI(args);
     }
 }
 
