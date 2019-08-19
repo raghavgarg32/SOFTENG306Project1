@@ -78,15 +78,6 @@ public class Main {
         return true;
     }
 
-    private static String getFileName(String path){
-        File f= new File(path);
-
-        String fileNameWithOutExt = f.getName().replaceFirst("[.][^.]+$", "");
-
-        return fileNameWithOutExt;
-
-    }
-
     private static String[] cliParser(String[] args) {
 
         String[] result = new String[5];
