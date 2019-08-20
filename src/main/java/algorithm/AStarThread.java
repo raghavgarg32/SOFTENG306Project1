@@ -7,36 +7,20 @@ import java.util.PriorityQueue;
 
 public class AStarThread extends Thread{
 
-    private PriorityQueue<State> candidate;
-    private HashSet<State> visited;
-    HashSet<State> generatedStates;
-    private int minFullPath;
-    private State currentState;
-    private State result;
-    private int num;
-
-    public AStarThread(int num){
-        this.num = num;
-    }
-    public AStarThread(AStar astar){
-
+    AStar astar;
+    scheduler.State s;
+    scheduler.State result;
+    public AStarThread(AStar astar, scheduler.State s){
+        this.astar = astar;
+        this.s = s;
     }
     @Override
     public void run() {
-        /*if (!visited.contains(currentState)) {
-            if (currentState.getCostToBottomLevel() < minFullPath) {
-                candidate.add(currentState);
-                if (currentState.allVisited() && currentState.getCostToBottomLevel() < minFullPath) {
-                    minFullPath = currentState.getCostToBottomLevel();
-                    result = currentState;
-                }
-            }
-            visited.add(currentState);
-        }*/
+        result = astar.lookAtState(s);
     }
-    /*@Override
-    public void run(){
-        System.out.println(Integer.toString(num) + " Threads");
-    }*/
+
+    public scheduler.State getResult() {
+        return result;
+    }
 
 }

@@ -33,6 +33,7 @@ public class AStar  implements  Algorithm{
     public synchronized void changeThreadNumber(int i){
         threadCounter = threadCounter + 1;
     }
+
     /**
      * Runs the algorithm
      * @return
@@ -46,23 +47,22 @@ public class AStar  implements  Algorithm{
 
             for (State s1 : states) {
                 if (!visited.contains(s1)) {
-                    /*if (threadCounter < MAX_THREADS) {
-                        AStarThread t = new AStarThread(this);
-                        t.run();
-                    } else {*/
+                    if (threadCounter < MAX_THREADS) {
+                        AStarThread t = new AStarThread(this, s1);
+                        t.start();
+                    } else {
                         State res = lookAtState(s1);
                         if (res != null) {
                             result = res;
                         }
-                    //}
+                    }
                 }
             }
-
         }
         return result;
     }
 
-    private State lookAtState(State s1){
+    public State lookAtState(State s1){
         State result = null;
         if (s1.getCostToBottomLevel() < minFullPath) {
             candidate.add(s1);
